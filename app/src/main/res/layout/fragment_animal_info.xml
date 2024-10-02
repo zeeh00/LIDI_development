@@ -124,6 +124,13 @@
                         android:letterSpacing="0.03"
                         android:text="Tipe Hewan: "
                         style="@style/txtSFProDisplaymedium14"/>
+                    <TextView android:id="@+id/txtAnmlPhysStat"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.51"
+                        android:layout_width="wrap_content"
+                        android:letterSpacing="0.03"
+                        android:text="Fisiologi Hewan: "
+                        style="@style/txtSFProDisplaymedium14"/>
                     <TextView android:id="@+id/txtRace"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.51"
@@ -144,6 +151,13 @@
                         android:layout_width="wrap_content"
                         android:letterSpacing="0.03"
                         android:text="Jenis Kelamin: "
+                        style="@style/txtSFProDisplaymedium14"/>
+                    <TextView android:id="@+id/txtAnmlIndukan"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.51"
+                        android:layout_width="wrap_content"
+                        android:letterSpacing="0.03"
+                        android:text="Nomor Indukkan: "
                         style="@style/txtSFProDisplaymedium14"/>
                     <TextView android:id="@+id/txtAnmlLoc"
                         android:layout_height="wrap_content"
@@ -189,15 +203,14 @@
                         android:id="@+id/txtPAKAN"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.59"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:singleLine="true"
                         android:text="PAKAN"
                         style="@style/txtSFProDisplaybold24_1"/>
                     <LinearLayout android:id="@+id/linearRowedit"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/_4pxv"
-                        android:layout_marginStart="@dimen/_200pxh"
-                        android:layout_marginEnd="@dimen/_10pxh"
+                        android:layout_marginLeft="@dimen/_230pxh"
                         android:layout_marginTop="@dimen/_5pxv"
                         android:layout_weight="0.41"
                         android:layout_width="0dp" android:orientation="horizontal">
@@ -206,15 +219,8 @@
                             android:layout_width="@dimen/_24pxh"
                             android:scaleType="fitXY"
                             android:src="@drawable/edit_btn"
+                            android:layout_gravity="end"
                             tools:ignore="ContentDescription"/>
-                        <ImageView android:id="@+id/imageHideDropdown"
-                            android:layout_height="@dimen/_24pxh"
-                            android:layout_marginBottom="@dimen/_1pxv"
-                            android:layout_marginStart="@dimen/_17pxh"
-                            android:layout_width="@dimen/_24pxh"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/hide_btn"
-                            tools:ignore="ContentDescription" />
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout android:gravity="start"
@@ -283,6 +289,7 @@
                     android:id="@+id/viewDividerOne"
                     android:layout_height="@dimen/_10pxv"
                     android:layout_marginTop="@dimen/_23pxv" android:layout_width="@dimen/_430pxh"/>
+
                 <LinearLayout android:id="@+id/linearRowPenimbangan"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_30pxh"
@@ -300,8 +307,7 @@
                     <LinearLayout android:id="@+id/linearRowEditPenimbangan"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/_4pxv"
-                        android:layout_marginStart="@dimen/_120pxh"
-                        android:layout_marginEnd="@dimen/_10pxh"
+                        android:layout_marginLeft="@dimen/_175pxh"
                         android:layout_marginTop="@dimen/_5pxv"
                         android:layout_weight="0.41"
                         android:layout_width="0dp" android:orientation="horizontal">
@@ -312,15 +318,6 @@
                             android:scaleType="fitXY"
                             android:src="@drawable/edit_btn"
                             tools:ignore="ContentDescription"/>
-
-                        <ImageView android:id="@+id/imageHideDropdownPenimbangan"
-                            android:layout_height="@dimen/_24pxh"
-                            android:layout_marginBottom="@dimen/_1pxv"
-                            android:layout_marginStart="@dimen/_17pxh"
-                            android:layout_width="@dimen/_24pxh"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/hide_btn"
-                            tools:ignore="ContentDescription" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -379,6 +376,7 @@
                         android:text=""
                         style="@style/txtSFProDisplaymedium14"/>
                 </LinearLayout>
+
                 <LinearLayout android:gravity="start"
                     android:id="@+id/linearRowBobotPenimbangan"
                     android:layout_height="wrap_content"
@@ -404,6 +402,16 @@
                         android:text=""
                         style="@style/txtSFProDisplaymedium14"/>
                 </LinearLayout>
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/penimbanganChart"
+                    android:layout_width="match_parent"
+                    android:layout_marginStart="@dimen/_15pxh"
+                    android:layout_marginEnd="@dimen/_15pxh"
+                    android:layout_height="@dimen/_350pxv"
+                    android:layout_marginTop="@dimen/_15pxv"
+                    android:background="@color/gray_100"
+                    />
 
                 <View
                     android:id="@+id/viewDividerTwo"
