@@ -17,12 +17,14 @@ import androidx.navigation.fragment.findNavController
 import com.example.n4_app__inventory.R
 import com.example.n4_app__inventory.databinding.FragmentSignUpBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class SignUpFragment : Fragment() {
 
     private lateinit var navController: NavController
     private lateinit var binding: FragmentSignUpBinding
     private lateinit var auth: FirebaseAuth
+    private lateinit var firestore: FirebaseFirestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,8 +33,11 @@ class SignUpFragment : Fragment() {
         binding = FragmentSignUpBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        // Initialize Firestore
+        firestore = FirebaseFirestore.getInstance()
+
         // Example: Setting up AutoCompleteTextView
-        val items = listOf("Admin", "User")
+        val items = listOf("Admin")
         val autoComplete: AutoCompleteTextView = binding.root.findViewById(R.id.USR_ROLE)
         val adapter = ArrayAdapter(requireContext(), R.layout.list_role, items)
 
@@ -87,8 +92,30 @@ class SignUpFragment : Fragment() {
                     auth.createUserWithEmailAndPassword(email, pass)
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
-                                Toast.makeText(context, "Registered Successfully", Toast.LENGTH_SHORT).show()
-                                navController.navigate(R.id.action_signUpFragment_to_homeActivity)
+                                // Get the registered user's UID
+                                val userId = auth.currentUser?.uid
+
+                                // Create a user data map
+                                val userData = hashMapOf(
+                                    "username" to username,
+                                    "fullname" to fullname,
+                                    "email" to email,
+                                    "role" to role,
+                                    "phnum" to phnum
+                                )
+
+                                // Store the user data in Firestore under the 'users' collection
+                                if (userId != null) {
+                                    firestore.collection("users").document(userId)
+                                        .set(userData)
+                                        .addOnSuccessListener {
+                                            Toast.makeText(context, "Registered Successfully", Toast.LENGTH_SHORT).show()
+                                            navController.navigate(R.id.action_signUpFragment_to_homeActivity)
+                                        }
+                                        .addOnFailureListener { e ->
+                                            Toast.makeText(context, "Error saving data: ${e.message}", Toast.LENGTH_SHORT).show()
+                                        }
+                                }
                             } else {
                                 Toast.makeText(context, task.exception?.message, Toast.LENGTH_SHORT).show()
                             }
@@ -103,5 +130,4 @@ class SignUpFragment : Fragment() {
             }
         }
     }
-
 }

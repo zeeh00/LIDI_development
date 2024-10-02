@@ -43,6 +43,7 @@ import com.example.n4_app__inventory.spinner.handleImagePickerResult
 import com.example.n4_app__inventory.spinner.openImagePicker
 import com.example.n4_app__inventory.spinner.setupActionSpinner
 import com.example.n4_app__inventory.spinner.setupAnimalBreedSpinner
+import com.example.n4_app__inventory.spinner.setupAnimalPhysStat
 import com.example.n4_app__inventory.spinner.setupAnimalTypeSpinner
 import com.example.n4_app__inventory.spinner.setupAnmlTypeSpinner
 import com.example.n4_app__inventory.spinner.setupDatePicker
@@ -151,6 +152,11 @@ class FormFragment : Fragment() {
 
         }
 
+        val anmlPhysStat = inputFormLayout.findViewById<Spinner>(R.id.spinnerAnmlPhysStat)
+        anmlPhysStat.setupAnimalPhysStat(inputFormLayout) { selectedAnmlPhysStat ->
+
+        }
+
         // Access UI elements in the input form layout
         imageView = inputFormLayout.findViewById(R.id.imageView)
         val imageAnimal = inputFormLayout.findViewById<LinearLayout>(R.id.columnImgAnimal)
@@ -162,6 +168,7 @@ class FormFragment : Fragment() {
         val linearColumnSelectDate = inputFormLayout.findViewById<LinearLayout>(R.id.linearColumnSelectDate)
         val linearColumnSelectPurchaseDate = inputFormLayout.findViewById<LinearLayout>(R.id.linearColumnSelectPurchaseDate)
         val txtAnmlPrice  = inputFormLayout.findViewById<EditText>(R.id.txtAnmlPriceColumn)
+        val txtAnmlNumIndukan = inputFormLayout.findViewById<EditText>(R.id.txtAnmlNumIndukanColumn)
         val scrollView = inputFormLayout.findViewById<ScrollView>(R.id.scrollViewForm)
 
         val txtAnmlTypeError = inputFormLayout.findViewById<TextView>(R.id.txtAnmlTypeError)
@@ -172,6 +179,7 @@ class FormFragment : Fragment() {
         val txtAnmlBreedError = inputFormLayout.findViewById<TextView>(R.id.txtAnmlBreedError)
         val txtAnmlRaceError = inputFormLayout.findViewById<TextView>(R.id.txtAnmlRaceError)
         val txtAnmlNumError = inputFormLayout.findViewById<TextView>(R.id.txtAnmlNumError)
+        val txtAnmlPhysStatError = inputFormLayout.findViewById<TextView>(R.id.txtAnmlPhysStatError)
 
         progressBar = inputFormLayout.findViewById(R.id.progressBar)
 
@@ -188,6 +196,8 @@ class FormFragment : Fragment() {
             val inputtedRace = txtRace.text.toString().trim()
             val inputtedAnmlNum = txtAnmlNum.text.toString().trim()
             val inputtedAnmlPrice = txtAnmlPrice.text.toString().trim()
+            val inpuutedAnmlNumIndukan = txtAnmlNumIndukan.text.toString().trim()
+            val selectedAnmlPhysStat = anmlPhysStat.selectedItem.toString().trim()
 
             // Reset errors before new validation cycle
             resetErrorMessages(txtAnmlTypeError, txtAnmlOriginError, txtLocationError, txtAnmlSexError, txtAnmlMarriageError, txtAnmlBreedError, txtAnmlRaceError, txtAnmlNumError)
@@ -232,6 +242,11 @@ class FormFragment : Fragment() {
 
             if (selectedAnmlBreedType.isEmpty() || selectedAnmlBreedType == "Select Type") {
                 txtAnmlBreedError.visibility = View.VISIBLE
+                hasError = true
+            }
+
+            if (selectedAnmlPhysStat.isEmpty() || selectedAnmlPhysStat == "Select Type") {
+                txtAnmlPhysStatError.visibility = View.VISIBLE
                 hasError = true
             }
 
@@ -310,7 +325,8 @@ class FormFragment : Fragment() {
                                                     put("imageUrl", downloadUrl)
                                                     put("qrcodePath", qrCodeDownloadUrl)
                                                     put("anmlPrice", inputtedAnmlPrice)
-
+                                                    put("anmlPhysStat", selectedAnmlPhysStat)
+                                                    put("anmlNumIndukan", inpuutedAnmlNumIndukan)
                                                 }
 
                                                 db.collection("animals")
@@ -339,6 +355,8 @@ class FormFragment : Fragment() {
                                                         txtSelectPurchaseDate.text = null
                                                         anmlMarriageType.setSelection(0)
                                                         txtAnmlPrice.text = null
+                                                        anmlPhysStat.setSelection(0)
+                                                        txtAnmlNumIndukan.text = null
                                                         imageView.setImageDrawable(null)
                                                         imageView.visibility = View.GONE
                                                         scrollView.fullScroll(ScrollView.FOCUS_UP)

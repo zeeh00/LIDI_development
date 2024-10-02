@@ -2,7 +2,6 @@ package com.example.n4_app__inventory.spinner
 
 import android.Manifest
 import android.app.Activity
-import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -12,8 +11,6 @@ import android.graphics.Matrix
 import android.media.ExifInterface
 import android.net.Uri
 import android.provider.MediaStore
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -24,19 +21,21 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.n4_app__inventory.R
-import com.example.n4_app__inventory.fragments.form.data.Animal
-import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
 import java.util.Locale
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.components.Description
+import android.graphics.Color
+import com.github.mikephil.charting.components.AxisBase
+import com.github.mikephil.charting.formatter.ValueFormatter
 
 // Set up the spinner adapter and item selection listener
 // Extension function for setting up a Spinner with a listener
@@ -152,28 +151,22 @@ fun showMaterialDatePicker(context: Context, fragment: Fragment, selectDateTextV
     val builder = MaterialDatePicker.Builder.datePicker()
     builder.setTitleText("Select a date")
 
-    // Get today's date at the end of the day (23:59:59)
-    val calendar = Calendar.getInstance().apply {
-        set(Calendar.HOUR_OF_DAY, 23)
-        set(Calendar.MINUTE, 59)
-        set(Calendar.SECOND, 59)
-        set(Calendar.MILLISECOND, 999)
-    }
-    val maxDate = calendar.timeInMillis // Maximum date is today
-
-    builder.setCalendarConstraints(
-        CalendarConstraints.Builder()
-            .setEnd(maxDate) // Maximum date is today
-            .build()
-    )
-
     // Create and show the date picker dialog
     val datePicker = builder.build()
     datePicker.setStyle(R.style.CustomDatePickerStyle, 0)
 
+    // Handle the selected date
     datePicker.addOnPositiveButtonClickListener { selectedDate ->
-        // Set the selected date to midnight (00:00:00) to avoid time affecting calculations
-        val calendar = Calendar.getInstance().apply {
+        // Get today's date at the start of the day (00:00:00)
+        val today = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+
+        // Get the calendar instance for the selected date
+        val selectedCalendar = Calendar.getInstance().apply {
             timeInMillis = selectedDate
             set(Calendar.HOUR_OF_DAY, 0)
             set(Calendar.MINUTE, 0)
@@ -181,16 +174,24 @@ fun showMaterialDatePicker(context: Context, fragment: Fragment, selectDateTextV
             set(Calendar.MILLISECOND, 0)
         }
 
-        // Format the selected date
-        val formattedDate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(calendar.time)
+        // Check if the selected date is after today
+        if (selectedCalendar.after(today)) {
+            // If the selected date is in the future, show an error message
+            Toast.makeText(context, "Tanggal tidak boleh lebih dari hari ini!", Toast.LENGTH_SHORT).show()
+        } else {
+            // If the selected date is valid, format and display it
+            val formattedDate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(selectedCalendar.time)
 
-        // Update the TextView with the selected date
-        selectDateTextView.text = formattedDate
-        selectDateTextView.visibility = View.VISIBLE
+            // Update the TextView with the selected date
+            selectDateTextView.text = formattedDate
+            selectDateTextView.visibility = View.VISIBLE
+        }
     }
 
+    // Show the date picker
     datePicker.show(fragment.parentFragmentManager, "DatePicker")
 }
+
 
 fun Spinner.setupSexTypeSpinner(inputFormLayout: View, listener: (String) -> Unit) {
     // Access UI elements in the input form layout
@@ -265,6 +266,33 @@ fun Spinner.setupAnimalBreedSpinner(inputFormLayout: View, listener: (String) ->
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             val selectedAnmlBreedType = anmlbreedType[position]
             listener(selectedAnmlBreedType)
+        }
+
+        override fun onNothingSelected(parent: AdapterView<*>?) {
+            // Handle case where nothing is selected
+        }
+    }
+}
+
+fun Spinner.setupAnimalPhysStat(inputFormLayout: View, listener: (String) -> Unit) {
+    // Access UI elements in the input form layout
+    val AnmlPhysStat = inputFormLayout.findViewById<Spinner>(R.id.spinnerAnmlPhysStat)
+
+    // Access the array of animal sex types from strings.xml
+    val anmlPhysStat = resources.getStringArray(R.array.anml_phys_stat)
+
+    // Set up the spinner adapter
+    val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, anmlPhysStat)
+    adapter.setDropDownViewResource(R.layout.custom_spinner)
+    AnmlPhysStat.adapter = adapter
+
+    // Set "Select Type" as the default selection
+    AnmlPhysStat.setSelection(0)
+
+    AnmlPhysStat.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            val selectedAnmlPhysStat = anmlPhysStat[position]
+            listener(selectedAnmlPhysStat)
         }
 
         override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -380,6 +408,138 @@ fun resizeBitmap(bitmap: Bitmap, maxWidth: Int, maxHeight: Int): Bitmap {
         Bitmap.createScaledBitmap(bitmap, (maxHeight * aspectRatio).toInt(), maxHeight, false)
     }
 }
+
+fun LineChart.setupChart(
+    entries: List<Entry>,
+    label: String,
+    descriptionText: String,
+    lineColor: Int,
+    dateList: List<String> // Add this parameter
+) {
+    this.setExtraOffsets(10f, 10f, 10f, 10f)
+
+    val lineDataSet = LineDataSet(entries, label).apply {
+        color = lineColor
+        valueTextColor = Color.BLACK
+        lineWidth = 2f
+        circleRadius = 4f
+        setCircleColor(lineColor)
+        setDrawValues(true)
+    }
+
+    val lineData = LineData(lineDataSet)
+    this.data = lineData
+
+    // Set description text
+    this.description = Description().apply {
+        text = descriptionText
+    }
+
+    // Customize X-axis to display dates
+    this.xAxis.labelRotationAngle = 30f
+    this.xAxis.setDrawGridLines(false)
+    this.xAxis.granularity = 1f // Ensure labels are shown for each point
+
+    // Set up a ValueFormatter to display dates on the X-axis
+    this.xAxis.valueFormatter = object : ValueFormatter() {
+        override fun getAxisLabel(value: Float, axis: AxisBase?): String {
+            val index = value.toInt()
+            return if (index >= 0 && index < dateList.size) {
+                dateList[index] // Return corresponding date
+            } else {
+                ""
+            }
+        }
+    }
+
+    // Disable right Y-axis
+    this.axisRight.isEnabled = false
+
+    // Enable pinch-to-zoom and allow zooming
+    this.setPinchZoom(true)
+    this.isDragEnabled = true
+
+    // Set maximum visible range (number of X-values visible at once)
+    this.setVisibleXRangeMaximum(8f)
+
+    // Enable scaling in both X and Y axes
+    this.isScaleXEnabled = true
+    this.isScaleYEnabled = true
+
+    // Refresh the chart with the new data
+    this.invalidate()
+}
+
+
+fun LineChart.setupPenimbanganChart(
+    bbtAwalEntries: List<Entry>,
+    bbtPenimbanganEntries: List<Entry>,
+    dateList: List<String>,  // List of dates corresponding to the entries
+    labelAwal: String,
+    labelPenimbangan: String,
+    descriptionText: String
+) {
+    this.setExtraOffsets(10f, 10f, 10f, 10f)
+    // Create dataset for bbtAwal (initial weights)
+    val bbtAwalDataSet = LineDataSet(bbtAwalEntries, labelAwal).apply {
+        color = Color.RED
+        valueTextColor = Color.BLACK
+        lineWidth = 2f
+        circleRadius = 4f
+        setCircleColor(Color.RED)
+        setDrawValues(true)
+    }
+
+    // Create dataset for bbtPenimbangan (weigh-in results)
+    val bbtPenimbanganDataSet = LineDataSet(bbtPenimbanganEntries, labelPenimbangan).apply {
+        color = Color.BLUE
+        valueTextColor = Color.BLACK
+        lineWidth = 2f
+        circleRadius = 4f
+        setCircleColor(Color.BLUE)
+        setDrawValues(true)
+    }
+
+    // Combine both datasets into LineData
+    val lineData = LineData(bbtAwalDataSet, bbtPenimbanganDataSet)
+    this.data = lineData
+
+    // Customize the description text
+    this.description = Description().apply {
+        text = descriptionText
+    }
+
+    // Custom formatter for the X-axis to display dates
+    this.xAxis.valueFormatter = object : ValueFormatter() {
+        override fun getAxisLabel(value: Float, axis: AxisBase?): String {
+            val index = value.toInt()
+            return if (index in dateList.indices) dateList[index] else ""
+        }
+    }
+
+    // Customize X-axis label rotation and grid lines
+    this.xAxis.labelRotationAngle = 45f
+    this.xAxis.setDrawGridLines(false)
+
+    // Disable right Y-axis
+    this.axisRight.isEnabled = false
+
+    // Enable pinch zoom and touch interactions
+    this.setPinchZoom(true)  // Pinch-to-zoom for both axes
+    this.isDragEnabled = true  // Allow dragging
+
+    // Set maximum visible range (number of X-values visible at once)
+    this.setVisibleXRangeMaximum(8f)  // Show 5 data points initially, adjust as needed
+    this.moveViewToX(0f)  // Start at the beginning of the data
+
+    // Allow zooming and scaling
+    this.isScaleXEnabled = true
+    this.isScaleYEnabled = true
+
+    // Refresh the chart with the new data
+    this.invalidate()
+}
+
 
 private const val TAG = "YourTag"
 const val PICK_IMAGE_REQUEST = 123

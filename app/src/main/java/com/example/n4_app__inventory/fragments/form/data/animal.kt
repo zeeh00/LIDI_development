@@ -20,10 +20,16 @@ data class Animal(
     val inputPenmDate: String = "",
     val bbtAwal: String = "",
     val bbtPenm: String = "",
-    val anmlPrice: String = ""
+    val anmlPrice: String = "",
+    val anmlPhysStat: String = "",
+    val anmlNum: String = "",
+    val anmlNumIndukan: String = "",
 
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
@@ -61,6 +67,9 @@ data class Animal(
         parcel.writeString(bbtAwal)
         parcel.writeString(bbtPenm)
         parcel.writeString(anmlPrice)
+        parcel.writeString(anmlPhysStat)
+        parcel.writeString(anmlNum)
+        parcel.writeString(anmlNumIndukan)
     }
 
     override fun describeContents(): Int {
