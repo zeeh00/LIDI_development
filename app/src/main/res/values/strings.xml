@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+    <string name="app_name">LIDI</string>
+    <string name="loading">Loading…</string>
+    <string name="no_internet_connection">No internet connection!</string>
+    <string name="lbl_but">BUT</string>
+    <string name="msg_privacy_secur">Privacy &amp; Security</string>
+    <string name="lbl_reuters">Reuters</string>
+    <string name="lbl_form2">Form</string>
+    <string name="lbl_browse_by">Browse by</string>
+    <string name="msg_don_t_have_an_a">DON\u2019T HAVE AN ACCOUNT? <b>SIGN UP</b></string>
+    <string name="lbl_check_inventory2">CHECK INVENTORY</string>
+    <string name="lbl_no">NO</string>
+    <string name="msg_confirm_password">Confirm Password</string>
+    <string name="lbl_kebun_teh">KEBUN TEH</string>
+    <string name="msg_you_are_logged">You are logged in as Admin.</string>
+    <string name="lbl_purchase_date">Purchase Date</string>
+    <string name="lbl2">************</string>
+    <string name="lbl_kebun_sawit">KEBUN SAWIT</string>
+    <string name="lbl3">!</string>
+    <string name="lbl_home">Home</string>
+    <string name="msg_already_have_an">ALREADY HAVE AN ACCOUNT? <b>LOG IN</b></string>
+    <string name="lbl_action">Action</string>
+    <string name="lbl_action_cap">ACTION</string>
+    <string name="lbl_select_type">Select Type</string>
+    <string name="lbl_check_inventory">Check Inventory</string>
+    <string name="lbl_phone_number">Phone Number</string>
+    <string name="msg_pabrik_kelapa_s">PABRIK KELAPA SAWIT</string>
+    <string name="lbl_log_out">LOG OUT</string>
+    <string name="lbl_edit">EDIT</string>
+    <string name="lbl_sex">Sex</string>
+    <string name="lbl_notifications">Notifications</string>
+    <string name="msg_origin_animal_t">Origin
+Animal Type
+Race
+Age
+Sex
+Physiology Status
+Purchase Date
+Marriage Status</string>
+    <string name="list_role">
+        <item>Admin</item>
+        <item>User</item>
+    </string>
+    <string name="lbl_appearance">Appearance</string>
+    <string name="lbl_catatan_khusus">CATATAN KHUSUS</string>
+    <string name="msg_forgot_password">Forgot Password?</string>
+    <string name="lbl_mar">MAR</string>
+    <string name="lbl_delete2">Delete</string>
+    <string name="lbl_location">Location</string>
+    <string name="msg_input_update_a">Input, Update and Delete Data Inventory.</string>
+    <string name="lbl_username">Username</string>
+    <string name="lbl_fullname">Fullname</string>
+    <string name="lbl_n4_domba_tob_1">N4-DOMBA-TOB-1</string>
+    <string name="msg_n4_domba_tob_002">N4-DOMBA-TOB-0002</string>
+    <string name="lbl_domba">DOMBA</string>
+    <string name="lbl_n4_domba_tob_2">N4-DOMBA-TOB-2</string>
+    <string name="lbl_n4_domba_tob_3">N4-DOMBA-TOB-3</string>
+    <string name="msg_congratulations2">CONGRATULATIONS !!!
+Data Has Been Edited.</string>
+    <string name="msg_kebun_teh_tobas">Kebun Teh Tobasari</string>
+    <string name="lbl_tob">TOB</string>
+    <string name="msg_congratulations3">CONGRATULATIONS !!!
+Data Has Been Deleted.</string>
+    <string name="msg_welcome_to_lidi">Welcome to LIDI!</string>
+    <string name="msg_bisa_menghit">** bisa menghitung biaya per hewan/isian saja
+Harga Beli :
+Harga Jual :</string>
+    <string name="lbl_all_location">All Location</string>
+    <string name="msg_all_animal_in_k">All Animal in KEBUN TEH TOBASARI</string>
+    <string name="msg_tanggal_penimba">Tanggal Penimbangan
+**Bobot Awal : [Tanggal - Bobot kg]
+**Bobot Penimbangan : *bobot penimbangan terbaru</string>
+    <string name="lbl_input">INPUT</string>
+    <string name="msg_buat_penanda">+ buat penanda untuk status hewan terjual/mati **</string>
+    <string name="msg_input_edit_and">Input, Edit and Delete Data Inventory.</string>
+    <string name="msg_climate_change">Climate change: Arctic warming linked to colder winters</string>
+    <string name="msg_don_t_have_an_a2">DON\u2019T HAVE AN ACCOUNT?</string>
+    <string name="lbl_select_role">Select Role</string>
+    <string name="lbl_clear_data">Clear Data</string>
+    <string name="lbl_admin">Admin</string>
+    <string name="msg_img_domba_baru">IMG_DOMBA_BARU_20/11/23</string>
+    <string name="lbl_delete">DELETE</string>
+    <string name="lbl_animal_type">Animal Type</string>
+    <string name="lbl_4min_ago">4min ago</string>
+    <string name="msg_umur_bangs">[Umur] - [Bangsa]</string>
+    <string name="lbl_view_all">View All</string>
+    <string name="msg_already_have_an2">ALREADY HAVE AN ACCOUNT?</string>
+    <string name="lbl_back_to_first">Back to First</string>
+    <string name="lbl_harga">**HARGA</string>
+    <string name="msg_continue_with_g"><b>CONTINUE WITH GOOGLE</b></string>
+    <string name="lbl_canada">Canada</string>
+    <string name="lbl_farm_location">Farm Location</string>
+    <string name="lbl_pks_pabatu">PKS PABATU</string>
+    <string name="lbl_ks_marjandi">KS MARJANDI</string>
+    <string name="lbl_birth_date">Birth Date</string>
+    <string name="lbl_news">NEWS</string>
+    <string name="lbl_race">Race</string>
+    <string name="lbl_kg">: -/-/-
+: [] Kg</string>
+    <string name="lbl_domba2">Domba</string>
+    <string name="lbl_password">Password</string>
+    <string name="lbl_sapi">Sapi</string>
+    <string name="msg_perlakuan_khusu">Perlakuan Khusus :</string>
+    <string name="lbl_language">Language</string>
+    <string name="lbl_lidi">LIDI</string>
+    <string name="msg_scan_the_qr_cod">SCAN THE QR CODE</string>
+    <string name="lbl_select_date">Select Date</string>
+    <string name="lbl_news_for_you">News for you!</string>
+    <string name="lbl_getting_started">CHECK</string>
+    <string name="lbl_form">FORM</string>
+    <string name="lbl_select_image">Select Image</string>
+    <string name="msg_scan_with_inven">Scan With Inventory With QR Code Using Camera</string>
+    <string name="msg_id_generated">ID Generated &amp; QR Code Generated</string>
+    <string name="msg_keep_updated_wi">Keep Updated with LIDI!</string>
+    <string name="lbl_account">Account</string>
+    <string name="lbl_all_domba">All Domba</string>
+    <string name="msg_read_the_latest">Read the latest and up to date news!</string>
+    <string name="lbl_type_here">Type here</string>
+    <string name="lbl_select_data">Select Data</string>
+    <string name="msg_useradmin_mail">useradmin@mail.com</string>
+    <string name="msg_data_ditampilk">*DATA DITAMPILKAN SELAMA 1 MINGGU KEBELAKANG</string>
+    <string name="lbl_daniel_rael">Daniel Rael</string>
+    <string name="lbl_supported_by">Supported by</string>
+    <string name="msg_are_you_sure_wa">Are You Sure
+Want To Edit???</string>
+    <string name="lbl_trending">Trending</string>
+    <string name="msg_n4_kambing_tob2">N4-KAMBING-TOB-6</string>
+    <string name="lbl_edit2">Edit</string>
+    <string name="lbl_newest">Newest</string>
+    <string name="msg_failed_to_delet">FAILED TO DELETE DATA !!!
+Check Your Internet Connection.</string>
+    <string name="msg_general_and_set">General and Settings</string>
+    <string name="lbl_female">Female</string>
+    <string name="msg_thecattle_shee">TheCattle, sheep prices plunge about 65% from 2021, while Beef exports to drought-hit U.S. soar to 3-year high.</string>
+    <string name="msg_failed_to_edit">FAILED TO EDIT DATA !!!
+Check Your Internet Connection.</string>
+    <string name="lbl_scanner">SCANNER</string>
+    <string name="msg_lidi_adalah_apl">LIDI adalah aplikasi untuk memudahkan anda dalam mencatat ternak serta mengetahui informasi ternak.</string>
+    <string name="lbl_log_in">LOG IN</string>
+    <string name="lbl_animals">Animals</string>
+    <string name="lbl_kt_tobasari">KT TOBASARI</string>
+    <string name="msg_id_n4_domba_t">ID :
+N4-DOMBA-TOB-3</string>
+    <string name="lbl_type_here2">Type Here...</string>
+    <string name="lbl_yes">YES</string>
+    <string name="msg_are_you_sure_wa2">Are You Sure
+Want To Delete???</string>
+    <string name="lbl_see_all">See all</string>
+    <string name="lbl_login2">LOGIN</string>
+    <string name="lbl_search_data">Search Data</string>
+    <string name="lbl_qr">QR</string>
+    <string name="msg_you_are_logged1">You are logged in as Admin!</string>
+    <string name="msg_you_are_logged2">You are logged in as User!</string>
+    <string name="lbl_get_started">GET STARTED</string>
+    <string name="lbl_sign_up"><b>SIGN UP</b></string>
+    <string name="lbl_sign_up2"> SIGN UP</string>
+    <string name="lbl_recomendation">Recomendation</string>
+    <string name="lbl_origin">Origin</string>
+    <string name="lbl_politics">Politics</string>
+    <string name="lbl_skip">Skip </string>
+    <string name="lbl">.</string>
+    <string name="lbl_register">Register</string>
+    <string name="lbl_submit">SUBMIT</string>
+    <string name="lbl_luar">Luar</string>
+    <string name="lbl_n4_domba_tob_22">N4-DOMBA-TOB-2 </string>
+    <string name="lbl_save">SAVE</string>
+    <string name="msg_check_all_the_a">Check All the Animals in Inventory.</string>
+    <string name="msg_welcome_back_a">Welcome Back, Admin!</string>
+    <string name="msg_congratulations">CONGRATULATIONS !!!
+Data Has Been Added.</string>
+    <string name="lbl_email">Email</string>
+    <string name="msg_tetap_update_de">Tetap update dengan feature news dari LIDI!</string>
+    <string name="lbl_search">Search...</string>
+    <string name="lbl_marriage">Marriage</string>
+    <string name="lbl_dalam">Dalam</string>
+    <string name="msg_select_date">Select Date - ##data tidak bersifat wajib</string>
+    <string name="lbl_user_admin">User Admin</string>
+    <string name="msg_n4_domba_tob_00">N4-DOMBA-TOB-0001</string>
+    <string name="lbl_image">Image</string>
+    <string name="lbl_pakan">PAKAN</string>
+    <string name="lbl_nature_channel">Nature Channel</string>
+    <string name="lbl_penimbangan">PENIMBANGAN</string>
+    <string name="msg_keep_updated_wi2">Keep Updated with </string>
+    <string name="lbl_notification">Notification</string>
+    <string name="lbl_welcome_back">Welcome Back!</string>
+    <string name="lbl_kt_bahbutong">KT BAHBUTONG</string>
+    <string name="msg_data_ditampilk2">*DATA DITAMPILKAN SELAMA 1 BULAN KEBELAKANG</string>
+    <string name="msg_data_ditampilk3">*DATA DITAMPILKAN BERDASARKAN TANGGAL PENIMBANGAN PERTAHUN </string>
+    <string name="lbl_are_you_ready">Are You Ready?</string>
+    <string name="lbl_settings">SETTINGS</string>
+    <string name="lbl_or">OR</string>
+    <string name="lbl_welcome_to">Welcome to </string>
+    <string name="lbl_update">UPDATE</string>
+    <string name="msg_add_kejadian_kh">Add Kejadian Khusus:</string>
+    <string name="msg_tanggal_input_k">Tanggal Input
+Konsumsi Pakan</string>
+    <string name="lbl_pab">PAB</string>
+    <string name="msg_data_bisa_dit">**data bisa ditarik/download ke excel</string>
+    <string name="lbl_kambing">Kambing</string>
+    <string name="msg_kejadian_khusus">Kejadian Khusus : ___ + (gambar)**
+Perlakuan Khusus : ___ + (gambar)**
+**Tombol untuk ngelink ke parent</string>
+    <string name="lbl_all_animals">All Animals</string>
+    <string name="msg_failed_to_input">FAILED TO INPUT DATA !!!
+Check Your Internet Connection.</string>
+    <string name="msg_kejadian_khusus2">Kejadian Khusus :</string>
+    <string name="msg_password_must_b">Password must be at least 8 characters long contain a number and an uppercase letter !!!</string>
+    <string name="msg_n4_kambing_tob">N4-KAMBING-TOB-5</string>
+    <string name="msg_please_enter_valid_pa">Please enter valid password</string>
+    <string name="msg_please_enter_valid_phone_nu">Please enter valid phone number</string>
+    <string name="msg_please_enter_valid_email">Please enter valid email</string>
+    <string name="msg_please_enter_valid_text">Please enter valid text</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="msg_please_select_form_type"><b>Please Select the Form Type!</b></string>
+    <string-array name="list">
+        <item>INPUT</item>
+        <item>UPDATE</item>
+        <item>DELETE</item>
+    </string-array>
+    <string name="data_result">The Result Will Be Here</string>
+    <string name="subtitle_btn_data">Click Button Above to Jump on Data</string>
+    <string name="menu_profile">Profile</string>
+    <string name="About">About Application</string>
+    <string name="menu_settings">Settings</string>
+    <string name="about_fragment_title">THIS IS ABOUT FRAGMENT : PLACE THE DETAILS AND STORRY ABOUT THIS APPLICATIOIN IN THIS FRAGMENT !</string>
+    <string name="title_settings">SETTINGS</string>
+    <string name="subtitle_settings">General and Settings</string>
+    <string name="title_username">Your Username</string>
+    <string name="user_email">user@email.com</string>
+    <string name="btn_account">Account</string>
+    <string name="btn_notification">Notification</string>
+    <string name="btn_appearance">Appearance</string>
+    <string name="profile_privacy_security"><![CDATA[Privacy & Security]]></string>
+    <string name="btn_language">Language</string>
+    <string name="title_account">ACCOUNT</string>
+    <string name="subtitle_account_settings">Account Settings</string>
+    <string name="full_name">Full Name</string>
+    <string name="your_username">Your Username</string>
+    <string name="useradmin_mail">useradmin@mail.com</string>
+    <string name="user_role">Role</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="lbl_kejadian_khusus">KEJADIAN KHUSUS</string>
+</resources>
