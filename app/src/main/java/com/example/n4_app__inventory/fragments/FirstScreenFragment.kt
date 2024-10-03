@@ -39,22 +39,41 @@ class FirstScreenFragment : Fragment() {
     }
 
     private fun setUpClicks() {
+        // Handle Sign-Up button click
         binding.btnSignUp.setOnClickListener {
+            // Disable the button temporarily to prevent multiple clicks
+            binding.btnSignUp.isEnabled = false
+
+            // Navigate to the sign-up screen
             navController.navigate(R.id.action_firstScreenFragment_to_signUpFragment)
+
+            // Re-enable the button after 1 second to prevent multiple clicks
+            binding.btnSignUp.postDelayed({
+                binding.btnSignUp.isEnabled = true
+            }, 1000)
         }
 
+        // Handle "Already Have an Account" text click
         binding.txtAlrHaveAcc.setOnClickListener {
-            // Check if the user is already authenticated (logged in)
+            // Disable the text temporarily to prevent multiple clicks
+            binding.txtAlrHaveAcc.isEnabled = false
+
+            // Check if the user is authenticated (logged in)
             if (FirebaseAuth.getInstance().currentUser != null) {
-                // If the user is logged in, navigate to HomeActivity
+                // User is logged in, proceed to HomeActivity
                 val intent = Intent(requireContext(), HomeActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
-                activity?.finish() // Optional, closes the current activity so the user can't go back to it
+                activity?.finish()
             } else {
-                // If the user is not logged in, navigate to SignInFragment
+                // User is not logged in, navigate to SignInFragment
                 navController.navigate(R.id.action_firstScreenFragment_to_signInFragment)
             }
+
+            // Re-enable the text after 1 second to prevent multiple clicks
+            binding.txtAlrHaveAcc.postDelayed({
+                binding.txtAlrHaveAcc.isEnabled = true
+            }, 1000)
         }
     }
 }

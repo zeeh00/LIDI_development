@@ -32,7 +32,7 @@ class SignUpFragment : Fragment() {
         val view = binding.root
 
         // Example: Setting up AutoCompleteTextView
-        val items = listOf("Admin", "User")
+        val items = listOf("Admin")
         val autoComplete: AutoCompleteTextView = binding.root.findViewById(R.id.USR_ROLE)
         val adapter = ArrayAdapter(requireContext(), R.layout.list_role, items)
 

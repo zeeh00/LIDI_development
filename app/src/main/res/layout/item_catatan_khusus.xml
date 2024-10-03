@@ -67,4 +67,10 @@
         style="@style/txtSFProDisplaymedium16"/>
 
 
+    <View android:background="@color/bluegray_52"
+        android:id="@+id/viewDivider"
+        android:layout_height="@dimen/_10pxv"
+        android:layout_marginTop="@dimen/_437pxv" android:layout_width="@dimen/_430pxh"/>
+
+
 </RelativeLayout>

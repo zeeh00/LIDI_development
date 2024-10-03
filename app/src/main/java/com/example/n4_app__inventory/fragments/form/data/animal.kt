@@ -2,6 +2,7 @@ package com.example.n4_app__inventory.fragments.form.data
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.example.n4_app__inventory.fragments.animals.catatankhusus.Kejadian
 
 data class Animal(
     val anmlType: String = "",
@@ -20,10 +21,18 @@ data class Animal(
     val inputPenmDate: String = "",
     val bbtAwal: String = "",
     val bbtPenm: String = "",
-    val anmlPrice: String = ""
+    val anmlPrice: String = "",
+    val inputDateKejadian: String = "",
+    val kejadianKhusus: String = "",
+    val catatanKhusus: String = "",
+    val imageUrlKejadian: String = ""
 
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
@@ -61,6 +70,10 @@ data class Animal(
         parcel.writeString(bbtAwal)
         parcel.writeString(bbtPenm)
         parcel.writeString(anmlPrice)
+        parcel.writeString(inputDateKejadian)
+        parcel.writeString(kejadianKhusus)
+        parcel.writeString(catatanKhusus)
+        parcel.writeString(imageUrlKejadian)
     }
 
     override fun describeContents(): Int {

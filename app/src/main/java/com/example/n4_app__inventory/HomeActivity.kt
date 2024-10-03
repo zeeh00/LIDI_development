@@ -62,12 +62,9 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
 
-        // Check if the current fragment is either FormFragment or QrFragment
         if (fragment is FormFragment || fragment is QrFragment) {
             // If the current fragment is either FormFragment or QrFragment, go back to HomeFragment
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, HomeFragment())
-                .commit()
+            supportFragmentManager.popBackStack()
         } else if (fragment is HomeFragment) {
             // If currently in HomeFragment, check if the drawer is open
             val homeFragment = fragment as HomeFragment
@@ -77,7 +74,8 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             } else {
                 // If drawer is closed, check back press count
                 if (backPressedTime + backPressedInterval > System.currentTimeMillis()) {
-                    finish() // Close the application directly
+                    // Clear the back stack to prevent returning to the splash screen
+                    finishAffinity() // Close the app completely
                     return
                 } else {
                     // Notify the user to press back again to exit
@@ -92,5 +90,11 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             // Otherwise, call super to handle default back press behavior
             super.onBackPressed()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // Perform any necessary cleanup here
+        // e.g., clearing resources or references
     }
 }
