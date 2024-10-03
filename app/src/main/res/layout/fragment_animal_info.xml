@@ -262,7 +262,7 @@
                         android:layout_marginBottom="@dimen/_7pxv"
                         android:layout_weight="0.73"
                         android:layout_width="wrap_content"
-                        android:text="Konsumsi Pakan: "
+                        android:text="Konsumsi Pakan (kg): "
                         style="@style/txtSFProDisplaymedium14"/>
                     <TextView android:id="@+id/txtBobotKg"
                         android:layout_height="wrap_content"
@@ -270,7 +270,7 @@
                         android:layout_weight="0.27"
                         android:layout_width="wrap_content"
                         android:letterSpacing="0.03"
-                        android:hint="Kg"
+                        android:hint="kg"
                         android:text=""
                         style="@style/txtSFProDisplaymedium14"/>
                 </LinearLayout>
@@ -363,7 +363,7 @@
                         android:layout_marginBottom="@dimen/_7pxv"
                         android:layout_weight="0.73"
                         android:layout_width="wrap_content"
-                        android:text="Bobot Awal: "
+                        android:text="Bobot Awal (kg): "
                         style="@style/txtSFProDisplaymedium14"/>
 
                     <TextView android:id="@+id/txtBobotAwalKg"
@@ -389,7 +389,7 @@
                         android:layout_marginBottom="@dimen/_7pxv"
                         android:layout_weight="0.73"
                         android:layout_width="wrap_content"
-                        android:text="Bobot Penimbangan: "
+                        android:text="Bobot Penimbangan (kg): "
                         style="@style/txtSFProDisplaymedium14"/>
 
                     <TextView android:id="@+id/txtBobotPenimbanganKg"
@@ -398,7 +398,7 @@
                         android:layout_weight="0.27"
                         android:layout_width="wrap_content"
                         android:letterSpacing="0.03"
-                        android:hint="Kg"
+                        android:hint="kg"
                         android:text=""
                         style="@style/txtSFProDisplaymedium14"/>
                 </LinearLayout>

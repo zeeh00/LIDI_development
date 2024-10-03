@@ -18,7 +18,6 @@ data class Animal(
     val inputDate: String = "",
     val konsumsiPakan: String = "",
     val inputPenmDate: String = "",
-    val bbtAwal: String = "",
     val bbtPenm: String = "",
     val anmlPrice: String = "",
     val anmlPhysStat: String = "",
@@ -27,7 +26,6 @@ data class Animal(
 
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
-        parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
@@ -64,7 +62,6 @@ data class Animal(
         parcel.writeString(inputDate)
         parcel.writeString(konsumsiPakan)
         parcel.writeString(inputPenmDate)
-        parcel.writeString(bbtAwal)
         parcel.writeString(bbtPenm)
         parcel.writeString(anmlPrice)
         parcel.writeString(anmlPhysStat)

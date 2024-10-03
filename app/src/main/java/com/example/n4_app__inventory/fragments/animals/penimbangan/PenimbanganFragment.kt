@@ -32,8 +32,8 @@ class PenimbanganFragment : Fragment() {
         animal?.let { setAnimalData(it) }
 
         handleClickBack()
-        handleImgProfile()
         handleSave()
+        setupClearTextView()
 
         binding.linearColumnSelectPenmDate.setupDatePicker(requireContext(), this, binding.txtSelectPenimbanganDate)
 
@@ -46,28 +46,13 @@ class PenimbanganFragment : Fragment() {
         }
     }
 
-    private fun handleImgProfile(){
-        binding.imgProfile.setOnClickListener {
-            val profileFragment = ProfileFragment()
-            replaceFragment(profileFragment)
-        }
-    }
-
-    private fun replaceFragment(fragment: Fragment) {
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, fragment)
-            .addToBackStack(null)
-            .commit()
-    }
-
-    private fun updateAnimalData(inputPenmDate: String, bbtAwal: String, bbtPenm: String) {
+    private fun updateAnimalData(inputPenmDate: String, bbtPenm: String) {
         val firestore = FirebaseFirestore.getInstance()
 
         animal?.let { animal ->
             // Create a map to update general animal info
             val animalUpdates = hashMapOf<String, Any>(
                 "inputPenmDate" to inputPenmDate,
-                "bbtAwal" to bbtAwal,
                 "bbtPenm" to bbtPenm
             )
 
@@ -76,12 +61,11 @@ class PenimbanganFragment : Fragment() {
                 .update(animalUpdates)
                 .addOnSuccessListener {
                     // Now handle saving to the 'penimbangan' collection
-                    handlePenimbanganData(animal.id, inputPenmDate, bbtAwal, bbtPenm)
+                    handlePenimbanganData(animal.id, inputPenmDate, bbtPenm)
 
                     // Create an updated animal object
                     val updatedAnimal = animal.copy(
                         inputPenmDate = inputPenmDate,
-                        bbtAwal = bbtAwal,
                         bbtPenm = bbtPenm
                     )
 
@@ -107,25 +91,21 @@ class PenimbanganFragment : Fragment() {
         binding.btnSave.setOnClickListener {
             // Get the values from the UI
             val inputPenmDate = binding.txtSelectPenimbanganDate.text.toString()
-            val bbtAwal = binding.txtBbtAwal.text.toString()
             val bbtPenm = binding.txtBbtPenimbangan.text.toString()
 
 
             // Validate inputs
-            if (inputPenmDate.isEmpty() || bbtAwal.isEmpty() || bbtPenm.isEmpty()) {
+            if (inputPenmDate.isEmpty() || bbtPenm.isEmpty()) {
                 Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Log the input values
-            Log.d("PenimbanganFragment", "Input Values - bbtAwal: $bbtAwal, bbtPenm: $bbtPenm, inputPenmDate: $inputPenmDate")
-
             // Call a method to send data to Firebase
-            updateAnimalData(inputPenmDate, bbtAwal, bbtPenm)
+            updateAnimalData(inputPenmDate, bbtPenm)
         }
     }
 
-    private fun handlePenimbanganData(animalId: String, inputPenmDate: String, bbtAwal: String, bbtPenm: String) {
+    private fun handlePenimbanganData(animalId: String, inputPenmDate: String, bbtPenm: String) {
         val firestore = FirebaseFirestore.getInstance()
         val penimbanganDocRef = firestore.collection("penimbangan").document(animalId)
 
@@ -133,23 +113,14 @@ class PenimbanganFragment : Fragment() {
             if (document.exists()) {
                 // Document exists, retrieve current values
                 val currentInputPenmDate = document.get("inputPenmDate") as? ArrayList<String> ?: arrayListOf()
-                val currentBbtAwal = document.get("bbtAwal") as? ArrayList<String> ?: arrayListOf()
                 val currentBbtPenm = document.get("bbtPenm") as? ArrayList<String> ?: arrayListOf()
-
-                // Log current values
-                Log.d("PenimbanganData", "Current Values - inputPenmDate: $currentInputPenmDate, bbtAwal: $currentBbtAwal, bbtPenm: $currentBbtPenm")
 
                 // Add new entries (ensure correct order)
                 currentInputPenmDate.add(inputPenmDate) // Add date
-                currentBbtAwal.add(bbtAwal) // Add initial weight
                 currentBbtPenm.add(bbtPenm) // Add current weight
-
-                // Log updated values
-                Log.d("PenimbanganData", "Updated Values - inputPenmDate: $currentInputPenmDate, bbtAwal: $currentBbtAwal, bbtPenm: $currentBbtPenm")
 
                 val updates = hashMapOf<String, Any>(
                     "inputPenmDate" to currentInputPenmDate,
-                    "bbtAwal" to currentBbtAwal,
                     "bbtPenm" to currentBbtPenm,
                     "id" to animalId
                 )
@@ -160,7 +131,6 @@ class PenimbanganFragment : Fragment() {
                         if (isAdded) {
                             val penimbanganResult = Bundle().apply {
                                 putStringArrayList("inputPenmDate", currentInputPenmDate)
-                                putStringArrayList("bbtAwal", currentBbtAwal)
                                 putStringArrayList("bbtPenm", currentBbtPenm)
                             }
                             parentFragmentManager.setFragmentResult("penimbanganDataUpdated", penimbanganResult)
@@ -173,7 +143,6 @@ class PenimbanganFragment : Fragment() {
                 // Document doesn't exist, create a new one with arrays
                 val newPenimbanganData = hashMapOf(
                     "inputPenmDate" to arrayListOf(inputPenmDate),
-                    "bbtAwal" to arrayListOf(bbtAwal),
                     "bbtPenm" to arrayListOf(bbtPenm),
                     "id" to animalId
                 )
@@ -183,7 +152,6 @@ class PenimbanganFragment : Fragment() {
                         if (isAdded) {
                             val penimbanganResult = Bundle().apply {
                                 putStringArrayList("inputPenmDate", arrayListOf(inputPenmDate))
-                                putStringArrayList("bbtAwal", arrayListOf(bbtAwal))
                                 putStringArrayList("bbtPenm", arrayListOf(bbtPenm))
                             }
                             parentFragmentManager.setFragmentResult("penimbanganDataUpdated", penimbanganResult)
@@ -206,8 +174,17 @@ class PenimbanganFragment : Fragment() {
 
     private fun setAnimalData(animal: Animal) {
         binding.txtSelectPenimbanganDate.text = animal.inputPenmDate
-        binding.txtBbtAwal.setText(animal.bbtAwal)
         binding.txtBbtPenimbangan.setText(animal.bbtPenm)
+    }
+
+    private fun setupClearTextView() {
+        binding.txtClearAll.setOnClickListener {
+            clearAllInputs() // Clear all input fields
+        }
+    }
+    private fun clearAllInputs() {
+        binding.txtSelectPenimbanganDate.text = ""
+        binding.txtBbtPenimbangan.text.clear()
     }
 
     companion object {
