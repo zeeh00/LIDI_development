@@ -428,10 +428,10 @@
                     android:layout_width="match_parent" android:orientation="horizontal">
 
                     <TextView android:ellipsize="end"
-                        android:id="@+id/txtCATKHUSUS"
+                        android:id="@+id/txtKEJKHUSUS"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
-                        android:text="CATATAN KHUSUS"
+                        android:text="KEJADIAN KHUSUS"
                         style="@style/txtSFProDisplaybold24_1"/>
                     <LinearLayout android:id="@+id/linearRowEditCatKhusus"
                         android:layout_height="wrap_content"
@@ -459,12 +459,40 @@
                 </LinearLayout>
 
                 <LinearLayout android:gravity="start"
-                    android:id="@+id/linearCatKhusus"
+                    android:id="@+id/linearRowtanggalInputKejadian"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_30pxh"
                     android:layout_marginStart="@dimen/_30pxh"
-                    android:layout_marginTop="@dimen/_10pxv"
-                    android:layout_width="wrap_content" android:orientation="vertical">
+                    android:layout_marginTop="@dimen/_2pxv"
+                    android:layout_width="wrap_content" android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/txtTanggalInputKejadian"
+                        style="@style/txtSFProDisplaymedium14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_7pxv"
+                        android:layout_weight="0.73"
+                        android:text="Tanggal Input: " />
+
+                    <TextView
+                        android:id="@+id/txtTanggalInputDateKejadian"
+                        style="@style/txtSFProDisplaymedium14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10pxh"
+                        android:layout_weight="0.27"
+                        android:hint="date"
+                        android:letterSpacing="0.03"
+                        android:text="" />
+                </LinearLayout>
+
+                <LinearLayout android:gravity="start"
+                    android:id="@+id/linearKejKhusus"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_30pxh"
+                    android:layout_marginStart="@dimen/_30pxh"
+                    android:layout_width="wrap_content" android:orientation="horizontal">
                     <TextView android:id="@+id/txtKejadianKhusus"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/_7pxv"
@@ -472,7 +500,38 @@
                         android:layout_width="wrap_content"
                         android:text="Kejadian Khusus: "
                         style="@style/txtSFProDisplaymedium14"/>
+                    <TextView android:id="@+id/txtKejadianKhususJudul"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10pxh"
+                        android:layout_weight="0.27"
+                        android:layout_width="wrap_content"
+                        android:letterSpacing="0.03"
+                        android:hint="Kejadian"
+                        android:text=""
+                        style="@style/txtSFProDisplaymedium14"/>
+
                 </LinearLayout>
+
+                <FrameLayout android:id="@+id/frameImgKejadian"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_height="@dimen/_300pxv"
+                    android:layout_marginEnd="@dimen/_30pxh"
+                    android:layout_marginStart="@dimen/_30pxh"
+                    android:layout_marginTop="@dimen/_2pxv"
+                    android:layout_width="@dimen/_370pxh" style="@style/groupStylecornerRadius">
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardViewImageKejadian"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:cardCornerRadius="@dimen/_15pxh">
+                        <ImageView
+                            android:id="@+id/imgKejadianAnimal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitXY"
+                            tools:ignore="ContentDescription" />
+                    </androidx.cardview.widget.CardView>
+                </FrameLayout>
 
                 <LinearLayout android:gravity="start"
                     android:id="@+id/linearRowPerlakuanKhusus"
@@ -486,6 +545,15 @@
                         android:layout_weight="0.73"
                         android:layout_width="wrap_content"
                         android:text="Perlakuan Khusus: "
+                        style="@style/txtSFProDisplaymedium14"/>
+                    <TextView android:id="@+id/txtCatatanKejadian"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10pxh"
+                        android:layout_weight="0.27"
+                        android:layout_width="wrap_content"
+                        android:letterSpacing="0.03"
+                        android:hint="Catatan"
+                        android:text=""
                         style="@style/txtSFProDisplaymedium14"/>
                 </LinearLayout>
 
@@ -522,6 +590,11 @@
                         android:text="Harga Beli: "
                         style="@style/txtSFProDisplaymedium14"/>
                 </LinearLayout>
+
+                <View android:background="@color/white_A700"
+                    android:id="@+id/viewDividerFour"
+                    android:layout_height="@dimen/_50pxv"
+                    android:layout_marginTop="@dimen/_30pxv" android:layout_width="@dimen/_430pxh"/>
 
             </LinearLayout>
         </ScrollView>
