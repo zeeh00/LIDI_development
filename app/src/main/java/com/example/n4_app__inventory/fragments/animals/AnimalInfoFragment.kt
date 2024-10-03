@@ -46,6 +46,7 @@ class AnimalInfoFragment : Fragment() {
         penimbanganChart = binding.penimbanganChart
         val view = binding.root
 
+
         setupUI()
         return view
     }
@@ -94,9 +95,8 @@ class AnimalInfoFragment : Fragment() {
             binding.txtPurchaseDate.text = "Tanggal Pembelian: ${it.purchaseDate}"
             binding.txtAnmlMarriageStat.text = "Status Pernikahan: ${it.marriageStatus}"
             binding.txtTanggalInputDate.text = "${it.inputDate}"
-            binding.txtBobotKg.text = "${it.konsumsiPakan}kg"
+            binding.txtBobotKg.text = "${it.konsumsiPakan}"
             binding.txtTanggalInputDatePnmbgn.text = "${it.inputPenmDate}"
-            binding.txtBobotAwalKg.text = "${it.bbtAwal}"
             binding.txtBobotPenimbanganKg.text = "${it.bbtPenm}"
             binding.txtAnmlPrice.text = "Harga Beli: Rp. ${it.anmlPrice}"
 
@@ -134,7 +134,6 @@ class AnimalInfoFragment : Fragment() {
             animal?.let {
                 val updatedAnimal = it.copy(
                     inputPenmDate = binding.txtTanggalInputDatePnmbgn.text.toString().trim(),
-                    bbtAwal = binding.txtBobotAwalKg.text.toString().trim(),
                     bbtPenm = binding.txtBobotPenimbanganKg.text.toString().trim()
                 )
                 replaceFragment(PenimbanganFragment.newInstance(updatedAnimal))
@@ -161,10 +160,14 @@ class AnimalInfoFragment : Fragment() {
         // Update the animal instance and refresh the UI
         this.animal = animal
         binding.txtTanggalInputDatePnmbgn.text = animal.inputPenmDate
-        binding.txtBobotAwalKg.text = animal.bbtAwal
+
+        // Fetch and update bbtPenimbangan from the updated animal object
         binding.txtBobotPenimbanganKg.text = animal.bbtPenm
-        fetchAndDisplayPenimbanganData() // Refresh the chart with new data
+
+        // Now rely on fetchAndDisplayPenimbanganData() to update bbtAwal and the chart
+        fetchAndDisplayPenimbanganData() // This will dynamically set bbtAwal and refresh the chart
     }
+
 
     private fun replaceFragment(fragment: Fragment) {
         requireActivity().supportFragmentManager.beginTransaction()
@@ -246,23 +249,27 @@ class AnimalInfoFragment : Fragment() {
                 if (e != null) return@addSnapshotListener
 
                 if (documentSnapshot != null && documentSnapshot.exists()) {
-                    val bbtAwalList = documentSnapshot.get("bbtAwal") as? List<String> ?: emptyList()
+                    // Fetching penimbangan data
                     val bbtPenimbanganList = documentSnapshot.get("bbtPenm") as? List<String> ?: emptyList()
                     val dateList = documentSnapshot.get("dates") as? List<String> ?: emptyList()
 
-                    // Create entries for bbtAwal
-                    val bbtAwalEntries = bbtAwalList.mapIndexed { index, weight ->
-                        Entry(index.toFloat(), weight.toFloat())
+                    // Check if we have any penimbangan data
+                    if (bbtPenimbanganList.isNotEmpty()) {
+                        // Set the very first penimbangan value as bbtAwal
+                        val bbtAwal = bbtPenimbanganList.first()
+
+                        // Update the UI to display the first bbtPenimbangan as bbtAwal
+                        binding.txtBobotAwalKg.text = bbtAwal
                     }
 
-                    // Create entries for bbtPenimbangan
+                    // Create entries for bbtPenimbangan chart
                     val bbtPenimbanganEntries = bbtPenimbanganList.mapIndexed { index, weight ->
                         Entry(index.toFloat(), weight.toFloat())
                     }
 
-                    // Use the extension function to set up the Penimbangan chart with both datasets and date list
+                    // Use the extension function to set up the Penimbangan chart
                     penimbanganChart.setupPenimbanganChart(
-                        bbtAwalEntries,
+                        emptyList(), // No need for bbtAwal entries in the chart
                         bbtPenimbanganEntries,
                         dateList,
                         "Bobot Awal",
@@ -272,7 +279,6 @@ class AnimalInfoFragment : Fragment() {
                 }
             }
     }
-
 
 
 

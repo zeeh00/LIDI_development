@@ -28,7 +28,7 @@
     <string name="msg_pabrik_kelapa_s">PABRIK KELAPA SAWIT</string>
     <string name="lbl_log_out">LOG OUT</string>
     <string name="lbl_edit">EDIT</string>
-    <string name="lbl_sex">Sex</string>
+    <string name="lbl_sex">Jenis Kelamin</string>
     <string name="lbl_notifications">Notifications</string>
     <string name="msg_origin_animal_t">Origin
 Animal Type
@@ -47,7 +47,7 @@ Marriage Status</string>
     <string name="msg_forgot_password">Forgot Password?</string>
     <string name="lbl_mar">MAR</string>
     <string name="lbl_delete2">Delete</string>
-    <string name="lbl_location">Location</string>
+    <string name="lbl_location">Lokasi</string>
     <string name="msg_input_update_a">Input, Update and Delete Data Inventory.</string>
     <string name="lbl_username">Username</string>
     <string name="lbl_fullname">Fullname</string>
@@ -81,7 +81,7 @@ Harga Jual :</string>
     <string name="lbl_admin">Admin</string>
     <string name="msg_img_domba_baru">IMG_DOMBA_BARU_20/11/23</string>
     <string name="lbl_delete">DELETE</string>
-    <string name="lbl_animal_type">Animal Type</string>
+    <string name="lbl_animal_type">Jenis Hewan</string>
     <string name="lbl_4min_ago">4min ago</string>
     <string name="msg_umur_bangs">[Umur] - [Bangsa]</string>
     <string name="lbl_view_all">View All</string>
@@ -93,9 +93,9 @@ Harga Jual :</string>
     <string name="lbl_farm_location">Farm Location</string>
     <string name="lbl_pks_pabatu">PKS PABATU</string>
     <string name="lbl_ks_marjandi">KS MARJANDI</string>
-    <string name="lbl_birth_date">Birth Date</string>
+    <string name="lbl_birth_date">Tanggal Lahir</string>
     <string name="lbl_news">NEWS</string>
-    <string name="lbl_race">Race</string>
+    <string name="lbl_race">Ras</string>
     <string name="lbl_kg">: -/-/-
 : [] Kg</string>
     <string name="lbl_domba2">Domba</string>
