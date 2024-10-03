@@ -16,6 +16,8 @@ import com.example.n4_app__inventory.fragments.animals.catatankhusus.CatatanKhus
 import com.example.n4_app__inventory.fragments.animals.pakan.PakanFragment
 import com.example.n4_app__inventory.fragments.animals.penimbangan.PenimbanganFragment
 import com.example.n4_app__inventory.fragments.form.data.Animal
+import com.example.n4_app__inventory.spinner.setupChart
+import com.example.n4_app__inventory.spinner.setupPenimbanganChart
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.Description
@@ -24,6 +26,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.firebase.firestore.FirebaseFirestore
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -34,13 +37,16 @@ class AnimalInfoFragment : Fragment() {
     private lateinit var binding: FragmentAnimalInfoBinding
     private var animal: Animal? = null
     private lateinit var lineChart: LineChart
+    private lateinit var penimbanganChart: LineChart
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentAnimalInfoBinding.inflate(inflater, container, false)
         lineChart = binding.lineChart
+        penimbanganChart = binding.penimbanganChart
         val view = binding.root
+
 
         setupUI()
         return view
@@ -53,18 +59,17 @@ class AnimalInfoFragment : Fragment() {
             val updatedAnimal = bundle.getParcelable<Animal>("updatedAnimal")
             updatedAnimal?.let {
                 onPakanDataUpdated(it) // Update UI with new Pakan data
+                onPenimbaganDataUpdated(it)
             }
         }
 
-        parentFragmentManager.setFragmentResultListener("pakanDataUpdated", viewLifecycleOwner) { _, _ ->
-            fetchAndDisplayChartData() // Auto-refresh chart when data is updated
-        }
     }
 
 
     override fun onResume() {
         super.onResume()
-        fetchAndDisplayChartData() // Refresh data when fragment resumes
+        fetchAndDisplayPakanData() // Refresh data when fragment resumes
+        fetchAndDisplayPenimbanganData()
     }
 
     private fun setupUI() {
@@ -82,18 +87,22 @@ class AnimalInfoFragment : Fragment() {
             binding.txtOrigin.text = "Origin: ${it.origin}"
             binding.txtAnmlType.text = "Jenis Hewan: ${it.anmlType}"
             binding.txtAnmlBreed.text = "Tipe Hewan: ${it.breedType}"
+            binding.txtAnmlPhysStat.text = "Fisiologi Hewan: ${it.anmlPhysStat}"
             binding.txtRace.text = "Ras: ${it.race}"
             binding.txtAge.text = "Umur: ${calculateAge(it.birthDate)}"
             binding.txtAnmlSexType.text = "Jenis Kelamin: ${it.sex}"
+            binding.txtAnmlIndukan.text = "Nomor Indukkan: ${it.anmlNumIndukan}"
             binding.txtAnmlLoc.text = "Lokasi: ${it.location}"
             binding.txtPurchaseDate.text = "Tanggal Pembelian: ${it.purchaseDate}"
             binding.txtAnmlMarriageStat.text = "Status Pernikahan: ${it.marriageStatus}"
             binding.txtTanggalInputDate.text = "${it.inputDate}"
             binding.txtBobotKg.text = "${it.konsumsiPakan}"
             binding.txtTanggalInputDatePnmbgn.text = "${it.inputPenmDate}"
-            binding.txtBobotAwalKg.text = "${it.bbtAwal}"
             binding.txtBobotPenimbanganKg.text = "${it.bbtPenm}"
-            binding.txtAnmlPrice.text = "Harga Beli: Rp. ${it.anmlPrice}"
+
+            // Format the price with periods (thousands separator)
+            val formattedPrice = formatPrice(it.anmlPrice)
+            binding.txtAnmlPrice.text = "Harga Beli: Rp. $formattedPrice"
 
             // Load image using Glide
             Glide.with(requireContext())
@@ -101,7 +110,8 @@ class AnimalInfoFragment : Fragment() {
                 .apply(RequestOptions.centerCropTransform())
                 .into(binding.imgAnimal)
 
-            fetchAndDisplayChartData()  // Ensure chart data is set on initial load
+            fetchAndDisplayPakanData()  // Ensure chart data is set on initial load
+            fetchAndDisplayPenimbanganData()
         } ?: run {
             // Handle the case where the animal data is null
             Toast.makeText(requireContext(), "Animal data is not available", Toast.LENGTH_SHORT).show()
@@ -110,6 +120,17 @@ class AnimalInfoFragment : Fragment() {
         handleClickEditPakan()
         handleClickEditPenimbangan()
         handleClickEditCatKhusus()
+    }
+
+    private fun formatPrice(price: String): String {
+        return try {
+            // Parse the price as a Long and format with thousands separator
+            val priceLong = price.toLong()
+            val numberFormat = NumberFormat.getNumberInstance(Locale.US)
+            numberFormat.format(priceLong)
+        } catch (e: NumberFormatException) {
+            price // Return original price if parsing fails
+        }
     }
 
     private fun handleClickEditPakan() {
@@ -127,7 +148,11 @@ class AnimalInfoFragment : Fragment() {
     private fun handleClickEditPenimbangan() {
         binding.imageEditPenimbangan.setOnClickListener {
             animal?.let {
-                replaceFragment(PenimbanganFragment.newInstance(it))
+                val updatedAnimal = it.copy(
+                    inputPenmDate = binding.txtTanggalInputDatePnmbgn.text.toString().trim(),
+                    bbtPenm = binding.txtBobotPenimbanganKg.text.toString().trim()
+                )
+                replaceFragment(PenimbanganFragment.newInstance(updatedAnimal))
             }
         }
     }
@@ -144,8 +169,21 @@ class AnimalInfoFragment : Fragment() {
         this.animal = animal
         binding.txtTanggalInputDate.text = animal.inputDate
         binding.txtBobotKg.text = animal.konsumsiPakan
-        fetchAndDisplayChartData() // Refresh the chart with new data
+        fetchAndDisplayPakanData() // Refresh the chart with new data
     }
+
+    private fun onPenimbaganDataUpdated(animal: Animal) {
+        // Update the animal instance and refresh the UI
+        this.animal = animal
+        binding.txtTanggalInputDatePnmbgn.text = animal.inputPenmDate
+
+        // Fetch and update bbtPenimbangan from the updated animal object
+        binding.txtBobotPenimbanganKg.text = animal.bbtPenm
+
+        // Now rely on fetchAndDisplayPenimbanganData() to update bbtAwal and the chart
+        fetchAndDisplayPenimbanganData() // This will dynamically set bbtAwal and refresh the chart
+    }
+
 
     private fun replaceFragment(fragment: Fragment) {
         requireActivity().supportFragmentManager.beginTransaction()
@@ -192,85 +230,73 @@ class AnimalInfoFragment : Fragment() {
         }
     }
 
-
-
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//        parentFragmentManager.setFragmentResultListener("updateAnimal", viewLifecycleOwner) { _, bundle ->
-//            val updatedAnimal = bundle.getParcelable<Animal>("animal")
-//            updatedAnimal?.let {
-//                updateUIWithAnimalData(it) // Call method to update UI
-//            }
-//        }
-//    }
-//    private fun updateUIWithAnimalData(animal: Animal) {
-//        binding.txtTanggalInputDate.text = animal.inputDate
-//        binding.txtBobotKg.text = animal.konsumsiPakan
-//    }
-
-    private fun fetchAndDisplayChartData() {
+    private fun fetchAndDisplayPakanData() {
         val firestore = FirebaseFirestore.getInstance()
-        val animalId = animal?.id ?: run {
-            Toast.makeText(requireContext(), "Animal ID is not valid", Toast.LENGTH_SHORT).show()
-            return
-        }
+        val animalId = animal?.id ?: return
 
         firestore.collection("pakan").document(animalId)
             .addSnapshotListener { documentSnapshot, e ->
-                if (e != null) {
-                    Toast.makeText(requireContext(), "Failed to fetch data: ${e.message}", Toast.LENGTH_SHORT).show()
-                    return@addSnapshotListener
-                }
+                if (e != null) return@addSnapshotListener
 
                 if (documentSnapshot != null && documentSnapshot.exists()) {
                     val weightsList = documentSnapshot.get("weights") as? List<String> ?: emptyList()
-                    val datesList = documentSnapshot.get("dates") as? List<String> ?: emptyList()
+                    val dateList = documentSnapshot.get("dates") as? List<String> ?: emptyList() // Fetch corresponding dates
 
-                    // Prepare data for the chart
-                    val entries = mutableListOf<Entry>()
-                    for (i in weightsList.indices) {
-                        val weight = weightsList[i].toFloatOrNull() ?: 0f
-                        entries.add(Entry(i.toFloat(), weight))
+                    // Create entries with proper index mapping
+                    val entries = weightsList.mapIndexed { index, weight ->
+                        Entry(index.toFloat(), weight.toFloat()) // Ensure x is the index
                     }
 
-                    // Create LineDataSet and LineData
-                    val lineDataSet = LineDataSet(entries, "Konsumsi Pakan")
-                    lineDataSet.color = Color.BLUE
-                    lineDataSet.valueTextColor = Color.BLACK
+                    // Log the entries for debugging
+                    Log.d("ChartEntries", "Entries: $entries")
 
-                    val lineData = LineData(lineDataSet)
-                    lineChart.data = lineData
-
-                    val description = Description()
-                    description.text = "Konsumsi Pakan Over Time"
-                    lineChart.description = description
-                    lineChart.xAxis.labelRotationAngle = 30f
-                    lineChart.xAxis.setDrawGridLines(false)
-                    lineChart.axisRight.isEnabled = false
-
-                    lineChart.xAxis.apply {
-                        granularity = 1f
-                        isGranularityEnabled = true
-                        setLabelCount(weightsList.size, true)
-                        valueFormatter = object : ValueFormatter() {
-                            override fun getAxisLabel(value: Float, axis: AxisBase?): String {
-                                val index = value.toInt()
-                                return if (index in datesList.indices) {
-                                    datesList[index]
-                                } else {
-                                    ""
-                                }
-                            }
-                        }
-                    }
-
-                    lineChart.invalidate()
-                } else {
-//                    Toast.makeText(requireContext(), "No Pakan data found", Toast.LENGTH_SHORT).show()
+                    // Use the extension function to set up the Pakan chart
+                    lineChart.setupChart(entries, "Konsumsi Pakan", "Konsumsi Pakan Over Time", Color.BLUE, dateList)
                 }
             }
     }
+
+    private fun fetchAndDisplayPenimbanganData() {
+        val firestore = FirebaseFirestore.getInstance()
+        val animalId = animal?.id ?: return
+
+        firestore.collection("penimbangan").document(animalId)
+            .addSnapshotListener { documentSnapshot, e ->
+                if (e != null) return@addSnapshotListener
+
+                if (documentSnapshot != null && documentSnapshot.exists()) {
+                    // Fetching penimbangan data
+                    val bbtPenimbanganList = documentSnapshot.get("bbtPenm") as? List<String> ?: emptyList()
+                    val dateList = documentSnapshot.get("dates") as? List<String> ?: emptyList()
+
+                    // Check if we have any penimbangan data
+                    if (bbtPenimbanganList.isNotEmpty()) {
+                        // Set the very first penimbangan value as bbtAwal
+                        val bbtAwal = bbtPenimbanganList.first()
+
+                        // Update the UI to display the first bbtPenimbangan as bbtAwal
+                        binding.txtBobotAwalKg.text = bbtAwal
+                    }
+
+                    // Create entries for bbtPenimbangan chart
+                    val bbtPenimbanganEntries = bbtPenimbanganList.mapIndexed { index, weight ->
+                        Entry(index.toFloat(), weight.toFloat())
+                    }
+
+                    // Use the extension function to set up the Penimbangan chart
+                    penimbanganChart.setupPenimbanganChart(
+                        emptyList(), // No need for bbtAwal entries in the chart
+                        bbtPenimbanganEntries,
+                        dateList,
+                        "Bobot Awal",
+                        "Bobot Penimbangan",
+                        "Penimbangan Over Time"
+                    )
+                }
+            }
+    }
+
+
 
     companion object {
         private const val ARG_ANIMAL = "arg_animal"

@@ -185,3 +185,47 @@ fun Spinner.setupMarriageTypeSpinner(marriageType: String?, marriageTypes: List<
         }
     }
 }
+
+fun Spinner.setupAnmlPhysStatSpinner(
+    selectedPhysStat: String?,
+    physStatTypes: List<String>,
+    onItemSelected: (String?) -> Unit
+) {
+    val dropdownItems = mutableListOf<String>()
+
+    for (physStat in physStatTypes) {
+        if (physStat != selectedPhysStat) {
+            dropdownItems.add(physStat)
+        }
+    }
+
+    if (selectedPhysStat != null && !dropdownItems.contains(selectedPhysStat)) {
+        // Add the fetched physiological status at the correct position (e.g., as the first item)
+        dropdownItems.add(0, selectedPhysStat)
+    }
+
+    // Setting the adapter with the custom spinner layout
+    val adapterPhysStat = ArrayAdapter(context, android.R.layout.simple_spinner_item, dropdownItems)
+    adapterPhysStat.setDropDownViewResource(R.layout.custom_spinner)
+    adapter = adapterPhysStat
+
+    if (selectedPhysStat != null) {
+        setSelection(adapterPhysStat.getPosition(selectedPhysStat))
+    }
+
+    onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        override fun onItemSelected(
+            parentView: AdapterView<*>,
+            selectedItemView: View?,
+            position: Int,
+            id: Long
+        ) {
+            val selectedItem = dropdownItems[position]
+            onItemSelected(selectedItem)
+        }
+
+        override fun onNothingSelected(parentView: AdapterView<*>) {
+            // Do nothing
+        }
+    }
+}

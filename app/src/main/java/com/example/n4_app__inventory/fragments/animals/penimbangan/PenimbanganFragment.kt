@@ -1,6 +1,7 @@
 package com.example.n4_app__inventory.fragments.animals.penimbangan
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -31,8 +32,8 @@ class PenimbanganFragment : Fragment() {
         animal?.let { setAnimalData(it) }
 
         handleClickBack()
-        handleImgProfile()
         handleSave()
+        setupClearTextView()
 
         binding.linearColumnSelectPenmDate.setupDatePicker(requireContext(), this, binding.txtSelectPenimbanganDate)
 
@@ -45,66 +46,126 @@ class PenimbanganFragment : Fragment() {
         }
     }
 
-    private fun handleImgProfile(){
-        binding.imgProfile.setOnClickListener {
-            val profileFragment = ProfileFragment()
-            replaceFragment(profileFragment)
-        }
-    }
+    private fun updateAnimalData(inputPenmDate: String, bbtPenm: String) {
+        val firestore = FirebaseFirestore.getInstance()
 
-    private fun replaceFragment(fragment: Fragment) {
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, fragment)
-            .addToBackStack(null)
-            .commit()
+        animal?.let { animal ->
+            // Create a map to update general animal info
+            val animalUpdates = hashMapOf<String, Any>(
+                "inputPenmDate" to inputPenmDate,
+                "bbtPenm" to bbtPenm
+            )
+
+            // Update the 'animals' collection with the general data
+            firestore.collection("animals").document(animal.id)
+                .update(animalUpdates)
+                .addOnSuccessListener {
+                    // Now handle saving to the 'penimbangan' collection
+                    handlePenimbanganData(animal.id, inputPenmDate, bbtPenm)
+
+                    // Create an updated animal object
+                    val updatedAnimal = animal.copy(
+                        inputPenmDate = inputPenmDate,
+                        bbtPenm = bbtPenm
+                    )
+
+                    // Send updated animal data to other fragments (e.g., AnimalInfoFragment)
+                    val animalResult = Bundle()
+                    animalResult.putParcelable("updatedAnimal", updatedAnimal)
+                    parentFragmentManager.setFragmentResult("animalUpdate", animalResult)
+
+                    Toast.makeText(requireContext(), "Data updated successfully", Toast.LENGTH_SHORT).show()
+
+                    // Pop back to the previous fragment
+                    requireActivity().supportFragmentManager.popBackStack()
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(requireContext(), "Failed to update animal data: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+        } ?: run {
+            Toast.makeText(requireContext(), "Animal data is missing", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun handleSave() {
         binding.btnSave.setOnClickListener {
             // Get the values from the UI
-            val inputPenmDate = binding.txtSelectPenimbanganDate.text.toString().trim()
-            val bbtAwal = binding.txtBbtAwal.text.toString().trim()
-            val bbtPenm = binding.txtBbtPenimbangan.text.toString().trim()
+            val inputPenmDate = binding.txtSelectPenimbanganDate.text.toString()
+            val bbtPenm = binding.txtBbtPenimbangan.text.toString()
+
 
             // Validate inputs
-            if (inputPenmDate.isEmpty() || bbtAwal.isEmpty() || bbtPenm.isEmpty()) {
+            if (inputPenmDate.isEmpty() || bbtPenm.isEmpty()) {
                 Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             // Call a method to send data to Firebase
-            updateAnimalData(inputPenmDate, bbtAwal, bbtPenm)
+            updateAnimalData(inputPenmDate, bbtPenm)
         }
     }
 
-    private fun updateAnimalData(inputPenmDate: String, bbtAwal: String, bbtPenm: String) {
-        // Ensure Firestore is initialized
+    private fun handlePenimbanganData(animalId: String, inputPenmDate: String, bbtPenm: String) {
         val firestore = FirebaseFirestore.getInstance()
+        val penimbanganDocRef = firestore.collection("penimbangan").document(animalId)
 
-        animal?.let { animal ->
-            // Create a map to hold the data you want to update
-            val updates = hashMapOf<String, Any>(
-                "inputPenmDate" to inputPenmDate,
-                "bbtAwal" to bbtAwal,
-                "bbtPenm" to bbtPenm
-            )
+        penimbanganDocRef.get().addOnSuccessListener { document ->
+            if (document.exists()) {
+                // Document exists, retrieve current values
+                val currentInputPenmDate = document.get("inputPenmDate") as? ArrayList<String> ?: arrayListOf()
+                val currentBbtPenm = document.get("bbtPenm") as? ArrayList<String> ?: arrayListOf()
 
-            // Update the document in Firestore
-            firestore.collection("animals").document(animal.id)
-                .update(updates)
-                .addOnSuccessListener {
-                    // Handle success, e.g., show a Toast message
-                    Toast.makeText(requireContext(), "Data updated successfully", Toast.LENGTH_SHORT).show()
-                }
-                .addOnFailureListener { e ->
-                    // Handle failure, e.g., show a Toast message
-                    Toast.makeText(requireContext(), "Failed to update data: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
-        } ?: run {
-            // Handle the case where animalId is null
-            Toast.makeText(requireContext(), "Animal data is missing", Toast.LENGTH_SHORT).show()
+                // Add new entries (ensure correct order)
+                currentInputPenmDate.add(inputPenmDate) // Add date
+                currentBbtPenm.add(bbtPenm) // Add current weight
+
+                val updates = hashMapOf<String, Any>(
+                    "inputPenmDate" to currentInputPenmDate,
+                    "bbtPenm" to currentBbtPenm,
+                    "id" to animalId
+                )
+
+                penimbanganDocRef.update(updates)
+                    .addOnSuccessListener {
+                        // Update the animal fragment result
+                        if (isAdded) {
+                            val penimbanganResult = Bundle().apply {
+                                putStringArrayList("inputPenmDate", currentInputPenmDate)
+                                putStringArrayList("bbtPenm", currentBbtPenm)
+                            }
+                            parentFragmentManager.setFragmentResult("penimbanganDataUpdated", penimbanganResult)
+                        }
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(requireContext(), "Failed to update penimbangan data: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+            } else {
+                // Document doesn't exist, create a new one with arrays
+                val newPenimbanganData = hashMapOf(
+                    "inputPenmDate" to arrayListOf(inputPenmDate),
+                    "bbtPenm" to arrayListOf(bbtPenm),
+                    "id" to animalId
+                )
+
+                penimbanganDocRef.set(newPenimbanganData)
+                    .addOnSuccessListener {
+                        if (isAdded) {
+                            val penimbanganResult = Bundle().apply {
+                                putStringArrayList("inputPenmDate", arrayListOf(inputPenmDate))
+                                putStringArrayList("bbtPenm", arrayListOf(bbtPenm))
+                            }
+                            parentFragmentManager.setFragmentResult("penimbanganDataUpdated", penimbanganResult)
+                        }
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(requireContext(), "Failed to create penimbangan data: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+            }
+        }.addOnFailureListener { e ->
+            Toast.makeText(requireContext(), "Failed to get penimbangan data: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         animal = arguments?.getParcelable(ARG_ANIMAL) // Retrieve the full Animal object
@@ -113,8 +174,17 @@ class PenimbanganFragment : Fragment() {
 
     private fun setAnimalData(animal: Animal) {
         binding.txtSelectPenimbanganDate.text = animal.inputPenmDate
-        binding.txtBbtAwal.setText(animal.bbtAwal)
         binding.txtBbtPenimbangan.setText(animal.bbtPenm)
+    }
+
+    private fun setupClearTextView() {
+        binding.txtClearAll.setOnClickListener {
+            clearAllInputs() // Clear all input fields
+        }
+    }
+    private fun clearAllInputs() {
+        binding.txtSelectPenimbanganDate.text = ""
+        binding.txtBbtPenimbangan.text.clear()
     }
 
     companion object {

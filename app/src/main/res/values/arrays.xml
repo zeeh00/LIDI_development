@@ -46,4 +46,13 @@
         <item>Perah</item>
         <item>Dwiguna</item>
     </string-array>
+    <string-array name="anml_phys_stat">
+        <item>Select Type</item>
+        <item>Pejantan</item>
+        <item>Calon Pejantan</item>
+        <item>Induk</item>
+        <item>Dara</item>
+        <item>Lepas Sapih</item>
+        <item>Pra Sapih</item>
+    </string-array>
 </resources>

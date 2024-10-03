@@ -8,6 +8,8 @@ import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -38,12 +40,13 @@ import com.example.n4_app__inventory.fragments.reactions.ReactionFailedFragment
 import com.example.n4_app__inventory.fragments.reactions.ReactionSuccessFragment
 import com.example.n4_app__inventory.fragments.reactions.ReactionSuccessUpdateFragment
 import com.example.n4_app__inventory.spinner.CAMERA_PERMISSION_REQUEST
-
 import com.example.n4_app__inventory.spinner.handleImagePickerResult
 import com.example.n4_app__inventory.spinner.openImagePicker
 import com.example.n4_app__inventory.spinner.setupActionSpinner
 import com.example.n4_app__inventory.spinner.setupAnimalBreedSpinner
+import com.example.n4_app__inventory.spinner.setupAnimalPhysStat
 import com.example.n4_app__inventory.spinner.setupAnimalTypeSpinner
+import com.example.n4_app__inventory.spinner.setupAnmlPhysStatSpinner
 import com.example.n4_app__inventory.spinner.setupAnmlTypeSpinner
 import com.example.n4_app__inventory.spinner.setupDatePicker
 
@@ -61,6 +64,8 @@ import com.google.firebase.storage.StorageReference
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import java.io.ByteArrayOutputStream
+import java.text.NumberFormat
+import java.util.Locale
 
 class FormFragment : Fragment() {
 
@@ -151,6 +156,11 @@ class FormFragment : Fragment() {
 
         }
 
+        val anmlPhysStat = inputFormLayout.findViewById<Spinner>(R.id.spinnerAnmlPhysStat)
+        anmlPhysStat.setupAnimalPhysStat(inputFormLayout) { selectedAnmlPhysStat ->
+
+        }
+
         // Access UI elements in the input form layout
         imageView = inputFormLayout.findViewById(R.id.imageView)
         val imageAnimal = inputFormLayout.findViewById<LinearLayout>(R.id.columnImgAnimal)
@@ -161,7 +171,8 @@ class FormFragment : Fragment() {
         val txtSelectPurchaseDate = inputFormLayout.findViewById<TextView>(R.id.txtSelectPurchaseDate)
         val linearColumnSelectDate = inputFormLayout.findViewById<LinearLayout>(R.id.linearColumnSelectDate)
         val linearColumnSelectPurchaseDate = inputFormLayout.findViewById<LinearLayout>(R.id.linearColumnSelectPurchaseDate)
-        val txtAnmlPrice  = inputFormLayout.findViewById<EditText>(R.id.txtAnmlPriceColumn)
+        val txtAnmlPrice = inputFormLayout.findViewById<EditText>(R.id.txtAnmlPriceColumn)
+        val txtAnmlNumIndukan = inputFormLayout.findViewById<EditText>(R.id.txtAnmlNumIndukanColumn)
         val scrollView = inputFormLayout.findViewById<ScrollView>(R.id.scrollViewForm)
 
         val txtAnmlTypeError = inputFormLayout.findViewById<TextView>(R.id.txtAnmlTypeError)
@@ -172,8 +183,60 @@ class FormFragment : Fragment() {
         val txtAnmlBreedError = inputFormLayout.findViewById<TextView>(R.id.txtAnmlBreedError)
         val txtAnmlRaceError = inputFormLayout.findViewById<TextView>(R.id.txtAnmlRaceError)
         val txtAnmlNumError = inputFormLayout.findViewById<TextView>(R.id.txtAnmlNumError)
+        val txtAnmlPhysStatError = inputFormLayout.findViewById<TextView>(R.id.txtAnmlPhysStatError)
 
         progressBar = inputFormLayout.findViewById(R.id.progressBar)
+
+        txtAnmlPrice.addTextChangedListener(object : TextWatcher {
+            private var isUpdating = false
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(editable: Editable?) {
+                if (isUpdating) return
+
+                val input = editable.toString()
+
+                // Stop further updates temporarily to avoid recursive calls
+                isUpdating = true
+
+                // Remove "Rp." and any non-numeric characters except dot
+                val numericInput = input.replace("[Rp.,]".toRegex(), "").trim()
+
+                if (numericInput.isEmpty()) {
+                    // Set default when field is empty
+                    txtAnmlPrice.setText("")
+                    isUpdating = false
+                    return
+                }
+
+                try {
+                    // Parse the numeric input as a long for formatting
+                    val parsed = numericInput.toLong()
+
+                    // Format the number with dot separator using Indonesian locale
+                    val localeID = Locale("in", "ID")
+                    val formatter = NumberFormat.getNumberInstance(localeID)
+                    val formattedNumber = formatter.format(parsed)
+
+                    // Combine with "Rp." prefix
+                    val formattedInput = "Rp. $formattedNumber"
+
+                    // Update the EditText with formatted text
+                    txtAnmlPrice.setText(formattedInput)
+                    txtAnmlPrice.setSelection(formattedInput.length) // Move cursor to the end
+
+                } catch (e: NumberFormatException) {
+                    // Handle invalid input
+                    txtAnmlPrice.setText(input)  // Leave as-is if input is invalid
+                }
+
+                // Re-enable updates
+                isUpdating = false
+            }
+        })
 
         btnSubmit.setOnClickListener {
 
@@ -187,7 +250,10 @@ class FormFragment : Fragment() {
             val selectedAnmlBreedType = anmlBreedType.selectedItem.toString().trim()
             val inputtedRace = txtRace.text.toString().trim()
             val inputtedAnmlNum = txtAnmlNum.text.toString().trim()
-            val inputtedAnmlPrice = txtAnmlPrice.text.toString().trim()
+            val inpuutedAnmlNumIndukan = txtAnmlNumIndukan.text.toString().trim()
+            val selectedAnmlPhysStat = anmlPhysStat.selectedItem.toString().trim()
+            val inputtedAnmlPrice = txtAnmlPrice.text.toString().replace("Rp.", "").replace(".", "").trim()
+
 
             // Reset errors before new validation cycle
             resetErrorMessages(txtAnmlTypeError, txtAnmlOriginError, txtLocationError, txtAnmlSexError, txtAnmlMarriageError, txtAnmlBreedError, txtAnmlRaceError, txtAnmlNumError)
@@ -232,6 +298,11 @@ class FormFragment : Fragment() {
 
             if (selectedAnmlBreedType.isEmpty() || selectedAnmlBreedType == "Select Type") {
                 txtAnmlBreedError.visibility = View.VISIBLE
+                hasError = true
+            }
+
+            if (selectedAnmlPhysStat.isEmpty() || selectedAnmlPhysStat == "Select Type") {
+                txtAnmlPhysStatError.visibility = View.VISIBLE
                 hasError = true
             }
 
@@ -310,7 +381,8 @@ class FormFragment : Fragment() {
                                                     put("imageUrl", downloadUrl)
                                                     put("qrcodePath", qrCodeDownloadUrl)
                                                     put("anmlPrice", inputtedAnmlPrice)
-
+                                                    put("anmlPhysStat", selectedAnmlPhysStat)
+                                                    put("anmlNumIndukan", inpuutedAnmlNumIndukan)
                                                 }
 
                                                 db.collection("animals")
@@ -339,6 +411,8 @@ class FormFragment : Fragment() {
                                                         txtSelectPurchaseDate.text = null
                                                         anmlMarriageType.setSelection(0)
                                                         txtAnmlPrice.text = null
+                                                        anmlPhysStat.setSelection(0)
+                                                        txtAnmlNumIndukan.text = null
                                                         imageView.setImageDrawable(null)
                                                         imageView.visibility = View.GONE
                                                         scrollView.fullScroll(ScrollView.FOCUS_UP)
@@ -586,6 +660,16 @@ class FormFragment : Fragment() {
                 anmlMarriageSpinner.setupMarriageTypeSpinner(marriageStatus, listOf("Menikah", "Belum Menikah")) { selectedItem ->
                     // Handle the selected sex type, e.g., update Firestore document
                 }
+                anmlMarriageSpinner.isEnabled = true
+
+                val physStatus = data?.get("anmlPhysStat") as? String // Get the animal's physiological status from the data
+                val anmlPhysStatSpinner = updateFormLayout.findViewById<Spinner>(R.id.spinnerAnmlPhysStat)
+
+                anmlPhysStatSpinner.setupAnmlPhysStatSpinner(physStatus, listOf("Pejantan", "Calon Pejantan", "Induk", "Dara", "Lepas Sapih", "Pra Sapih")) { selectedItem ->
+                    // Handle the selected physiological status, e.g., update Firestore document
+                }
+                anmlPhysStatSpinner.isEnabled = true
+
 
                 val birthDate = data?.get("birthDate") as? String
                 val txtSelectDate = updateFormLayout.findViewById<TextView>(R.id.txtSelectDate)
@@ -605,8 +689,55 @@ class FormFragment : Fragment() {
                 txtAnmlNumColumn.isEnabled = false
 
                 val anmlPrice = data?.get("anmlPrice") as? String
-                val txtAnmlPriceColumn = updateFormLayout.findViewById<TextView>(R.id.txtAnmlPriceColumn)
-                txtAnmlPriceColumn.text = anmlPrice
+                val txtAnmlPriceColumn = updateFormLayout.findViewById<EditText>(R.id.txtAnmlPriceColumn)
+
+                anmlPrice?.let {
+                    val price = it.toLongOrNull() ?: 0L
+                    val format = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
+                    format.maximumFractionDigits = 0 // No decimal places
+                    txtAnmlPriceColumn.setText(format.format(price).replace("Rp", "Rp.")) // Add period after Rp
+                }
+
+                // Add TextWatcher for formatting the price dynamically
+                txtAnmlPriceColumn.addTextChangedListener(object : TextWatcher {
+                    private var current = ""
+
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+                    override fun afterTextChanged(s: Editable?) {
+                        if (s.toString() != current) {
+                            txtAnmlPriceColumn.removeTextChangedListener(this)
+
+                            // Remove "Rp." and periods, so we can work with raw numbers
+                            val cleanString = s.toString().replace("Rp.", "").replace(".", "").trim()
+
+                            if (cleanString.isNotEmpty()) {
+                                // Convert the clean string to a number
+                                val parsed = cleanString.toLongOrNull() ?: 0L
+
+                                // Format it with "Rp." and thousand separators
+                                val format = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
+                                format.maximumFractionDigits = 0
+                                val formatted = format.format(parsed).replace("Rp", "Rp.")
+
+                                // Set the formatted text and update the current value
+                                current = formatted
+                                txtAnmlPriceColumn.setText(formatted)
+                                txtAnmlPriceColumn.setSelection(formatted.length) // Move cursor to the end
+                            } else {
+                                current = ""
+                            }
+
+                            txtAnmlPriceColumn.addTextChangedListener(this)
+                        }
+                    }
+                })
+
+                val anmlIndukan = data?.get("anmlNumIndukan") as? String
+                val txtAnmlNumIndukan = updateFormLayout.findViewById<TextView>(R.id.txtAnmlNumIndukanColumn)
+                txtAnmlNumIndukan.text = anmlIndukan
 
                 // Load image into ImageView using Glide
                 val imageView = updateFormLayout.findViewById<ImageView>(R.id.imageView)
@@ -625,7 +756,7 @@ class FormFragment : Fragment() {
                 if (!isEditable) {
                     disableNonEditableUI(anmlSpinner, originSpinner,
                         locSpinner, anmlSexSpinner, linearColumnSelectDate,
-                        linearColumnSelectPurchaseDate, txtRaceColumn, anmlMarriageSpinner, txtAnmlPriceColumn)
+                        linearColumnSelectPurchaseDate, txtRaceColumn, anmlMarriageSpinner, anmlPhysStatSpinner, txtAnmlPriceColumn)
 
                     txtRaceColumn.setTextColor(textColorDisabled)
                     txtSelectPurchaseDate.setTextColor(textColorDisabled)
@@ -736,23 +867,33 @@ class FormFragment : Fragment() {
 
     private fun handleUpdateClick(selectedItem: String, updateFormLayout: View) {
         val selectedAnmlMarriageType = extractSpinnerValue(updateFormLayout.findViewById(R.id.spinnerAnmlMarriageType))
+        val selectedAnmlPhysStat = extractSpinnerValue(updateFormLayout.findViewById(R.id.spinnerAnmlPhysStat))
         val enteredRace = extractEditTextValue(updateFormLayout.findViewById(R.id.txtRaceColumn))
+        val enteredAnmlIndukan = extractEditTextValue(updateFormLayout.findViewById(R.id.txtAnmlNumIndukanColumn))
         val selectedDate = extractEditTextValue(updateFormLayout.findViewById(R.id.txtSelectDate))
         val selectedPurchaseDate = extractEditTextValue(updateFormLayout.findViewById(R.id.txtSelectPurchaseDate))
         val selectedOrigin = extractSpinnerValue(updateFormLayout.findViewById(R.id.spinnerOriginType))
         val selectedLoc = extractSpinnerValue(updateFormLayout.findViewById(R.id.spinnerLoc))
-        val enteredAnmlPrice = extractEditTextValue(updateFormLayout.findViewById(R.id.txtAnmlPriceColumn))
+
+        // Get the formatted price
+        val formattedAnmlPrice = extractEditTextValue(updateFormLayout.findViewById(R.id.txtAnmlPriceColumn))
+
+        // Remove "Rp." and periods from the formatted price to get the raw number
+        val rawAnmlPrice = formattedAnmlPrice.replace("Rp.", "").replace(".", "").trim()
 
         // Create a map of new values
         val newValues = mapOf(
             "marriageStatus" to selectedAnmlMarriageType,
+            "anmlPhysStat" to selectedAnmlPhysStat,
             "race" to enteredRace,
             "birthDate" to selectedDate,
             "purchaseDate" to selectedPurchaseDate,
             "origin" to selectedOrigin,
             "location" to selectedLoc,
-            "anmlPrice" to enteredAnmlPrice,
+            "anmlPrice" to rawAnmlPrice, // Save the raw price here
+            "anmlNumIndukan" to enteredAnmlIndukan
         )
+
         // Update the Firestore document
         updateFirestoreDocument(selectedItem, newValues)
     }
@@ -772,7 +913,6 @@ class FormFragment : Fragment() {
                 Toast.makeText(requireContext(), "Firestore document update failed: ${exception.message}", Toast.LENGTH_SHORT).show()
             }
     }
-
 
     private fun extractSpinnerValue(spinner: Spinner): String {
         return spinner.selectedItem.toString()
