@@ -2,7 +2,6 @@ package com.example.n4_app__inventory.fragments.form.data
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.example.n4_app__inventory.fragments.animals.catatankhusus.Kejadian
 
 data class Animal(
     val anmlType: String = "",
@@ -24,7 +23,7 @@ data class Animal(
     val inputDateKejadian: String = "",
     val kejadianKhusus: String = "",
     val catatanKhusus: String = "",
-    val imageUrlKejadian: String = ""
+    val imageUrlKejadian: String = "",
     val anmlPhysStat: String = "",
     val anmlNum: String = "",
     val anmlNumIndukan: String = "",
