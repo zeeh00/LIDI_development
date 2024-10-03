@@ -689,8 +689,51 @@ class FormFragment : Fragment() {
                 txtAnmlNumColumn.isEnabled = false
 
                 val anmlPrice = data?.get("anmlPrice") as? String
-                val txtAnmlPriceColumn = updateFormLayout.findViewById<TextView>(R.id.txtAnmlPriceColumn)
-                txtAnmlPriceColumn.text = anmlPrice
+                val txtAnmlPriceColumn = updateFormLayout.findViewById<EditText>(R.id.txtAnmlPriceColumn)
+
+                anmlPrice?.let {
+                    val price = it.toLongOrNull() ?: 0L
+                    val format = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
+                    format.maximumFractionDigits = 0 // No decimal places
+                    txtAnmlPriceColumn.setText(format.format(price).replace("Rp", "Rp.")) // Add period after Rp
+                }
+
+                // Add TextWatcher for formatting the price dynamically
+                txtAnmlPriceColumn.addTextChangedListener(object : TextWatcher {
+                    private var current = ""
+
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+                    override fun afterTextChanged(s: Editable?) {
+                        if (s.toString() != current) {
+                            txtAnmlPriceColumn.removeTextChangedListener(this)
+
+                            // Remove "Rp." and periods, so we can work with raw numbers
+                            val cleanString = s.toString().replace("Rp.", "").replace(".", "").trim()
+
+                            if (cleanString.isNotEmpty()) {
+                                // Convert the clean string to a number
+                                val parsed = cleanString.toLongOrNull() ?: 0L
+
+                                // Format it with "Rp." and thousand separators
+                                val format = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
+                                format.maximumFractionDigits = 0
+                                val formatted = format.format(parsed).replace("Rp", "Rp.")
+
+                                // Set the formatted text and update the current value
+                                current = formatted
+                                txtAnmlPriceColumn.setText(formatted)
+                                txtAnmlPriceColumn.setSelection(formatted.length) // Move cursor to the end
+                            } else {
+                                current = ""
+                            }
+
+                            txtAnmlPriceColumn.addTextChangedListener(this)
+                        }
+                    }
+                })
 
                 val anmlIndukan = data?.get("anmlNumIndukan") as? String
                 val txtAnmlNumIndukan = updateFormLayout.findViewById<TextView>(R.id.txtAnmlNumIndukanColumn)
@@ -831,7 +874,12 @@ class FormFragment : Fragment() {
         val selectedPurchaseDate = extractEditTextValue(updateFormLayout.findViewById(R.id.txtSelectPurchaseDate))
         val selectedOrigin = extractSpinnerValue(updateFormLayout.findViewById(R.id.spinnerOriginType))
         val selectedLoc = extractSpinnerValue(updateFormLayout.findViewById(R.id.spinnerLoc))
-        val enteredAnmlPrice = extractEditTextValue(updateFormLayout.findViewById(R.id.txtAnmlPriceColumn))
+
+        // Get the formatted price
+        val formattedAnmlPrice = extractEditTextValue(updateFormLayout.findViewById(R.id.txtAnmlPriceColumn))
+
+        // Remove "Rp." and periods from the formatted price to get the raw number
+        val rawAnmlPrice = formattedAnmlPrice.replace("Rp.", "").replace(".", "").trim()
 
         // Create a map of new values
         val newValues = mapOf(
@@ -842,9 +890,10 @@ class FormFragment : Fragment() {
             "purchaseDate" to selectedPurchaseDate,
             "origin" to selectedOrigin,
             "location" to selectedLoc,
-            "anmlPrice" to enteredAnmlPrice,
+            "anmlPrice" to rawAnmlPrice, // Save the raw price here
             "anmlNumIndukan" to enteredAnmlIndukan
         )
+
         // Update the Firestore document
         updateFirestoreDocument(selectedItem, newValues)
     }

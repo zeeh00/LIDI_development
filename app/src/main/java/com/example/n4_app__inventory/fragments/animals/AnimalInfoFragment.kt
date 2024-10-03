@@ -26,6 +26,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.firebase.firestore.FirebaseFirestore
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -98,7 +99,10 @@ class AnimalInfoFragment : Fragment() {
             binding.txtBobotKg.text = "${it.konsumsiPakan}"
             binding.txtTanggalInputDatePnmbgn.text = "${it.inputPenmDate}"
             binding.txtBobotPenimbanganKg.text = "${it.bbtPenm}"
-            binding.txtAnmlPrice.text = "Harga Beli: Rp. ${it.anmlPrice}"
+
+            // Format the price with periods (thousands separator)
+            val formattedPrice = formatPrice(it.anmlPrice)
+            binding.txtAnmlPrice.text = "Harga Beli: Rp. $formattedPrice"
 
             // Load image using Glide
             Glide.with(requireContext())
@@ -107,6 +111,7 @@ class AnimalInfoFragment : Fragment() {
                 .into(binding.imgAnimal)
 
             fetchAndDisplayPakanData()  // Ensure chart data is set on initial load
+            fetchAndDisplayPenimbanganData()
         } ?: run {
             // Handle the case where the animal data is null
             Toast.makeText(requireContext(), "Animal data is not available", Toast.LENGTH_SHORT).show()
@@ -115,6 +120,17 @@ class AnimalInfoFragment : Fragment() {
         handleClickEditPakan()
         handleClickEditPenimbangan()
         handleClickEditCatKhusus()
+    }
+
+    private fun formatPrice(price: String): String {
+        return try {
+            // Parse the price as a Long and format with thousands separator
+            val priceLong = price.toLong()
+            val numberFormat = NumberFormat.getNumberInstance(Locale.US)
+            numberFormat.format(priceLong)
+        } catch (e: NumberFormatException) {
+            price // Return original price if parsing fails
+        }
     }
 
     private fun handleClickEditPakan() {
