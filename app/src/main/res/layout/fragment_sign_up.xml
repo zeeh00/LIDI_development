@@ -282,7 +282,7 @@
                         android:gravity="center_horizontal"
                         android:id="@+id/txt_alr_have_acc"
                         android:layout_height="@dimen/_30pxv"
-                        android:layout_marginEnd="@dimen/_50pxh"
+                        android:layout_marginEnd="@dimen/_30pxh"
                         android:layout_marginStart="@dimen/_50pxh"
                         android:layout_marginTop="@dimen/_30pxv"
                         android:layout_width="wrap_content"

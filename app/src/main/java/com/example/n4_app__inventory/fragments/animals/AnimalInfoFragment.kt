@@ -13,6 +13,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.n4_app__inventory.R
 import com.example.n4_app__inventory.databinding.FragmentAnimalInfoBinding
 import com.example.n4_app__inventory.fragments.animals.catatankhusus.CatatanKhususFragment
+import com.example.n4_app__inventory.fragments.animals.harga.HargaFragment
 import com.example.n4_app__inventory.fragments.animals.pakan.PakanFragment
 import com.example.n4_app__inventory.fragments.animals.penimbangan.PenimbanganFragment
 import com.example.n4_app__inventory.fragments.form.data.Animal
@@ -26,6 +27,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -91,10 +93,12 @@ class AnimalInfoFragment : Fragment() {
             binding.txtRace.text = "Ras: ${it.race}"
             binding.txtAge.text = "Umur: ${calculateAge(it.birthDate)}"
             binding.txtAnmlSexType.text = "Jenis Kelamin: ${it.sex}"
+            binding.txtAnmlPejantan.text = "Nomor Pejantan: ${it.anmlNumPejantan}"
             binding.txtAnmlIndukan.text = "Nomor Indukkan: ${it.anmlNumIndukan}"
             binding.txtAnmlLoc.text = "Lokasi: ${it.location}"
+            binding.txtAnmlBirthDate.text = "Tanggal Lahir: ${it.birthDate}"
             binding.txtPurchaseDate.text = "Tanggal Pembelian: ${it.purchaseDate}"
-            binding.txtAnmlMarriageStat.text = "Status Pernikahan: ${it.marriageStatus}"
+            binding.txtAnmlMarriageStat.text = "Status Kawin: ${it.marriageStatus}"
             binding.txtTanggalInputDate.text = "${it.inputDate}"
             binding.txtBobotKg.text = "${it.konsumsiPakan}"
             binding.txtTanggalInputDatePnmbgn.text = "${it.inputPenmDate}"
@@ -120,6 +124,9 @@ class AnimalInfoFragment : Fragment() {
         handleClickEditPakan()
         handleClickEditPenimbangan()
         handleClickEditCatKhusus()
+        handleClickEditHargaJual()
+        fetchLatestCatatanKhusus()
+        fetchAndDisplayHargaJualData()
     }
 
     private fun formatPrice(price: String): String {
@@ -160,6 +167,14 @@ class AnimalInfoFragment : Fragment() {
         binding.imageEditCatKhusus.setOnClickListener {
             animal?.let {
                 replaceFragment(CatatanKhususFragment.newInstance(it))
+            }
+        }
+    }
+
+    private fun handleClickEditHargaJual() {
+        binding.imageEditHargaJual.setOnClickListener {
+            animal?.let {
+                replaceFragment(HargaFragment.newInstance(it))
             }
         }
     }
@@ -294,6 +309,96 @@ class AnimalInfoFragment : Fragment() {
                     )
                 }
             }
+    }
+
+    private fun fetchLatestCatatanKhusus() {
+        val firestore = FirebaseFirestore.getInstance()
+        val animalId = animal?.id ?: return // Get the current animal ID
+
+        firestore.collection("kejadian") // Your Firestore collection
+            .whereEqualTo("animalId", animalId) // Filter by the current animal ID
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                if (!querySnapshot.isEmpty) {
+                    val document = querySnapshot.documents.first() // Get the first document
+
+                    // Check if the kejadianEntries array is not empty
+                    val kejadianEntries = document.get("kejadianEntries") as? List<Map<String, Any>>
+                    if (!kejadianEntries.isNullOrEmpty()) {
+                        // Get the most recent entry (you may want to sort if you have timestamps in the entries)
+                        val latestEntry = kejadianEntries.last() // Assuming the last entry is the most recent
+
+                        // Extract fields from the latest entry
+                        val kejadianKhusus = latestEntry["kejadianKhusus"] as? String ?: "No data"
+                        val tanggalInput = latestEntry["tanggal"] as? String ?: "No date"
+                        val catatanKhusus = latestEntry["catatanKhusus"] as? String ?: "No notes"
+                        val imageUrl = latestEntry["imageUrlKejadian"] as? String // Ensure this is the correct field name
+
+                        // Update the UI
+                        binding.txtKejadianKhususJudul.text = kejadianKhusus
+                        binding.txtTanggalInputDateKejadian.text = tanggalInput
+                        binding.txtCatatanKejadian.text = catatanKhusus
+
+                        // Load the image using Glide or Picasso
+                        if (!imageUrl.isNullOrEmpty()) {
+                            Glide.with(requireContext())
+                                .load(imageUrl)
+                                .into(binding.imgKejadianAnimal)
+                        } else {
+                            binding.imgKejadianAnimal.setImageResource(R.drawable.ic_image_placeholder) // Placeholder image
+                        }
+                    } else {
+                        // Handle case where no entries are found
+                        binding.txtKejadianKhususJudul.text = "No special event available."
+                        binding.txtTanggalInputDateKejadian.text = ""
+                        binding.txtCatatanKejadian.text = ""
+                        binding.imgKejadianAnimal.setImageResource(R.drawable.ic_image_placeholder) // Placeholder image
+                    }
+                } else {
+                    // Handle case where no documents are found
+                    binding.txtKejadianKhususJudul.text = "No special event available."
+                    binding.txtTanggalInputDateKejadian.text = ""
+                    binding.txtCatatanKejadian.text = ""
+                    binding.imgKejadianAnimal.setImageResource(R.drawable.ic_image_placeholder) // Placeholder image
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e("AnimalInfoFragment", "Error fetching catatan khusus", e)
+                Toast.makeText(requireContext(), "Failed to fetch notes.", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun fetchAndDisplayHargaJualData() {
+        val firestore = FirebaseFirestore.getInstance()
+        val animalId = animal?.id ?: return // Get the current animal ID
+
+        firestore.collection("harga") // Your Firestore collection for harga
+            .document(animalId) // Document based on animalId
+            .addSnapshotListener { documentSnapshot, e ->
+                if (e != null) return@addSnapshotListener
+
+                if (documentSnapshot != null && documentSnapshot.exists()) {
+                    // Fetch hargaJual
+                    val hargaJual = documentSnapshot.getString("hargaJual") ?: "0"
+
+                    // Format and update the UI
+                    binding.txtTanggalInputHargaJual.text = formatToCurrency(hargaJual)
+                } else {
+                    // Handle case where no document is found
+                    binding.txtTanggalInputHargaJual.text = "No harga available"
+                }
+            }
+    }
+
+    private fun formatToCurrency(value: String?): String {
+        return if (!value.isNullOrEmpty()) {
+            val amount = value.toDoubleOrNull()
+            amount?.let {
+                NumberFormat.getCurrencyInstance(Locale("id", "ID")).format(it)
+            } ?: "Rp. 0"
+        } else {
+            "Rp. 0"
+        }
     }
 
 

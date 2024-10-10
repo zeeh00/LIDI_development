@@ -62,13 +62,13 @@
 
             </LinearLayout>
 
-            <ImageView android:id="@+id/imageEllipseThirtyTwo"
-                android:layout_height="@dimen/_63pxh"
-                android:layout_marginStart="@dimen/_19pxh"
-                android:layout_width="@dimen/_59pxh"
+            <ImageView
+                android:id="@+id/imgProfile"
+                android:layout_width="@dimen/_70pxh"
+                android:layout_height="@dimen/_70pxh"
                 android:scaleType="fitXY"
-                android:src="@drawable/profile_placeholder"
-                tools:ignore="ContentDescription"/>
+                android:src="@drawable/logo_program_pengembangan"
+                tools:ignore="ContentDescription" />
 
         </LinearLayout>
 

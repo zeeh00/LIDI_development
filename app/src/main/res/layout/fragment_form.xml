@@ -42,14 +42,14 @@
                     android:text="@string/msg_input_edit_and"
                     style="@style/txtSFProDisplayregular14"/>
             </LinearLayout>
-            <ImageView android:id="@+id/imgProfile"
-                android:layout_height="@dimen/_63pxh"
-                android:layout_marginStart="@dimen/_10pxh"
-                android:layout_marginEnd="@dimen/_10pxh"
-                android:layout_width="@dimen/_59pxh"
+            <ImageView
+                android:id="@+id/imgProfile"
+                android:layout_width="@dimen/_70pxh"
+                android:layout_height="@dimen/_70pxh"
+                android:layout_marginStart="@dimen/_19pxh"
                 android:scaleType="fitXY"
-                android:src="@drawable/profile_placeholder"
-                tools:ignore="ContentDescription"/>
+                android:src="@drawable/logo_program_pengembangan"
+                tools:ignore="ContentDescription" />
         </LinearLayout>
         <TextView android:ellipsize="end"
             android:id="@+id/txtAction"

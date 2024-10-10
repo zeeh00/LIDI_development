@@ -74,12 +74,12 @@
 
                     <ImageView
                         android:id="@+id/imgProfile"
-                        android:layout_width="@dimen/_59pxh"
-                        android:layout_height="@dimen/_63pxh"
+                        android:layout_width="@dimen/_70pxh"
+                        android:layout_height="@dimen/_70pxh"
                         android:layout_marginTop="@dimen/_10pxh"
                         android:layout_marginBottom="@dimen/_5pxv"
                         android:scaleType="fitXY"
-                        android:src="@drawable/profile_placeholder"
+                        android:src="@drawable/logo_program_pengembangan"
                         tools:ignore="ContentDescription" />
                 </LinearLayout>
 
@@ -159,7 +159,7 @@
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btnGettingStartedOne"
                             style="@style/btnSolidRounded"
-                            android:layout_width="@dimen/_143pxh"
+                            android:layout_width="@dimen/_145pxh"
                             android:layout_height="@dimen/_46pxv"
                             android:layout_gravity="end"
                             android:layout_marginStart="@dimen/_10pxh"
@@ -172,7 +172,7 @@
                             android:paddingEnd="@dimen/_16pxh"
                             android:paddingBottom="@dimen/_8pxv"
                             android:singleLine="true"
-                            android:text="CHECK"
+                            android:text="CEK KANDANG"
                             android:textAllCaps="false"/>
                     </LinearLayout>
                 </LinearLayout>

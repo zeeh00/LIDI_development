@@ -58,18 +58,6 @@
                         android:text="Input Harga Jual Ternak"
                         style="@style/txtSFProDisplayregular14"/>
                 </LinearLayout>
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="@dimen/_31pxh">
-                    <ImageView
-                        android:id="@+id/imgProfile"
-                        android:layout_width="@dimen/_59pxh"
-                        android:layout_height="@dimen/_63pxh"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/profile_placeholder"
-                        tools:ignore="ContentDescription" />
-                </androidx.cardview.widget.CardView>
             </LinearLayout>
 
 
@@ -83,22 +71,34 @@
                 android:text="Harga Jual"
                 style="@style/txtInterregular14"/>
             <EditText
+                android:id="@+id/txtHargaJual"
+                style="@style/etSolidRoundedOutlineBlack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_7pxv"
+                android:layout_marginEnd="@dimen/_2pxh"
                 android:background="@drawable/rectangle_bg_bluegray_50_border_gray_700_19_radius_4"
                 android:ellipsize="end"
-                android:hint="@string/lbl_type_here"
-                android:id="@+id/etFieldOne" android:inputType="number"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_2pxh"
-                android:layout_marginTop="@dimen/_6pxv"
-                android:layout_width="match_parent"
-                android:paddingBottom="@dimen/_14pxv"
+                android:hint="Harga Jual"
+                android:inputType="number"
+                android:paddingStart="@dimen/_10pxh"
+                android:paddingTop="@dimen/_15pxv"
                 android:paddingEnd="@dimen/_30pxh"
-                android:paddingStart="@dimen/_16pxh"
-                android:paddingTop="@dimen/_16pxv"
+                android:paddingBottom="@dimen/_15pxv"
                 android:singleLine="true"
-                android:text=""
                 android:textColorHint="@color/bluegray_800_7f"
-                style="@style/etSolidRoundedOutline" tools:ignore="Autofill"/>
+                tools:ignore="Autofill" />
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:visibility="gone"
+                android:layout_centerInParent="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/subtitle_btn_data"/>
             <androidx.appcompat.widget.AppCompatButton
                 android:ellipsize="end" android:gravity="center"
                 android:id="@+id/btnSave"

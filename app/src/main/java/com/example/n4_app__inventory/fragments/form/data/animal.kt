@@ -27,9 +27,11 @@ data class Animal(
     val anmlPhysStat: String = "",
     val anmlNum: String = "",
     val anmlNumIndukan: String = "",
+    val anmlNumPejantan: String = "",
 
     ) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
@@ -80,7 +82,7 @@ data class Animal(
         parcel.writeString(anmlPhysStat)
         parcel.writeString(anmlNum)
         parcel.writeString(anmlNumIndukan)
-
+        parcel.writeString(anmlNumPejantan)
     }
 
     override fun describeContents(): Int {

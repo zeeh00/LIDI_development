@@ -149,7 +149,7 @@ Want To Delete???</string>
     <string name="lbl_see_all">See all</string>
     <string name="lbl_login2">LOGIN</string>
     <string name="lbl_search_data">Search Data</string>
-    <string name="lbl_qr">QR</string>
+    <string name="lbl_qr">QR SCANNER</string>
     <string name="msg_you_are_logged1">You are logged in as Admin!</string>
     <string name="msg_you_are_logged2">You are logged in as User!</string>
     <string name="lbl_get_started">GET STARTED</string>
@@ -224,8 +224,8 @@ Check Your Internet Connection.</string>
         <item>UPDATE</item>
         <item>DELETE</item>
     </string-array>
-    <string name="data_result">The Result Will Be Here</string>
-    <string name="subtitle_btn_data">Click Button Above to Jump on Data</string>
+    <string name="data_result">ID</string>
+    <string name="subtitle_btn_data">Data akan otomatis terbuka</string>
     <string name="menu_profile">Profile</string>
     <string name="About">About Application</string>
     <string name="menu_settings">Settings</string>
@@ -243,8 +243,10 @@ Check Your Internet Connection.</string>
     <string name="subtitle_account_settings">Account Settings</string>
     <string name="full_name">Full Name</string>
     <string name="your_username">Your Username</string>
-    <string name="useradmin_mail">useradmin@mail.com</string>
+    <string name="useradmin_mail">User e-mail</string>
     <string name="user_role">Role</string>
     <string name="phone_number">Phone Number</string>
     <string name="lbl_kejadian_khusus">KEJADIAN KHUSUS</string>
+    <string name="harga_jual">HARGA JUAL</string>
+    <string name="information_text">Pengaturan ini sudah terintegrasi secara langsung dengan perangkat anda. Silahkan melakukan pengaturan ini langsung melalui perangkat anda. Terima Kasih.</string>
 </resources>

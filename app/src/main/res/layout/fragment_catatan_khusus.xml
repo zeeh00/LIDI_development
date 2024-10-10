@@ -58,6 +58,13 @@
                         android:text="Tambahkan Kejadian Khusus"
                         style="@style/txtSFProDisplayregular12"/>
                 </LinearLayout>
+                <ImageView
+                    android:id="@+id/imgProfile"
+                    android:layout_width="@dimen/_70pxh"
+                    android:layout_height="@dimen/_70pxh"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/logo_program_pengembangan"
+                    tools:ignore="ContentDescription" />
             </LinearLayout>
             <TextView android:ellipsize="end"
                 android:id="@+id/txtAction"

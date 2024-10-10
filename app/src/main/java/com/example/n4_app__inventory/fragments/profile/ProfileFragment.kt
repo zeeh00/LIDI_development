@@ -57,6 +57,8 @@ class ProfileFragment : Fragment() {
 
                         println("Retrieved Data: fullName=$fullName, phoneNumber=$phoneNumber, role=$role, username=$username")
 
+                        binding.username.setText(username)
+                        binding.userEmail.setText(userEmail)
                         binding.etFullname.setText(fullName)
                         binding.etPhoneNumber.setText(phoneNumber)
                         binding.etRole.setText(role)

@@ -37,8 +37,8 @@
     </string-array>
     <string-array name="anml_marriage_type">
         <item>Select Type</item>
-        <item>Menikah</item>
-        <item>Belum Menikah</item>
+        <item>Kawin</item>
+        <item>Belum Kawin</item>
     </string-array>
     <string-array name="anml_breed_type">
         <item>Select Type</item>

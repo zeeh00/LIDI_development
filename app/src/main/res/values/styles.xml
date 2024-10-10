@@ -530,6 +530,8 @@
         <item name="startIconTint">@color/black</item>
         <item name="boxStrokeWidth">0dp</item>
         <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="android:textSize">@dimen/_12pxh</item>
+        <item name="android:fontFamily">@font/sf_pro_display</item>
     </style>
     <style name="CustomDatePickerStyle" parent="Theme.Material3.DayNight.Dialog">
         <!-- Set your desired colors -->

@@ -76,11 +76,6 @@ class InventoryFragment : Fragment() {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
-        binding.imgProfile.setOnClickListener {
-            val profileFragment = ProfileFragment()
-            replaceFragment(profileFragment)
-        }
-
 
         setupViewPager(viewPager2, listOf(animalSliderInfo))
         setupViewPager(viewPagerFarmLoc, listOf(locationSliderInfo))

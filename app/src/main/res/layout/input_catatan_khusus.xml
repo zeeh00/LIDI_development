@@ -11,8 +11,6 @@
         android:clipToPadding="false"
         android:fillViewport="true"
         android:gravity="center_horizontal"
-        android:layout_marginEnd="@dimen/_10pxh"
-        android:layout_marginStart="@dimen/_10pxh"
         android:layout_weight="1"
         android:descendantFocusability="beforeDescendants">
 
@@ -202,7 +200,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_22pxh"
                 android:layout_marginStart="@dimen/_22pxh"
-                android:layout_marginTop="@dimen/_35pxv"
+                android:layout_marginTop="@dimen/_100pxv"
                 android:layout_marginBottom="@dimen/_10pxv"
                 android:layout_width="match_parent"
                 android:letterSpacing="0.05"

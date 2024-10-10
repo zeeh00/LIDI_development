@@ -88,10 +88,6 @@ class FormFragment : Fragment() {
             handleFormTypeSelection(selectedFormType, frameLayout)
         }
 
-        binding.imgProfile.setOnClickListener {
-            val profileFragment = ProfileFragment()
-            replaceFragment(profileFragment)
-        }
 
         return view
     }
@@ -105,14 +101,6 @@ class FormFragment : Fragment() {
             "Delete" -> configureDeleteForm(frameLayout)
             else -> configureDefaultForm(frameLayout)
         }
-    }
-
-    private fun replaceFragment(fragment: Fragment) {
-        val fragmentManager: FragmentManager = requireActivity().supportFragmentManager
-        val transaction: FragmentTransaction = fragmentManager.beginTransaction()
-        transaction.replace(R.id.fragmentContainer, fragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
     }
 
     private fun configureInputForm(view: View) {
@@ -173,6 +161,7 @@ class FormFragment : Fragment() {
         val linearColumnSelectPurchaseDate = inputFormLayout.findViewById<LinearLayout>(R.id.linearColumnSelectPurchaseDate)
         val txtAnmlPrice = inputFormLayout.findViewById<EditText>(R.id.txtAnmlPriceColumn)
         val txtAnmlNumIndukan = inputFormLayout.findViewById<EditText>(R.id.txtAnmlNumIndukanColumn)
+        val txtAnmlNumPejantan = inputFormLayout.findViewById<EditText>(R.id.txtAnmlNumPejantanColumn)
         val scrollView = inputFormLayout.findViewById<ScrollView>(R.id.scrollViewForm)
 
         val txtAnmlTypeError = inputFormLayout.findViewById<TextView>(R.id.txtAnmlTypeError)
@@ -251,6 +240,7 @@ class FormFragment : Fragment() {
             val inputtedRace = txtRace.text.toString().trim()
             val inputtedAnmlNum = txtAnmlNum.text.toString().trim()
             val inpuutedAnmlNumIndukan = txtAnmlNumIndukan.text.toString().trim()
+            val inpuutedAnmlNumPejantan = txtAnmlNumPejantan.text.toString().trim()
             val selectedAnmlPhysStat = anmlPhysStat.selectedItem.toString().trim()
             val inputtedAnmlPrice = txtAnmlPrice.text.toString().replace("Rp.", "").replace(".", "").trim()
 
@@ -383,6 +373,7 @@ class FormFragment : Fragment() {
                                                     put("anmlPrice", inputtedAnmlPrice)
                                                     put("anmlPhysStat", selectedAnmlPhysStat)
                                                     put("anmlNumIndukan", inpuutedAnmlNumIndukan)
+                                                    put("anmlNumPejantan", inpuutedAnmlNumPejantan)
                                                 }
 
                                                 db.collection("animals")
@@ -413,6 +404,7 @@ class FormFragment : Fragment() {
                                                         txtAnmlPrice.text = null
                                                         anmlPhysStat.setSelection(0)
                                                         txtAnmlNumIndukan.text = null
+                                                        txtAnmlNumPejantan.text = null
                                                         imageView.setImageDrawable(null)
                                                         imageView.visibility = View.GONE
                                                         scrollView.fullScroll(ScrollView.FOCUS_UP)
@@ -657,7 +649,7 @@ class FormFragment : Fragment() {
                 // Example: Fetch marriageType from Firestore
                 val marriageStatus = data?.get("marriageStatus") as? String
                 val anmlMarriageSpinner = updateFormLayout.findViewById<Spinner>(R.id.spinnerAnmlMarriageType)
-                anmlMarriageSpinner.setupMarriageTypeSpinner(marriageStatus, listOf("Menikah", "Belum Menikah")) { selectedItem ->
+                anmlMarriageSpinner.setupMarriageTypeSpinner(marriageStatus, listOf("Kawin", "Belum Kawin")) { selectedItem ->
                     // Handle the selected sex type, e.g., update Firestore document
                 }
                 anmlMarriageSpinner.isEnabled = true
@@ -738,6 +730,10 @@ class FormFragment : Fragment() {
                 val anmlIndukan = data?.get("anmlNumIndukan") as? String
                 val txtAnmlNumIndukan = updateFormLayout.findViewById<TextView>(R.id.txtAnmlNumIndukanColumn)
                 txtAnmlNumIndukan.text = anmlIndukan
+
+                val anmlPejantan = data?.get("anmlNumPejantan") as? String
+                val txtAnmlNumPejantan = updateFormLayout.findViewById<TextView>(R.id.txtAnmlNumPejantanColumn)
+                txtAnmlNumPejantan.text = anmlPejantan
 
                 // Load image into ImageView using Glide
                 val imageView = updateFormLayout.findViewById<ImageView>(R.id.imageView)

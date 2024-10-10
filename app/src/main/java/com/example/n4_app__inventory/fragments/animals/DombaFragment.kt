@@ -45,11 +45,6 @@ class DombaFragment : Fragment(), AnimalAdapter.OnItemClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
-        binding.imgProfile.setOnClickListener {
-            val profileFragment = ProfileFragment()
-            replaceFragment(profileFragment)
-        }
-
         progressBar = view.findViewById(R.id.progressBar)
         progressBar.visibility = View.VISIBLE
 

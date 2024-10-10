@@ -14,7 +14,7 @@
         <LinearLayout android:id="@+id/linearStatusActive"
             android:layout_gravity="top|center"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/_100pxv"
+            android:layout_marginBottom="@dimen/_80pxv"
             android:layout_marginEnd="@dimen/_30pxh"
             android:layout_marginStart="@dimen/_30pxh"
             android:layout_width="match_parent"
@@ -22,12 +22,13 @@
             <LinearLayout android:id="@+id/linearRowarrowleft"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:baselineAligned="false">
                 <LinearLayout android:gravity="start"
                     android:id="@+id/linearColumnformOne"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_4pxv"
-                    android:layout_marginStart="@dimen/_10pxh"
+                    android:layout_marginStart="@dimen/_2pxh"
                     android:layout_marginTop="@dimen/_8pxv"
                     android:layout_weight="0.66"
                     android:layout_width="0dp"
@@ -39,25 +40,26 @@
                         android:layout_width="wrap_content"
                         android:singleLine="true"
                         android:text="@string/lbl_qr"
-                        style="@style/txtSFProDisplaybold24"/>
+                        style="@style/txtSFProDisplaybold28"/>
                     <TextView android:ellipsize="end"
                         android:id="@+id/txtInputUpdatea"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_6pxv"
+                        android:layout_marginTop="@dimen/_8pxv"
                         android:layout_width="match_parent"
                         android:letterSpacing="0.03"
                         android:singleLine="true"
                         android:text="@string/msg_scan_the_qr_cod"
                         style="@style/txtSFProDisplayregular12"/>
                 </LinearLayout>
-                <ImageView android:id="@+id/imgProfile"
-                    android:layout_height="@dimen/_63pxh"
-                    android:layout_marginStart="@dimen/_10pxh"
-                    android:layout_marginEnd="@dimen/_10pxh"
-                    android:layout_width="@dimen/_59pxh"
+                <ImageView
+                    android:id="@+id/imgProfile"
+                    android:layout_width="@dimen/_70pxh"
+                    android:layout_height="@dimen/_70pxh"
+                    android:layout_marginStart="@dimen/_19pxh"
                     android:scaleType="fitXY"
-                    android:src="@drawable/profile_placeholder"
-                    tools:ignore="ContentDescription"/>
+                    android:src="@drawable/logo_program_pengembangan"
+                    tools:ignore="ContentDescription" />
+
             </LinearLayout>
             <!--            Edit QR here-->
             <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -104,6 +106,18 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_result"/>
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:visibility="gone"
+                    android:layout_centerInParent="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/subtitle_btn_data"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
