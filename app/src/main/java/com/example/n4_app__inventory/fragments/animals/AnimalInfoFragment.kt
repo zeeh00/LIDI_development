@@ -291,6 +291,19 @@ class AnimalInfoFragment : Fragment() {
 
                         // Update the UI to display the first bbtPenimbangan as bbtAwal
                         binding.txtBobotAwalKg.text = bbtAwal
+
+                        // Calculate pertambahanBobot and FCR
+                        val bbtPenm = bbtPenimbanganList.last().toFloatOrNull() ?: 0f
+                        val konsumsiPakan = animal?.konsumsiPakan?.toFloatOrNull() ?: 0f
+
+                        val pertambahanBobot = bbtPenm - bbtAwal.toFloat()
+                        val fcr = if (pertambahanBobot != 0f) konsumsiPakan / pertambahanBobot else 0f
+
+                        // Update the UI with pertambahanBobot and FCR
+                        binding.txtBobotPertambahanKg.text = "$pertambahanBobot"
+                        binding.txtFcrKg.text = "$fcr"
+
+                        Log.d("PenimbanganData", "Pertambahan Bobot: $pertambahanBobot, FCR: $fcr")
                     }
 
                     // Create entries for bbtPenimbangan chart
@@ -310,6 +323,7 @@ class AnimalInfoFragment : Fragment() {
                 }
             }
     }
+
 
     private fun fetchLatestCatatanKhusus() {
         val firestore = FirebaseFirestore.getInstance()
@@ -400,8 +414,6 @@ class AnimalInfoFragment : Fragment() {
             "Rp. 0"
         }
     }
-
-
 
     companion object {
         private const val ARG_ANIMAL = "arg_animal"

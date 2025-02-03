@@ -214,6 +214,7 @@
                     android:id="@+id/viewDivider"
                     android:layout_height="@dimen/_10pxv"
                     android:layout_marginTop="@dimen/_16pxv" android:layout_width="@dimen/_430pxh"/>
+
                 <LinearLayout android:id="@+id/linearRowpakan"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_30pxh"
@@ -244,6 +245,7 @@
                             tools:ignore="ContentDescription"/>
                     </LinearLayout>
                 </LinearLayout>
+
                 <LinearLayout android:gravity="start"
                     android:id="@+id/linearRowtanggalinputk"
                     android:layout_height="wrap_content"
@@ -272,6 +274,7 @@
                         android:letterSpacing="0.03"
                         android:text="" />
                 </LinearLayout>
+
                 <LinearLayout android:gravity="start"
                     android:id="@+id/linearRowKonsPakan"
                     android:layout_height="wrap_content"
@@ -292,6 +295,30 @@
                         android:layout_width="wrap_content"
                         android:letterSpacing="0.03"
                         android:hint="kg"
+                        android:text=""
+                        style="@style/txtSFProDisplaymedium14"/>
+                </LinearLayout>
+
+                <LinearLayout android:gravity="start"
+                    android:id="@+id/linearRowFcr"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_30pxh"
+                    android:layout_marginStart="@dimen/_30pxh"
+                    android:layout_width="wrap_content" android:orientation="horizontal">
+                    <TextView android:id="@+id/txtFcr"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_7pxv"
+                        android:layout_weight="0.73"
+                        android:layout_width="wrap_content"
+                        android:text="FCR: "
+                        style="@style/txtSFProDisplaymedium14"/>
+                    <TextView android:id="@+id/txtFcrKg"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10pxh"
+                        android:layout_weight="0.27"
+                        android:layout_width="wrap_content"
+                        android:letterSpacing="0.03"
+                        android:hint="fcr"
                         android:text=""
                         style="@style/txtSFProDisplaymedium14"/>
                 </LinearLayout>
@@ -414,6 +441,32 @@
                         style="@style/txtSFProDisplaymedium14"/>
 
                     <TextView android:id="@+id/txtBobotPenimbanganKg"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10pxh"
+                        android:layout_weight="0.27"
+                        android:layout_width="wrap_content"
+                        android:letterSpacing="0.03"
+                        android:hint="kg"
+                        android:text=""
+                        style="@style/txtSFProDisplaymedium14"/>
+                </LinearLayout>
+
+                <LinearLayout android:gravity="start"
+                    android:id="@+id/linearRowBobotPertambahanBb"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_30pxh"
+                    android:layout_marginStart="@dimen/_30pxh"
+                    android:layout_width="wrap_content" android:orientation="horizontal">
+
+                    <TextView android:id="@+id/txtBobotPertambahanBb"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_7pxv"
+                        android:layout_weight="0.73"
+                        android:layout_width="wrap_content"
+                        android:text="Bobot Pertambahan (kg): "
+                        style="@style/txtSFProDisplaymedium14"/>
+
+                    <TextView android:id="@+id/txtBobotPertambahanKg"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10pxh"
                         android:layout_weight="0.27"
