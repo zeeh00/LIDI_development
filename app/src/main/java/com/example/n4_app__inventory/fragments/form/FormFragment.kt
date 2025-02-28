@@ -504,81 +504,119 @@ class FormFragment : Fragment() {
     }
 
     private fun configureDeleteForm(view: View) {
-
         val frameLayout = view.findViewById<FrameLayout>(R.id.containerFragment)
-
         val deleteFormLayout = layoutInflater.inflate(R.layout.delete_form_layout, frameLayout, false)
-
         val autoCompleteTextView = deleteFormLayout.findViewById<AutoCompleteTextView>(R.id.actvFieldOne)
 
-        val db = FirebaseFirestore.getInstance()
-        val animalsCollectionRef = db.collection("animals")
-
-        animalsCollectionRef.get().addOnSuccessListener { querySnapshot ->
-            val animalIds = mutableListOf<String>()
-
-            for (document in querySnapshot) {
-                val animalId = document.getString("id")
-                animalId?.let {
-                    animalIds.add(it)
-                }
-            }
-
-            val adapter = ArrayAdapter(autoCompleteTextView.context, R.layout.custom_spinner, animalIds)
-            autoCompleteTextView.setAdapter(adapter)
-
-            autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
-                val selectedItem = adapter.getItem(position)?.toString()
-
-                if (!selectedItem.isNullOrEmpty()) {
-                    // Pass isEditable=false to indicate delete form
-                    inflateNewLayout(view, selectedItem, isEditable = false)
-                    hideKeyboard(autoCompleteTextView)
-                }
-            }
-
-        }.addOnFailureListener { exception ->
-            Log.e("Firestore", "Error getting documents: ", exception)
+        setupAutoComplete(autoCompleteTextView) { selectedItem ->
+            inflateNewLayout(view, selectedItem, isEditable = false)
+            hideKeyboard(autoCompleteTextView)
         }
+
         frameLayout.addView(deleteFormLayout)
     }
+
+
 
     private fun configureUpdateForm(view: View, isEditable: Boolean) {
         val frameLayout = view.findViewById<FrameLayout>(R.id.containerFragment)
         val updateFormLayout = layoutInflater.inflate(R.layout.update_form_layout, frameLayout, false)
-
         val autoCompleteTextView = updateFormLayout.findViewById<AutoCompleteTextView>(R.id.actvFieldOne)
 
+        setupAutoComplete(autoCompleteTextView) { selectedItem ->
+            inflateNewLayout(view, selectedItem, isEditable)
+            hideKeyboard(autoCompleteTextView)
+        }
+
+        frameLayout.addView(updateFormLayout)
+    }
+
+
+    private fun setupAutoComplete(autoCompleteTextView: AutoCompleteTextView, onItemSelected: (String) -> Unit) {
         val db = FirebaseFirestore.getInstance()
         val animalsCollectionRef = db.collection("animals")
 
+        val allAnimalIds = mutableListOf<String>()
+
         animalsCollectionRef.get().addOnSuccessListener { querySnapshot ->
-            val animalIds = mutableListOf<String>()
-
             for (document in querySnapshot) {
-                val animalId = document.getString("id")
-                animalId?.let {
-                    animalIds.add(it)
-                }
+                document.getString("id")?.let { allAnimalIds.add(it) }
             }
 
-            val adapter = ArrayAdapter(autoCompleteTextView.context, R.layout.custom_spinner, animalIds)
+            // Set initial adapter (shows all IDs before searching)
+            val adapter = ArrayAdapter(autoCompleteTextView.context, R.layout.custom_spinner, allAnimalIds)
             autoCompleteTextView.setAdapter(adapter)
-
-            autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
-                val selectedItem = adapter.getItem(position)?.toString()
-
-                if (!selectedItem.isNullOrEmpty()) {
-                    inflateNewLayout(view, selectedItem, isEditable)
-                    hideKeyboard(autoCompleteTextView)
-                }
-            }
-
         }.addOnFailureListener { exception ->
             Log.e("Firestore", "Error getting documents: ", exception)
         }
-        frameLayout.addView(updateFormLayout)
+
+        // Live search across multiple fields
+        autoCompleteTextView.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val searchText = s.toString().trim()
+                if (searchText.isEmpty()) {
+                    val adapter = ArrayAdapter(autoCompleteTextView.context, R.layout.custom_spinner, allAnimalIds)
+                    autoCompleteTextView.setAdapter(adapter)
+                    return
+                }
+
+                val matchingIds = mutableSetOf<String>()
+
+                // Search in anmlNum
+                animalsCollectionRef
+                    .orderBy("anmlNum")
+                    .startAt(searchText)
+                    .endAt(searchText + "\uf8ff")
+                    .get()
+                    .addOnSuccessListener { querySnapshot ->
+                        for (document in querySnapshot) {
+                            document.getString("id")?.let { matchingIds.add(it) }
+                        }
+
+                        // Search in anmlType
+                        animalsCollectionRef
+                            .orderBy("anmlType")
+                            .startAt(searchText)
+                            .endAt(searchText + "\uf8ff")
+                            .get()
+                            .addOnSuccessListener { querySnapshot ->
+                                for (document in querySnapshot) {
+                                    document.getString("id")?.let { matchingIds.add(it) }
+                                }
+
+                                // Search in location
+                                animalsCollectionRef
+                                    .orderBy("location")
+                                    .startAt(searchText)
+                                    .endAt(searchText + "\uf8ff")
+                                    .get()
+                                    .addOnSuccessListener { querySnapshot ->
+                                        for (document in querySnapshot) {
+                                            document.getString("id")?.let { matchingIds.add(it) }
+                                        }
+
+                                        // Update AutoCompleteTextView with final results
+                                        val adapter = ArrayAdapter(autoCompleteTextView.context, R.layout.custom_spinner, matchingIds.toList())
+                                        autoCompleteTextView.setAdapter(adapter)
+                                        adapter.notifyDataSetChanged()
+                                    }
+                            }
+                    }
+            }
+        })
+
+        autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
+            val selectedItem = autoCompleteTextView.adapter.getItem(position).toString()
+            if (selectedItem.isNotEmpty()) {
+                onItemSelected(selectedItem)
+            }
+        }
     }
+
 
     private fun hideKeyboard(view: View) {
         val inputMethodManager =
