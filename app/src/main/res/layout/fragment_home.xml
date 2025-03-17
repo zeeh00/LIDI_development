@@ -36,6 +36,7 @@
                     android:id="@+id/linearRowwelcomebacka"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20pxv"
                     android:layout_marginStart="@dimen/_2pxh"
                     android:orientation="horizontal">
 
@@ -83,30 +84,12 @@
                         tools:ignore="ContentDescription" />
                 </LinearLayout>
 
-                <androidx.appcompat.widget.SearchView
-                    android:id="@+id/searchViewGroupFiftyOne"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_35pxv"
-                    android:background="@drawable/rectangle_bg_gray_300_radius_18"
-                    android:theme="@style/searchViewGroupFiftyOne"
-                    app:iconifiedByDefault="false"
-                    app:queryBackground="@android:color/transparent"
-                    app:queryHint="@string/lbl_search"
-                    app:searchIcon="@drawable/search_icon">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:drawableEnd="@drawable/img_filter" />
-                </androidx.appcompat.widget.SearchView>
-
                 <LinearLayout
                     android:id="@+id/linearRowvector"
                     style="@style/groupStylegreen_700cornerRadius"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_53pxv"
+                    android:layout_marginTop="@dimen/_83pxv"
                     android:gravity="end"
                     android:orientation="horizontal">
 

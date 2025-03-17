@@ -1,5 +1,6 @@
 package com.example.n4_app__inventory.fragments.animals
 
+import AnimalAdapter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,14 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ProgressBar
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.n4_app__inventory.R
 import com.example.n4_app__inventory.databinding.FragmentKambingBinding
 import com.example.n4_app__inventory.fragments.form.data.Animal
-import com.example.n4_app__inventory.fragments.profile.ProfileFragment
 import com.google.firebase.firestore.FirebaseFirestore
 
 class KambingFragment : Fragment(), AnimalAdapter.OnItemClickListener {
@@ -22,48 +21,43 @@ class KambingFragment : Fragment(), AnimalAdapter.OnItemClickListener {
     private lateinit var animalAdapter: AnimalAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
+    private lateinit var searchView: SearchView
     private val firestore = FirebaseFirestore.getInstance()
     private lateinit var binding: FragmentKambingBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentKambingBinding.inflate(inflater, container, false)
         val view = binding.root
 
         recyclerView = view.findViewById(R.id.recyclerListpathtwo)
-        val layoutManager = LinearLayoutManager(activity)
-        recyclerView.layoutManager = layoutManager
+        searchView = view.findViewById(R.id.searchViewGroupFiftyOne)
+        progressBar = view.findViewById(R.id.progressBar)
 
+        // Set up RecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(activity)
         animalAdapter = AnimalAdapter(this)
         recyclerView.adapter = animalAdapter
 
+        // Set up back button
         val arrowLeftButton: ImageButton = view.findViewById(R.id.btnArrowleft)
         arrowLeftButton.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
-        progressBar = view.findViewById(R.id.progressBar)
         progressBar.visibility = View.VISIBLE
-
         fetchDataFromFirestore()
 
-        return view
-    }
+        setupSearchView() // Initialize search functionality
 
-    private fun replaceFragment(fragment: Fragment) {
-        val fragmentManager: FragmentManager = requireActivity().supportFragmentManager
-        val transaction: FragmentTransaction = fragmentManager.beginTransaction()
-        transaction.replace(R.id.fragmentContainer, fragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
+        return view
     }
 
     private fun fetchDataFromFirestore() {
         val collectionReference = firestore.collection("animals")
 
-        // Example: Query all documents where anmlType is "Domba"
         collectionReference.whereEqualTo("anmlType", "Kambing")
             .get()
             .addOnSuccessListener { documents ->
@@ -75,23 +69,35 @@ class KambingFragment : Fragment(), AnimalAdapter.OnItemClickListener {
                 }
 
                 animalAdapter.setData(animals)
-
                 progressBar.visibility = View.GONE
             }
-            .addOnFailureListener { exception ->
-                // Handle failures
+            .addOnFailureListener {
+                progressBar.visibility = View.GONE
             }
+    }
+
+    private fun setupSearchView() {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                animalAdapter.filter.filter(newText) // Apply live filtering
+                return true
+            }
+        })
     }
 
     override fun onLinearColumnClick(animal: Animal) {
-        replacetoAnimalInfoFragment(animal)
+        replaceToAnimalInfoFragment(animal)
     }
 
     override fun onImageAnimalClick(animal: Animal) {
-        replacetoAnimalInfoFragment(animal)
+        replaceToAnimalInfoFragment(animal)
     }
 
-    private fun replacetoAnimalInfoFragment(animal: Animal) {
+    private fun replaceToAnimalInfoFragment(animal: Animal) {
         val animalInfo = AnimalInfoFragment.newInstance(animal)
         val transaction = requireActivity().supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragmentContainer, animalInfo)
