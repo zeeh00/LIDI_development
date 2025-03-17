@@ -1,5 +1,6 @@
 package com.example.n4_app__inventory.fragments.location
 
+import AnimalAdapter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,7 +11,6 @@ import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.n4_app__inventory.R
-import com.example.n4_app__inventory.fragments.animals.AnimalAdapter
 import com.example.n4_app__inventory.fragments.animals.AnimalInfoFragment
 import com.example.n4_app__inventory.fragments.animals.KambingFragment
 import com.example.n4_app__inventory.fragments.form.data.Animal

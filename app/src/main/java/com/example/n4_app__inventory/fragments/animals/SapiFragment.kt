@@ -1,5 +1,6 @@
 package com.example.n4_app__inventory.fragments.animals
 
+import AnimalAdapter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ProgressBar
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +24,7 @@ class SapiFragment : Fragment(), AnimalAdapter.OnItemClickListener {
     private lateinit var animalAdapter: AnimalAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
+    private lateinit var searchView: SearchView
     private val firestore = FirebaseFirestore.getInstance()
     private lateinit var binding: FragmentSapiBinding
 
@@ -38,27 +41,22 @@ class SapiFragment : Fragment(), AnimalAdapter.OnItemClickListener {
 
         animalAdapter = AnimalAdapter(this)
         recyclerView.adapter = animalAdapter
+        searchView = view.findViewById(R.id.searchViewGroupFiftyOne)
 
         val arrowLeftButton: ImageButton = view.findViewById(R.id.btnArrowleft)
         arrowLeftButton.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
-
         progressBar = view.findViewById(R.id.progressBar)
         progressBar.visibility = View.VISIBLE
 
+
         fetchDataFromFirestore()
 
-        return view
-    }
+        setupSearchView()
 
-    private fun replaceFragment(fragment: Fragment) {
-        val fragmentManager: FragmentManager = requireActivity().supportFragmentManager
-        val transaction: FragmentTransaction = fragmentManager.beginTransaction()
-        transaction.replace(R.id.fragmentContainer, fragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
+        return view
     }
 
     private fun fetchDataFromFirestore() {
@@ -82,6 +80,19 @@ class SapiFragment : Fragment(), AnimalAdapter.OnItemClickListener {
             .addOnFailureListener { exception ->
                 // Handle failures
             }
+    }
+
+    private fun setupSearchView() {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                animalAdapter.filter.filter(newText) // Apply live filtering
+                return true
+            }
+        })
     }
 
     override fun onLinearColumnClick(animal: Animal) {

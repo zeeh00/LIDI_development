@@ -280,40 +280,58 @@ class AnimalInfoFragment : Fragment() {
                 if (e != null) return@addSnapshotListener
 
                 if (documentSnapshot != null && documentSnapshot.exists()) {
-                    // Fetching penimbangan data
+                    // Fetch penimbangan data
                     val bbtPenimbanganList = documentSnapshot.get("bbtPenm") as? List<String> ?: emptyList()
-                    val dateList = documentSnapshot.get("dates") as? List<String> ?: emptyList()
+                    val dateList = documentSnapshot.get("inputPenmDate") as? List<String> ?: emptyList()
 
-                    // Check if we have any penimbangan data
-                    if (bbtPenimbanganList.isNotEmpty()) {
-                        // Set the very first penimbangan value as bbtAwal
-                        val bbtAwal = bbtPenimbanganList.first()
-
-                        // Update the UI to display the first bbtPenimbangan as bbtAwal
-                        binding.txtBobotAwalKg.text = bbtAwal
-
-                        // Calculate pertambahanBobot and FCR
-                        val bbtPenm = bbtPenimbanganList.last().toFloatOrNull() ?: 0f
-                        val konsumsiPakan = animal?.konsumsiPakan?.toFloatOrNull() ?: 0f
-
-                        val pertambahanBobot = bbtPenm - bbtAwal.toFloat()
-                        val fcr = if (pertambahanBobot != 0f) konsumsiPakan / pertambahanBobot else 0f
-
-                        // Update the UI with pertambahanBobot and FCR
-                        binding.txtBobotPertambahanKg.text = "$pertambahanBobot"
-                        binding.txtFcrKg.text = "$fcr"
-
-                        Log.d("PenimbanganData", "Pertambahan Bobot: $pertambahanBobot, FCR: $fcr")
+                    if (bbtPenimbanganList.size < 2 || dateList.size < 2) {
+                        Log.e("PenimbanganData", "Not enough data to calculate ADG")
+                        return@addSnapshotListener
                     }
 
-                    // Create entries for bbtPenimbangan chart
+                    val bbtAwal = bbtPenimbanganList.first().toFloatOrNull() ?: 0f
+                    val bbtAkhir = bbtPenimbanganList.last().toFloatOrNull() ?: 0f
+
+                    // Convert date strings to Date objects safely
+                    val sdf = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+                    val dates = dateList.mapNotNull { sdf.parse(it) }
+
+                    if (dates.size < 2) {
+                        Log.e("PenimbanganData", "Invalid dates")
+                        return@addSnapshotListener
+                    }
+
+                    val startDate = dates.first()
+                    val endDate = dates.last()
+
+                    // Calculate days difference
+                    val daysDiff = maxOf(1, ((endDate.time - startDate.time) / (1000 * 60 * 60 * 24)).toInt())
+
+                    // Calculate Pertambahan Bobot & ADG
+                    val pertambahanBobot = bbtAkhir - bbtAwal
+                    val adg = pertambahanBobot / daysDiff
+
+                    // Update UI
+                    requireActivity().runOnUiThread {
+                        binding.txtBobotAwalKg.text = "$bbtAwal"
+                        binding.txtBobotPertambahanKg.text = String.format("%.2f", adg) // Display ADG
+                        binding.txtFcrKg.text = if (pertambahanBobot > 0) {
+                            String.format("%.2f", (animal?.konsumsiPakan?.toFloatOrNull() ?: 0f) / pertambahanBobot)
+                        } else {
+                            "-"
+                        }
+                    }
+
+                    Log.d("PenimbanganData", "BBT Awal: $bbtAwal, BBT Akhir: $bbtAkhir, Pertambahan: $pertambahanBobot, ADG: $adg")
+
+                    // Create entries for penimbangan chart
                     val bbtPenimbanganEntries = bbtPenimbanganList.mapIndexed { index, weight ->
-                        Entry(index.toFloat(), weight.toFloat())
-                    }
+                        weight.toFloatOrNull()?.let { Entry(index.toFloat(), it) }
+                    }.filterNotNull() // Remove invalid entries
 
-                    // Use the extension function to set up the Penimbangan chart
+                    // Update Penimbangan Chart
                     penimbanganChart.setupPenimbanganChart(
-                        emptyList(), // No need for bbtAwal entries in the chart
+                        emptyList(),
                         bbtPenimbanganEntries,
                         dateList,
                         "Bobot Awal",
@@ -323,6 +341,8 @@ class AnimalInfoFragment : Fragment() {
                 }
             }
     }
+
+
 
 
     private fun fetchLatestCatatanKhusus() {

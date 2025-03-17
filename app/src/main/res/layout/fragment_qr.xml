@@ -23,6 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
+                android:layout_marginTop="@dimen/_10pxh"
                 android:baselineAligned="false">
                 <LinearLayout android:gravity="start"
                     android:id="@+id/linearColumnformOne"
