@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/linearColumnarrowleft"
+        android:layout_gravity="top|center"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_10pxv"
+        android:layout_marginEnd="@dimen/_10pxh"
+        android:layout_marginStart="@dimen/_10pxh"
+        android:layout_width="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtActionOne"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_10pxh"
+            android:layout_width="wrap_content"
+            android:singleLine="true"
+            android:text="@string/lbl_search_data"
+            style="@style/txtInterregular14" />
+
+        <AutoCompleteTextView
+            android:id="@+id/actvFieldOne"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_2pxh"
+            android:layout_marginTop="@dimen/_7pxv"
+            android:background="@drawable/rectangle_bg_bluegray_50_border_gray_700_19_radius_4"
+            android:drawableEnd="@drawable/img_clipart_bluegray_800"
+            android:drawablePadding="@dimen/_30pxh"
+            android:ellipsize="end"
+            android:hint="@string/lbl_select_data"
+            android:inputType="text"
+            android:paddingBottom="@dimen/_15pxv"
+            android:paddingEnd="@dimen/_23pxh"
+            android:paddingStart="@dimen/_16pxh"
+            android:paddingTop="@dimen/_15pxv"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="@color/black_900"
+            android:textColorHint="@color/bluegray_800_7f"
+            style="@style/etSolidRoundedOutline"
+            tools:ignore="Autofill" />
+
+    </LinearLayout>
+
+    <FrameLayout android:id="@+id/containerFragmentUpdate"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/_110pxv">
+    </FrameLayout>
+
+</RelativeLayout>

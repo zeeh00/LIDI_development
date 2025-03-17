@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.form.FormFragment">
+
+    <LinearLayout android:id="@+id/linearStatusActive"
+        android:layout_gravity="top|center"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_48pxv"
+        android:layout_marginBottom="@dimen/_100pxv"
+        android:layout_marginEnd="@dimen/_30pxh"
+        android:layout_marginStart="@dimen/_30pxh"
+        android:layout_width="match_parent" android:orientation="vertical">
+        <LinearLayout android:id="@+id/linearRowarrowleft"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent" android:orientation="horizontal">
+            <LinearLayout android:gravity="start"
+                android:id="@+id/linearColumnformOne"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_4pxv"
+                android:layout_marginStart="@dimen/_10pxh"
+                android:layout_marginTop="@dimen/_8pxv"
+                android:layout_weight="0.66"
+                android:layout_width="0dp" android:orientation="vertical">
+                <TextView android:ellipsize="end"
+                    android:id="@+id/txtFORMOne"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10pxh"
+                    android:layout_width="wrap_content"
+                    android:singleLine="true"
+                    android:text="FORM"
+                    style="@style/txtSFProDisplaybold28"/>
+                <TextView android:ellipsize="end"
+                    android:id="@+id/txtInputUpdatea"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_6pxv"
+                    android:layout_width="match_parent"
+                    android:letterSpacing="0.03"
+                    android:singleLine="true"
+                    android:text="@string/msg_input_edit_and"
+                    style="@style/txtSFProDisplayregular14"/>
+            </LinearLayout>
+            <ImageView
+                android:id="@+id/imgProfile"
+                android:layout_width="@dimen/_70pxh"
+                android:layout_height="@dimen/_70pxh"
+                android:layout_marginStart="@dimen/_19pxh"
+                android:scaleType="fitXY"
+                android:src="@drawable/logo_program_pengembangan"
+                tools:ignore="ContentDescription" />
+        </LinearLayout>
+        <TextView android:ellipsize="end"
+            android:id="@+id/txtAction"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10pxh"
+            android:layout_marginEnd="@dimen/_10pxh"
+            android:layout_marginTop="@dimen/_24pxv"
+            android:layout_width="wrap_content"
+            android:singleLine="true"
+            android:text="@string/lbl_action"
+            style="@style/txtInterregular14"/>
+        <Spinner
+            android:background="@drawable/dropdown_list"
+            android:gravity="center_horizontal"
+            android:id="@+id/spinnerFormType"
+            android:prompt="@string/lbl_action_cap"
+            android:spinnerMode="dropdown"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10pxh"
+            android:layout_marginEnd="@dimen/_10pxh"
+            android:layout_marginTop="@dimen/_7pxv"
+            android:layout_width="match_parent"/>
+    </LinearLayout>
+    <FrameLayout android:id="@+id/containerFragment"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/_240pxv"
+        android:layout_marginEnd="@dimen/_30pxh"
+        android:layout_marginStart="@dimen/_30pxh">
+    </FrameLayout>
+</RelativeLayout>

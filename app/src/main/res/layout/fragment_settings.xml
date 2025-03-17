@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:orientation="horizontal"
+    android:layout_gravity="center"
+    android:background="@color/white"
+    tools:context=".SettingFragment">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/back_button"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:background="@drawable/back_button"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/title_settings"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="-110dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/sfprodisplaybold"
+        android:text="@string/title_settings"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.53"
+        app:layout_constraintStart_toStartOf="@id/back_button"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/subtitle_settings"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="-100dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/sfprodisplayregular"
+        android:text="@string/subtitle_settings"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.532"
+        app:layout_constraintStart_toStartOf="@id/back_button"
+        app:layout_constraintTop_toBottomOf="@id/title_settings" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/profile_picture"
+        android:layout_width="122dp"
+        android:layout_height="122dp"
+        android:src="@drawable/logo_ptpn4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.15" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/title_username"
+        android:text=""
+        android:textAlignment="center"
+        android:fontFamily="@font/sfprodisplaybold"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:textColor="@color/username_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_picture"
+        android:layout_marginTop="20dp"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/user_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/user_email"
+        android:text=""
+        android:textAlignment="center"
+        android:fontFamily="@font/sfprodisplayregular"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/username"/>
+
+    <!-- Account Group -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/account_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/user_email"
+        android:layout_marginTop="50dp">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_icon_account"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/baseline_person_24"
+            android:background="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/account_group"/>
+
+        <TextView
+            android:id="@+id/btn_account"
+            android:layout_width="@dimen/_290pxh"
+            android:layout_height="25dp"
+            android:text="@string/btn_account"
+            android:textSize="18sp"
+            android:textColor="@color/pofile_btn_words"
+            android:fontFamily="@font/sfprodisplayregular"
+            app:layout_constraintStart_toEndOf="@id/btn_icon_account"
+            app:layout_constraintTop_toTopOf="@id/account_group"
+            android:layout_marginStart="10dp"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_arrow_account"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/arrow___right_circle"
+            android:background="@color/white"
+            app:layout_constraintStart_toEndOf="@id/btn_account"
+            app:layout_constraintTop_toTopOf="@id/account_group"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Notification Group -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/notification_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/account_group"
+        android:layout_marginTop="20dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_icon_notification"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/bell"
+            android:background="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/notification_group"/>
+
+        <TextView
+            android:id="@+id/btn_notification"
+            android:layout_width="@dimen/_290pxh"
+            android:layout_height="25dp"
+            android:text="@string/btn_notification"
+            android:textSize="18sp"
+            android:textColor="@color/pofile_btn_words"
+            android:fontFamily="@font/sfprodisplayregular"
+            app:layout_constraintTop_toTopOf="@id/notification_group"
+            app:layout_constraintStart_toEndOf="@id/btn_icon_notification"
+            android:layout_marginStart="10dp"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_arrow_notification"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/arrow___right_circle"
+            android:background="@color/white"
+            app:layout_constraintStart_toEndOf="@id/btn_notification"
+            app:layout_constraintTop_toTopOf="@id/notification_group"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Appearance Group -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/appearance_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/notification_group"
+        android:layout_marginTop="20dp">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_icon_appearance"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/appearance_eye"
+            android:background="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/appearance_group"/>
+
+        <TextView
+            android:id="@+id/btn_appearance"
+            android:layout_width="@dimen/_290pxh"
+            android:layout_height="25dp"
+            android:text="@string/btn_appearance"
+            android:textSize="18sp"
+            android:textColor="@color/pofile_btn_words"
+            android:fontFamily="@font/sfprodisplayregular"
+            app:layout_constraintStart_toEndOf="@id/btn_icon_appearance"
+            app:layout_constraintTop_toTopOf="@id/appearance_group"
+            android:layout_marginStart="10dp"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_arrow_appearance"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/arrow___right_circle"
+            android:background="@color/white"
+            app:layout_constraintStart_toEndOf="@id/btn_appearance"
+            app:layout_constraintTop_toTopOf="@id/appearance_group"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Privacy & Security Group -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/privacy_security_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/appearance_group"
+        android:layout_marginTop="20dp">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_icon_privnsec"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/security_badge_icon"
+            android:background="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/privacy_security_group"/>
+
+        <TextView
+            android:id="@+id/btn_privnsec"
+            android:layout_width="@dimen/_290pxh"
+            android:layout_height="25dp"
+            android:text="@string/profile_privacy_security"
+            android:textSize="18sp"
+            android:textColor="@color/pofile_btn_words"
+            android:fontFamily="@font/sfprodisplayregular"
+            app:layout_constraintStart_toEndOf="@id/btn_icon_privnsec"
+            app:layout_constraintTop_toTopOf="@id/privacy_security_group"
+            android:layout_marginStart="10dp"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_arrow_privnsec"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/arrow___right_circle"
+            android:background="@color/white"
+            app:layout_constraintStart_toEndOf="@id/btn_privnsec"
+            app:layout_constraintTop_toTopOf="@id/privacy_security_group"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/language_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/privacy_security_group"
+        android:layout_marginTop="20dp">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_icon_language"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/language_icon"
+            android:background="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/btn_language"
+            android:layout_width="@dimen/_290pxh"
+            android:layout_height="25dp"
+            android:text="@string/btn_language"
+            android:textSize="18sp"
+            android:textColor="@color/pofile_btn_words"
+            android:fontFamily="@font/sfprodisplayregular"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btn_icon_language"
+            android:layout_marginStart="10dp"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_arrow_language"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/arrow___right_circle"
+            android:background="@color/white"
+            app:layout_constraintStart_toEndOf="@id/btn_language"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <!--    <androidx.appcompat.widget.AppCompatImageButton-->
+<!--        android:id="@+id/btn_logout"-->
+<!--        android:layout_width="125dp"-->
+<!--        android:layout_height="34dp"-->
+<!--        android:src="@drawable/log_out_button"-->
+<!--        android:background="@color/white"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/btn_language"-->
+<!--        android:layout_marginTop="60dp"/>-->
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
