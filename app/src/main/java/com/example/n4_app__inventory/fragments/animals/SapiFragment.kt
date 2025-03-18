@@ -17,6 +17,7 @@ import com.example.n4_app__inventory.R
 import com.example.n4_app__inventory.databinding.FragmentSapiBinding
 import com.example.n4_app__inventory.fragments.form.data.Animal
 import com.example.n4_app__inventory.fragments.profile.ProfileFragment
+import com.example.n4_app__inventory.functions.setupLiveSearch
 import com.google.firebase.firestore.FirebaseFirestore
 
 class SapiFragment : Fragment(), AnimalAdapter.OnItemClickListener {
@@ -54,8 +55,7 @@ class SapiFragment : Fragment(), AnimalAdapter.OnItemClickListener {
 
         fetchDataFromFirestore()
 
-        setupSearchView()
-
+        searchView.setupLiveSearch(animalAdapter)
         return view
     }
 
@@ -80,19 +80,6 @@ class SapiFragment : Fragment(), AnimalAdapter.OnItemClickListener {
             .addOnFailureListener { exception ->
                 // Handle failures
             }
-    }
-
-    private fun setupSearchView() {
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                animalAdapter.filter.filter(newText) // Apply live filtering
-                return true
-            }
-        })
     }
 
     override fun onLinearColumnClick(animal: Animal) {
