@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "700692918885",
+    "project_id": "nempat-app-12754",
+    "storage_bucket": "nempat-app-12754.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:700692918885:android:6ca3eaf640dda59ffa4c8c",
+        "android_client_info": {
+          "package_name": "com.example.n4_app__inventory"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmCTjuIH_hLHXA6VbFohH93z5-9snM_Qc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

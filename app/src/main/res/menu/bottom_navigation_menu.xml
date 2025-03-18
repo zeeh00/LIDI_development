@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/white">
+    <item
+        android:id="@+id/navigation_home"
+        android:title="Home"
+        android:icon="@drawable/img_home"
+        />
+
+    <item
+        android:id="@+id/navigation_form"
+        android:title="Form"
+        android:icon="@drawable/img_form" />
+
+    <item
+        android:id="@+id/navigation_qr"
+        android:title="QR"
+        android:icon="@drawable/img_qr" />
+</menu>

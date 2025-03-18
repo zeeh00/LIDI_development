@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.FirstScreenFragment">
+
+    <LinearLayout android:gravity="center_horizontal"
+        android:id="@+id/linearSignUpOne"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical" >
+        <ImageView android:id="@+id/imageLOGOLIDI"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="@dimen/_300pxh"
+            android:layout_marginEnd="@dimen/_28pxh"
+            android:layout_marginStart="@dimen/_28pxh"
+            android:layout_marginTop="@dimen/_30pxv"
+            android:layout_width="@dimen/_330pxh"
+            android:scaleType="fitXY"
+            android:src="@drawable/logo_lidi_1"
+            tools:ignore="ContentDescription" />
+        <ImageView android:id="@+id/imageLOGOPROGRAM"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="@dimen/_100pxh"
+            android:layout_width="@dimen/_330pxh"
+            android:scaleType="fitXY"
+            android:src="@drawable/logo_opener"
+            tools:ignore="ContentDescription" />
+
+        <ImageView android:id="@+id/imageLogoPTPNFortyOne"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="@dimen/_100pxh"
+            android:layout_marginEnd="@dimen/_28pxh"
+            android:layout_marginStart="@dimen/_28pxh"
+            android:layout_marginTop="@dimen/_100pxv"
+            android:layout_marginBottom="@dimen/_3pxv"
+            android:layout_width="@dimen/_92pxh"
+            android:scaleType="fitXY"
+            android:src="@drawable/logo_ptpn_supportby"
+            tools:ignore="ContentDescription"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:ellipsize="end" android:gravity="center"
+            android:id="@+id/btnSignUp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_28pxh"
+            android:layout_marginStart="@dimen/_28pxh"
+            android:layout_marginTop="@dimen/_30pxv"
+            android:layout_width="@dimen/_400pxv"
+            android:letterSpacing="0.05"
+            android:paddingBottom="@dimen/_20pxh"
+            android:paddingEnd="@dimen/_30pxh"
+            android:paddingStart="@dimen/_30pxh"
+            android:paddingTop="@dimen/_19pxv" android:singleLine="true"
+            android:text="@string/lbl_sign_up"
+            android:textAllCaps="false" style="@style/btnSolidRounded_1" tools:text="@string/lbl_sign_up"/>
+        <TextView android:ellipsize="end"
+            android:gravity="center_horizontal"
+            android:id="@+id/txt_alr_have_acc"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_40pxh"
+            android:layout_marginStart="@dimen/_40pxh"
+            android:layout_marginTop="@dimen/_30pxv"
+            android:layout_marginBottom="@dimen/_5pxv"
+            android:layout_width="wrap_content"
+            android:letterSpacing="0.03" android:singleLine="true"
+            android:text="@string/msg_already_have_an"
+            style="@style/txtHelveticaRounded14"/>
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="form_typesKK">
+        <item>Select Type</item>
+        <item>Input</item>
+        <item>View</item>
+    </string-array>
+    <string-array name="form_types">
+        <item>Select Type</item>
+        <item>Input</item>
+        <item>Update</item>
+        <item>Delete</item>
+    </string-array>
+    <string-array name="anml_types">
+        <item>Select Type</item>
+        <item>Domba</item>
+        <item>Kambing</item>
+        <item>Sapi</item>
+    </string-array>
+    <string-array name="origin_types">
+        <item>Select Type</item>
+        <item>Dalam</item>
+        <item>Luar</item>
+        <item>Titipan</item>
+    </string-array>
+    <string-array name="location">
+        <item>Select Type</item>
+        <item>PAB</item>
+        <item>TOB</item>
+        <item>BUT</item>
+        <item>MAR</item>
+    </string-array>
+    <string-array name="anml_sex_type">
+        <item>Select Type</item>
+        <item>Jantan</item>
+        <item>Betina</item>
+    </string-array>
+    <string-array name="anml_marriage_type">
+        <item>Select Type</item>
+        <item>Kawin</item>
+        <item>Belum Kawin</item>
+    </string-array>
+    <string-array name="anml_breed_type">
+        <item>Select Type</item>
+        <item>Pedaging</item>
+        <item>Perah</item>
+        <item>Dwiguna</item>
+    </string-array>
+    <string-array name="anml_phys_stat">
+        <item>Select Type</item>
+        <item>Pejantan</item>
+        <item>Calon Pejantan</item>
+        <item>Induk</item>
+        <item>Dara</item>
+        <item>Lepas Sapih</item>
+        <item>Pra Sapih</item>
+    </string-array>
+</resources>

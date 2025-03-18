@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.location.KbnMarFragment">
+
+    <LinearLayout android:id="@+id/linearColumnarrowleft"
+        android:layout_gravity="top|center"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_48pxv"
+        android:layout_marginBottom="@dimen/_10pxv"
+        android:layout_marginEnd="@dimen/_29pxh"
+        android:layout_marginStart="@dimen/_29pxh"
+        android:layout_width="match_parent" android:orientation="vertical">
+
+        <LinearLayout android:id="@+id/linearRowarrowleft"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_1pxh"
+            android:layout_width="match_parent" android:orientation="horizontal">
+
+            <ImageButton
+                android:background="@drawable/rectangle_border_gray_200_radius_27_5"
+                android:id="@+id/btnArrowleft"
+                android:layout_height="@dimen/_55pxh"
+                android:layout_marginBottom="@dimen/_4pxv"
+                android:layout_marginTop="@dimen/_4pxv"
+                android:layout_width="@dimen/_55pxh"
+                android:paddingHorizontal="@dimen/_18pxh"
+                android:paddingVertical="@dimen/_18pxv"
+                android:scaleType="fitCenter"
+                android:src="@drawable/img_arrowleft_bluegray_800" tools:ignore="ContentDescription"/>
+
+            <LinearLayout android:gravity="start"
+                android:id="@+id/linearColumnprice"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_6pxv"
+                android:layout_marginStart="@dimen/_17pxh"
+                android:layout_marginTop="@dimen/_8pxv"
+                android:layout_weight="0.66"
+                android:layout_width="0dp" android:orientation="vertical">
+
+                <TextView android:ellipsize="end"
+                    android:id="@+id/txtPrice"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:singleLine="true"
+                    android:text="CHECK INVENTORY"
+                    style="@style/txtSFProDisplaybold24"/>
+
+                <TextView android:ellipsize="end"
+                    android:id="@+id/txtCheckAlltheA"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10pxh"
+                    android:layout_marginTop="@dimen/_4pxv"
+                    android:layout_width="match_parent"
+                    android:letterSpacing="0.03"
+                    android:singleLine="true"
+                    android:text="Check All the Animals in the Inventory."
+                    style="@style/txtSFProDisplayregular12"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imgProfile"
+                android:layout_width="@dimen/_70pxh"
+                android:layout_height="@dimen/_70pxh"
+                android:scaleType="fitXY"
+                android:src="@drawable/logo_program_pengembangan"
+                tools:ignore="ContentDescription" />
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.SearchView
+            android:background="@drawable/rectangle_bg_gray_300_radius_18"
+            android:gravity="center_horizontal"
+            android:id="@+id/searchViewGroupFiftyOne"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_1pxh"
+            android:layout_marginTop="@dimen/_35pxv"
+            android:layout_width="match_parent"
+            android:theme="@style/searchViewGroupFiftyOne"
+            app:iconifiedByDefault="false"
+            app:queryBackground="@android:color/transparent"
+            app:queryHint="@string/lbl_search" app:searchIcon="@drawable/search_icon"/>
+
+        <FrameLayout
+            android:id="@+id/fragmentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView android:ellipsize="end"
+                    android:id="@+id/txtAllAnimalsInMAR"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_11pxh"
+                    android:layout_marginStart="@dimen/_11pxh"
+                    android:layout_marginTop="@dimen/_37pxv"
+                    android:layout_width="wrap_content"
+                    android:layout_marginBottom="@dimen/_20pxh"
+                    android:singleLine="true"
+                    android:text="All Animal in Kebun Marjandi"
+                    style="@style/txtHelveticaNeuebold18"/>
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone">
+                </ProgressBar>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerListpathtwo"
+                    android:layout_below="@+id/txtAllAnimals"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@+id/txtAllDomba"
+                    tools:itemCount="5"
+                    tools:listitem="@layout/item_animal"/>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
