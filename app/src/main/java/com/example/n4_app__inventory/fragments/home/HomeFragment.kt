@@ -32,6 +32,14 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
 
         drawerLayout = binding.drawerSettings
 
+        // Inflate the layout for this fragment using View Binding
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        val view = binding.root
+
+        // Access DrawerLayout from the fragment's layout
+        drawerLayout = binding.drawerSettings
+
+        // Handle profile icon click to open/close the drawer
         binding.imgProfile.setOnClickListener {
             toggleDrawer()
         }
@@ -39,6 +47,11 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         val navigationView = view.findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
 
+        // Initialize NavigationView and set the listener
+        val navigationView = view.findViewById<NavigationView>(R.id.nav_view)
+        navigationView.setNavigationItemSelectedListener(this)
+
+        // Handle button click to replace fragment
         binding.btnGettingStartedOne.setOnClickListener {
             val inventoryFragment = InventoryFragment()
             replaceFragment(inventoryFragment)
@@ -82,6 +95,10 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             }
     }
 
+        return view
+    }
+
+    // Toggle drawer open/close
     fun toggleDrawer() {
         if (drawerLayout.isDrawerOpen(Gravity.END)) {
             drawerLayout.closeDrawer(Gravity.END)
@@ -93,6 +110,11 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         var selectedFragment: Fragment? = null
 
+    // Handle navigation item selections
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        var selectedFragment: Fragment? = null
+
+        // Check which menu item was selected
         when (item.itemId) {
             R.id.nav_profile -> selectedFragment = ProfileFragment()
             R.id.nav_about -> selectedFragment = AboutFragment()
@@ -101,6 +123,10 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
 
         selectedFragment?.let {
             replaceFragment(it)
+        // Replace the fragment if one was selected
+        selectedFragment?.let {
+            replaceFragment(it)
+            // Close the drawer after selection
             drawerLayout.closeDrawer(Gravity.END)
         }
 
@@ -111,10 +137,17 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         val fragmentManager = requireActivity().supportFragmentManager
         val transaction = fragmentManager.beginTransaction()
         transaction.replace(R.id.fragmentContainer, fragment)
+
+    // Method to replace fragment
+    private fun replaceFragment(fragment: Fragment) {
+        val fragmentManager = requireActivity().supportFragmentManager
+        val transaction = fragmentManager.beginTransaction()
+        transaction.replace(R.id.fragmentContainer, fragment) // Ensure this matches your nav host ID
         transaction.addToBackStack(null)
         transaction.commit()
     }
 
+    // Method to check if the drawer is open
     fun isDrawerOpen(): Boolean {
         return drawerLayout.isDrawerOpen(Gravity.END)
     }

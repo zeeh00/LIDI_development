@@ -80,4 +80,11 @@
 
     </LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/about_fragment_title"
+        android:textColor="@color/white_A700"
+        android:textStyle="bold"/>
+
 </FrameLayout>

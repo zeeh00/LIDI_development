@@ -36,6 +36,7 @@
                     android:id="@+id/linearRowwelcomebacka"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20pxv"
                     android:layout_marginStart="@dimen/_2pxh"
                     android:orientation="horizontal">
 
@@ -369,7 +370,6 @@
 <!--                            android:textAllCaps="false"/>-->
                     </LinearLayout>
                 </LinearLayout>
-
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>

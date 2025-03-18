@@ -19,6 +19,7 @@
             <LinearLayout android:id="@+id/linearRowarrowleft"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_1pxh"
+                android:layout_marginTop="@dimen/_10pxh"
                 android:layout_width="match_parent" android:orientation="horizontal">
 
                 <ImageButton
@@ -80,9 +81,10 @@
                 app:queryBackground="@android:color/transparent"
                 app:queryHint="@string/lbl_search" app:searchIcon="@drawable/search_icon"/>
 
+
             <FrameLayout android:id="@+id/fragmentContainer"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/_10pxh"
+                android:layout_marginTop="@dimen/_40pxh"
                 android:layout_width="match_parent" style="@style/groupStylewhite_A700">
 
                 <LinearLayout

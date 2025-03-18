@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".fragments.SplashFragment">
 
+
     <LinearLayout
         android:id="@+id/linearSplash"
         android:gravity="center_horizontal"
