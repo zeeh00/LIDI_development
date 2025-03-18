@@ -1,5 +1,9 @@
 package com.example.n4_app__inventory.functions
 
+<<<<<<< HEAD
+class ExtensionFunction {
+
+=======
 import AnimalAdapter
 import androidx.appcompat.widget.SearchView
 
@@ -14,4 +18,5 @@ fun SearchView.setupLiveSearch(animalAdapter: AnimalAdapter) {
             return true
         }
     })
+>>>>>>> c22f9dc796c365bc15eea4d67f8d2e345d4e6626
 }

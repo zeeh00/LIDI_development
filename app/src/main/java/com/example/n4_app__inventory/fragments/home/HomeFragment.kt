@@ -15,16 +15,23 @@ import com.example.n4_app__inventory.fragments.profile.AboutFragment
 import com.example.n4_app__inventory.fragments.profile.ProfileFragment
 import com.example.n4_app__inventory.SettingFragment
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.firestore.FirebaseFirestore
 
 class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var drawerLayout: DrawerLayout
+    private val db = FirebaseFirestore.getInstance() // Inisialisasi Firestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        val view = binding.root
+
+        drawerLayout = binding.drawerSettings
+
         // Inflate the layout for this fragment using View Binding
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -37,6 +44,9 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             toggleDrawer()
         }
 
+        val navigationView = view.findViewById<NavigationView>(R.id.nav_view)
+        navigationView.setNavigationItemSelectedListener(this)
+
         // Initialize NavigationView and set the listener
         val navigationView = view.findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
@@ -46,6 +56,44 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             val inventoryFragment = InventoryFragment()
             replaceFragment(inventoryFragment)
         }
+
+        // Memanggil fungsi untuk menghitung jumlah hewan
+        countAnimals()
+
+        return view
+    }
+
+    // Fungsi untuk mengambil data dari Firestore dan menghitung jumlah hewan berdasarkan anmlType
+    private fun countAnimals() {
+        db.collection("animals")
+            .get()
+            .addOnSuccessListener { documents ->
+                var countDomba = 0
+                var countKambing = 0
+                var countSapi = 0
+
+                for (document in documents) {
+                    val anmlType = document.getString("anmlType")
+                    when (anmlType) {
+                        "Domba" -> countDomba++
+                        "Kambing" -> countKambing++
+                        "Sapi" -> countSapi++
+                    }
+                }
+
+                val total = countDomba + countKambing + countSapi
+
+                // Menampilkan hasil di UI
+                binding.txtInputInfoDomba.text = countDomba.toString()
+                binding.txtInputInfoKambing.text = countKambing.toString()
+                binding.txtInputInfoSapi.text = countSapi.toString()
+                binding.txtInputInfoTotal.text = total.toString()
+            }
+            .addOnFailureListener { exception ->
+                // Handle error jika gagal mengambil data
+                binding.txtInputInfoTotal.text = "Error"
+            }
+    }
 
         return view
     }
@@ -59,6 +107,9 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         }
     }
 
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        var selectedFragment: Fragment? = null
+
     // Handle navigation item selections
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         var selectedFragment: Fragment? = null
@@ -70,6 +121,8 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             R.id.nav_setting -> selectedFragment = SettingFragment()
         }
 
+        selectedFragment?.let {
+            replaceFragment(it)
         // Replace the fragment if one was selected
         selectedFragment?.let {
             replaceFragment(it)
@@ -79,6 +132,11 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
 
         return true
     }
+
+    private fun replaceFragment(fragment: Fragment) {
+        val fragmentManager = requireActivity().supportFragmentManager
+        val transaction = fragmentManager.beginTransaction()
+        transaction.replace(R.id.fragmentContainer, fragment)
 
     // Method to replace fragment
     private fun replaceFragment(fragment: Fragment) {

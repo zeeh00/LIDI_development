@@ -84,12 +84,30 @@
                         tools:ignore="ContentDescription" />
                 </LinearLayout>
 
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/searchViewGroupFiftyOne"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_35pxv"
+                    android:background="@drawable/rectangle_bg_gray_300_radius_18"
+                    android:theme="@style/searchViewGroupFiftyOne"
+                    app:iconifiedByDefault="false"
+                    app:queryBackground="@android:color/transparent"
+                    app:queryHint="@string/lbl_search"
+                    app:searchIcon="@drawable/search_icon">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:drawableEnd="@drawable/img_filter" />
+                </androidx.appcompat.widget.SearchView>
+
                 <LinearLayout
                     android:id="@+id/linearRowvector"
                     style="@style/groupStylegreen_700cornerRadius"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_83pxv"
+                    android:layout_marginTop="@dimen/_53pxv"
                     android:gravity="end"
                     android:orientation="horizontal">
 
@@ -157,6 +175,199 @@
                             android:singleLine="true"
                             android:text="CEK KANDANG"
                             android:textAllCaps="false"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearRowTable"
+                    style="@style/groupStyledarkblue_700cornerRadius"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_230pxh"
+                    android:layout_marginTop="@dimen/_20pxv"
+                    android:gravity="end"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/linearTableInfo"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10pxh"
+                        android:layout_marginTop="@dimen/_10pxv"
+                        android:layout_marginEnd="@dimen/_10pxh"
+                        android:layout_marginBottom="@dimen/_10pxv"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txtInventoryInfo"
+                            style="@style/txtPoppinsbold24"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_4pxh"
+                            android:ellipsize="end"
+                            android:lineSpacingExtra="@dimen/_12pxh"
+                            android:singleLine="true"
+                            android:textAlignment="center"
+                            android:text="@string/txt_inventory_info" />
+
+                        <LinearLayout android:gravity="start"
+                            android:id="@+id/linearRowInventoryInfoTotal"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_30pxh"
+                            android:layout_marginStart="@dimen/_10pxh"
+                            android:layout_marginTop="@dimen/_2pxv"
+                            android:layout_width="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/txtInfoTotal"
+                                android:fontFamily="@font/sfprodisplaybold"
+                                android:textSize="18dp"
+                                android:textColor="@color/gray_50"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/_7pxv"
+                                android:layout_weight="0.73"
+                                android:text="Total Ternak : " />
+
+                            <TextView
+                                android:id="@+id/txtInputInfoTotal"
+                                android:fontFamily="@font/sfprodisplayregular"
+                                android:textSize="18dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_10pxh"
+                                android:layout_weight="0.27"
+                                android:textColorHint="@color/gray_50"
+                                android:hint="Loading..."
+                                android:letterSpacing="0.03"
+                                android:textColor="@color/gray_50"
+                                android:text="" />
+                        </LinearLayout>
+
+                        <LinearLayout android:gravity="start"
+                            android:id="@+id/linearRowInventoryInfoDomba"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_30pxh"
+                            android:layout_marginStart="@dimen/_20pxh"
+                            android:layout_marginTop="@dimen/_2pxv"
+                            android:layout_width="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/txtInfoDomba"
+                                android:fontFamily="@font/sfprodisplayregular"
+                                android:textSize="18dp"
+                                android:textColor="@color/gray_50"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/_7pxv"
+                                android:layout_weight="0.73"
+                                android:text="Domba : " />
+
+                            <TextView
+                                android:id="@+id/txtInputInfoDomba"
+                                android:fontFamily="@font/sfprodisplayregular"
+                                android:textSize="18dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_10pxh"
+                                android:layout_weight="0.27"
+                                android:textColorHint="@color/gray_50"
+                                android:hint="Loading..."
+                                android:letterSpacing="0.03"
+                                android:textColor="@color/gray_50"
+                                android:text="" />
+                        </LinearLayout>
+
+                        <LinearLayout android:gravity="start"
+                            android:id="@+id/linearRowInventoryInfoKambing"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_30pxh"
+                            android:layout_marginStart="@dimen/_20pxh"
+                            android:layout_marginTop="@dimen/_2pxv"
+                            android:layout_width="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/txtInfoKambing"
+                                android:fontFamily="@font/sfprodisplayregular"
+                                android:textSize="18dp"
+                                android:textColor="@color/gray_50"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/_7pxv"
+                                android:layout_weight="0.73"
+                                android:text="Kambing : " />
+
+                            <TextView
+                                android:id="@+id/txtInputInfoKambing"
+                                android:fontFamily="@font/sfprodisplayregular"
+                                android:textSize="18dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_10pxh"
+                                android:layout_weight="0.27"
+                                android:textColorHint="@color/gray_50"
+                                android:hint="Loading..."
+                                android:letterSpacing="0.03"
+                                android:textColor="@color/gray_50"
+                                android:text="" />
+                        </LinearLayout>
+
+                        <LinearLayout android:gravity="start"
+                            android:id="@+id/linearRowInventoryInfoSapi"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_30pxh"
+                            android:layout_marginStart="@dimen/_20pxh"
+                            android:layout_marginTop="@dimen/_2pxv"
+                            android:layout_width="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/txtInfoSapi"
+                                android:fontFamily="@font/sfprodisplayregular"
+                                android:textSize="18dp"
+                                android:textColor="@color/gray_50"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/_7pxv"
+                                android:layout_weight="0.73"
+                                android:text="Sapi : " />
+
+                            <TextView
+                                android:id="@+id/txtInputInfoSapi"
+                                android:fontFamily="@font/sfprodisplayregular"
+                                android:textSize="18dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_10pxh"
+                                android:layout_weight="0.27"
+                                android:textColorHint="@color/gray_50"
+                                android:hint="Loading..."
+                                android:letterSpacing="0.03"
+                                android:textColor="@color/gray_50"
+                                android:text="" />
+                        </LinearLayout>
+
+<!--                        <androidx.appcompat.widget.AppCompatButton-->
+<!--                            android:id="@+id/btnTableDetails"-->
+<!--                            style="@style/btnSolidRounded"-->
+<!--                            android:layout_width="@dimen/_145pxh"-->
+<!--                            android:layout_height="@dimen/_46pxv"-->
+<!--                            android:layout_gravity="end"-->
+<!--                            android:layout_marginStart="@dimen/_10pxh"-->
+<!--                            android:ellipsize="end"-->
+<!--                            android:gravity="center"-->
+<!--                            android:lineSpacingExtra="@dimen/_4pxh"-->
+<!--                            android:paddingStart="@dimen/_16pxh"-->
+<!--                            android:paddingTop="@dimen/_8pxv"-->
+<!--                            android:paddingEnd="@dimen/_16pxh"-->
+<!--                            android:paddingBottom="@dimen/_8pxv"-->
+<!--                            android:singleLine="true"-->
+<!--                            android:text="DETAIL"-->
+<!--                            android:textAllCaps="false"/>-->
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

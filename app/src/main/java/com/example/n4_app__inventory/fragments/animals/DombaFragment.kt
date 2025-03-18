@@ -1,6 +1,9 @@
 package com.example.n4_app__inventory.fragments.animals
 
+<<<<<<< HEAD
+=======
 import AnimalAdapter
+>>>>>>> c22f9dc796c365bc15eea4d67f8d2e345d4e6626
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,7 +12,10 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.Toast
+<<<<<<< HEAD
+=======
 import androidx.appcompat.widget.SearchView
+>>>>>>> c22f9dc796c365bc15eea4d67f8d2e345d4e6626
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,7 +24,10 @@ import com.example.n4_app__inventory.R
 import com.example.n4_app__inventory.databinding.FragmentDombaBinding
 import com.example.n4_app__inventory.fragments.form.data.Animal
 import com.example.n4_app__inventory.fragments.profile.ProfileFragment
+<<<<<<< HEAD
+=======
 import com.example.n4_app__inventory.functions.setupLiveSearch
+>>>>>>> c22f9dc796c365bc15eea4d67f8d2e345d4e6626
 import com.google.firebase.firestore.FirebaseFirestore
 
 class DombaFragment : Fragment(), AnimalAdapter.OnItemClickListener {
@@ -26,7 +35,10 @@ class DombaFragment : Fragment(), AnimalAdapter.OnItemClickListener {
     private lateinit var animalAdapter: AnimalAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
+<<<<<<< HEAD
+=======
     private lateinit var searchView: SearchView
+>>>>>>> c22f9dc796c365bc15eea4d67f8d2e345d4e6626
     private val firestore = FirebaseFirestore.getInstance()
     private lateinit var binding: FragmentDombaBinding
 
@@ -43,7 +55,10 @@ class DombaFragment : Fragment(), AnimalAdapter.OnItemClickListener {
 
         animalAdapter = AnimalAdapter(this)
         recyclerView.adapter = animalAdapter
+<<<<<<< HEAD
+=======
         searchView = view.findViewById(R.id.searchViewGroupFiftyOne)
+>>>>>>> c22f9dc796c365bc15eea4d67f8d2e345d4e6626
 
         val arrowLeftButton: ImageButton = view.findViewById(R.id.btnArrowleft)
         arrowLeftButton.setOnClickListener {
@@ -55,10 +70,24 @@ class DombaFragment : Fragment(), AnimalAdapter.OnItemClickListener {
 
         fetchDataFromFirestore()
 
+<<<<<<< HEAD
+        return view
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        val fragmentManager: FragmentManager = requireActivity().supportFragmentManager
+        val transaction: FragmentTransaction = fragmentManager.beginTransaction()
+        transaction.replace(R.id.fragmentContainer, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }
+
+=======
         searchView.setupLiveSearch(animalAdapter)
         return view
     }
 
+>>>>>>> c22f9dc796c365bc15eea4d67f8d2e345d4e6626
     private fun fetchDataFromFirestore() {
         val collectionReference = firestore.collection("animals")
 

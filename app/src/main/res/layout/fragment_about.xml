@@ -6,7 +6,79 @@
     tools:context=".fragments.profile.AboutFragment"
     android:background="@drawable/nav_bg">
 
-    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout android:gravity="start" android:id="@+id/linearColumn"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/_48pxv"
+        android:layout_width="match_parent"
+        android:orientation="vertical">
+        <ImageView
+            android:id="@+id/logoprogram"
+            android:layout_width="@dimen/_400pxh"
+            android:layout_height="@dimen/_120pxh"
+            android:src="@drawable/logo_opener"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:id="@+id/app_info1"
+            android:layout_width="@dimen/_350pxh"
+            android:layout_height="wrap_content"
+            android:text="- LIDI -"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/white_A700"/>
+        <TextView
+            android:id="@+id/app_info2"
+            android:layout_width="@dimen/_400pxh"
+            android:layout_height="wrap_content"
+            android:text="LIVESTOCK INVENTORY DIGITAL INFORMATION"
+            android:textSize="16dp"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/white_A700"/>
+        <TextView
+            android:id="@+id/app_info3"
+            android:layout_width="@dimen/_370pxh"
+            android:layout_height="wrap_content"
+            android:text="LIDI adalah aplikasi digital yang dirancang untuk memudahkan pengelolaan dan pencatatan inventaris hewan ternak secara online. Aplikasi ini membantu peternak mengelola informasi penting terkait jenis hewan, jenis kelamin, bangsa, fisiologi, data kelahiran, indukan, umur, bobot badan, dan konsumsi pakan. Selain itu, LIDI juga menyediakan fitur pencatatan harga ternak dan catatan khusus terkait penyakit dan penanganannya."
+            android:textSize="16dp"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/white_A700"
+            android:layout_marginTop="@dimen/_5pxv"/>
+        <TextView
+            android:id="@+id/app_info4"
+            android:layout_width="@dimen/_370pxh"
+            android:layout_height="wrap_content"
+            android:text="Dengan sistem berbasis cloud, LIDI memastikan bahwa semua data tersimpan dengan aman dan dapat diakses kapan saja dan dimana saja. Aplikasi ini dirancang untuk meningkatkan efisiensi dalam pengelolaan ternak, memberikan kemudahan dalam memantau kesehatan dan produktivitas hewan, serta mendukung keputusan yang lebih tepat berdasarkan data yang lengkap."
+            android:textSize="16dp"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/white_A700"
+            android:layout_marginTop="@dimen/_5pxv"/>
+
+        <TextView
+            android:id="@+id/app_info5"
+            android:layout_width="@dimen/_370pxh"
+            android:layout_height="wrap_content"
+            android:text="Supported by:"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/white_A700"
+            android:layout_marginTop="@dimen/_25pxv" />
+
+        <ImageView
+            android:id="@+id/logosupport"
+            android:layout_width="@dimen/_100pxh"
+            android:layout_height="@dimen/_100pxh"
+            android:src="@drawable/logo_ptpn4"
+            android:layout_gravity="center"
+            android:background="@color/white_A700" />
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
