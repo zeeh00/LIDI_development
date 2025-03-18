@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.n4_app__inventory.R
 import com.example.n4_app__inventory.databinding.FragmentKambingBinding
 import com.example.n4_app__inventory.fragments.form.data.Animal
+import com.example.n4_app__inventory.functions.setupLiveSearch
 import com.google.firebase.firestore.FirebaseFirestore
 
 class KambingFragment : Fragment(), AnimalAdapter.OnItemClickListener {
@@ -50,8 +51,7 @@ class KambingFragment : Fragment(), AnimalAdapter.OnItemClickListener {
         progressBar.visibility = View.VISIBLE
         fetchDataFromFirestore()
 
-        setupSearchView() // Initialize search functionality
-
+        searchView.setupLiveSearch(animalAdapter)
         return view
     }
 
@@ -74,19 +74,6 @@ class KambingFragment : Fragment(), AnimalAdapter.OnItemClickListener {
             .addOnFailureListener {
                 progressBar.visibility = View.GONE
             }
-    }
-
-    private fun setupSearchView() {
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                animalAdapter.filter.filter(newText) // Apply live filtering
-                return true
-            }
-        })
     }
 
     override fun onLinearColumnClick(animal: Animal) {

@@ -8,12 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ProgressBar
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.n4_app__inventory.R
 import com.example.n4_app__inventory.fragments.animals.AnimalInfoFragment
 import com.example.n4_app__inventory.fragments.animals.KambingFragment
 import com.example.n4_app__inventory.fragments.form.data.Animal
+import com.example.n4_app__inventory.functions.setupLiveSearch
 import com.google.firebase.firestore.FirebaseFirestore
 
 class KbnMarFragment : Fragment(), AnimalAdapter.OnItemClickListener {
@@ -21,6 +23,7 @@ class KbnMarFragment : Fragment(), AnimalAdapter.OnItemClickListener {
     private lateinit var animalAdapter: AnimalAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
+    private lateinit var searchView: SearchView
     private val firestore = FirebaseFirestore.getInstance()
 
     override fun onCreateView(
@@ -36,6 +39,7 @@ class KbnMarFragment : Fragment(), AnimalAdapter.OnItemClickListener {
 
         animalAdapter = AnimalAdapter(this)
         recyclerView.adapter = animalAdapter
+        searchView = view.findViewById(R.id.searchViewGroupFiftyOne)
 
         val arrowLeftButton: ImageButton = view.findViewById(R.id.btnArrowleft)
         arrowLeftButton.setOnClickListener {
@@ -45,6 +49,7 @@ class KbnMarFragment : Fragment(), AnimalAdapter.OnItemClickListener {
         progressBar = view.findViewById(R.id.progressBar)
         progressBar.visibility = View.VISIBLE
 
+        searchView.setupLiveSearch(animalAdapter)
         fetchDataFromFirestore()
 
         return view
