@@ -475,6 +475,34 @@
                         android:hint="kg"
                         android:text=""
                         style="@style/txtSFProDisplaymedium14"/>
+
+                </LinearLayout>
+
+                <LinearLayout android:gravity="start"
+                    android:id="@+id/linearRowBobotPertambahanBbDaily"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_30pxh"
+                    android:layout_marginStart="@dimen/_30pxh"
+                    android:layout_width="wrap_content" android:orientation="horizontal">
+
+                    <TextView android:id="@+id/txtBobotPertambahanBbDaily"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_7pxv"
+                        android:layout_weight="0.73"
+                        android:layout_width="wrap_content"
+                        android:text="Average Daily Gain (kg): "
+                        style="@style/txtSFProDisplaymedium14"/>
+
+                    <TextView android:id="@+id/txtAdgKg"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10pxh"
+                        android:layout_weight="0.27"
+                        android:layout_width="wrap_content"
+                        android:letterSpacing="0.03"
+                        android:hint="kg"
+                        android:text=""
+                        style="@style/txtSFProDisplaymedium14"/>
+
                 </LinearLayout>
 
                 <com.github.mikephil.charting.charts.LineChart
@@ -609,11 +637,13 @@
                         android:layout_marginBottom="@dimen/_7pxv"
                         android:layout_weight="0.73"
                         android:layout_width="wrap_content"
+                        android:layout_marginTop="@dimen/_20pxv"
                         android:text="Perlakuan Khusus: "
                         style="@style/txtSFProDisplaymedium14"/>
                     <TextView android:id="@+id/txtCatatanKejadian"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10pxh"
+                        android:layout_marginTop="@dimen/_20pxv"
                         android:layout_weight="0.27"
                         android:layout_width="wrap_content"
                         android:letterSpacing="0.03"
@@ -676,7 +706,6 @@
                         style="@style/txtSFProDisplaymedium14"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_10pxh"
                         android:layout_weight="0.27"
                         android:hint="Rp. xxx.xxx.xxx"
                         android:textSize="23dp"

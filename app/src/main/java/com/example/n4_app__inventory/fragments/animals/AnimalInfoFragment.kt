@@ -314,7 +314,8 @@ class AnimalInfoFragment : Fragment() {
                     // Update UI
                     requireActivity().runOnUiThread {
                         binding.txtBobotAwalKg.text = "$bbtAwal"
-                        binding.txtBobotPertambahanKg.text = String.format("%.2f", adg) // Display ADG
+                        binding.txtBobotPertambahanKg.text = String.format("%.2f", pertambahanBobot) // Display Pertambahan Bobot
+                        binding.txtAdgKg.text = String.format("%.2f", adg) // Display ADG
                         binding.txtFcrKg.text = if (pertambahanBobot > 0) {
                             String.format("%.2f", (animal?.konsumsiPakan?.toFloatOrNull() ?: 0f) / pertambahanBobot)
                         } else {
@@ -341,9 +342,6 @@ class AnimalInfoFragment : Fragment() {
                 }
             }
     }
-
-
-
 
     private fun fetchLatestCatatanKhusus() {
         val firestore = FirebaseFirestore.getInstance()
