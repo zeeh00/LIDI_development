@@ -51,7 +51,7 @@ class KambingFragment : Fragment(), AnimalAdapter.OnItemClickListener {
         progressBar.visibility = View.VISIBLE
         fetchDataFromFirestore()
 
-        searchView.setupLiveSearch(animalAdapter)
+        searchView.setupLiveSearch(animalAdapter, 300)
         return view
     }
 

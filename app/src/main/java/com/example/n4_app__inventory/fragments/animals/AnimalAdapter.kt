@@ -63,8 +63,15 @@ class AnimalAdapter(private val itemClickListener: OnItemClickListener) :
                 } else {
                     val filterPattern = constraint.toString().lowercase(Locale.getDefault()).trim()
                     for (animal in animalListFull) {
+                        // Add race to the search conditions and include other relevant fields
                         if (animal.id.lowercase(Locale.getDefault()).contains(filterPattern) ||
-                            animal.location.lowercase(Locale.getDefault()).contains(filterPattern)) {
+                            animal.location.lowercase(Locale.getDefault()).contains(filterPattern) ||
+                            animal.race.lowercase(Locale.getDefault()).contains(filterPattern) ||
+                            // Add more fields that might be useful for searching
+                            animal.anmlType?.lowercase(Locale.getDefault())?.contains(filterPattern) == true ||
+                            animal.breedType?.lowercase(Locale.getDefault())?.contains(filterPattern) == true ||
+                            animal.anmlPhysStat?.lowercase(Locale.getDefault())?.contains(filterPattern) == true ||
+                            animal.sex?.lowercase(Locale.getDefault())?.contains(filterPattern) == true) {
                             filteredList.add(animal)
                         }
                     }
@@ -74,6 +81,7 @@ class AnimalAdapter(private val itemClickListener: OnItemClickListener) :
                 return results
             }
 
+            @Suppress("UNCHECKED_CAST")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 animalList = results?.values as List<Animal>
                 notifyDataSetChanged()

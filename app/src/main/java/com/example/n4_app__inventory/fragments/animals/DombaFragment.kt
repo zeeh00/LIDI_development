@@ -55,7 +55,7 @@ class DombaFragment : Fragment(), AnimalAdapter.OnItemClickListener {
 
         fetchDataFromFirestore()
 
-        searchView.setupLiveSearch(animalAdapter)
+        searchView.setupLiveSearch(animalAdapter, 300)
         return view
     }
 
