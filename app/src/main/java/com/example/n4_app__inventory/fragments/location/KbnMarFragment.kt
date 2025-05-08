@@ -49,7 +49,7 @@ class KbnMarFragment : Fragment(), AnimalAdapter.OnItemClickListener {
         progressBar = view.findViewById(R.id.progressBar)
         progressBar.visibility = View.VISIBLE
 
-        searchView.setupLiveSearch(animalAdapter)
+        searchView.setupLiveSearch(animalAdapter, 300)
         fetchDataFromFirestore()
 
         return view
