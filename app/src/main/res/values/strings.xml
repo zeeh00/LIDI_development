@@ -250,4 +250,7 @@ Check Your Internet Connection.</string>
     <string name="harga_jual">HARGA JUAL</string>
     <string name="information_text">Pengaturan ini sudah terintegrasi secara langsung dengan perangkat anda. Silahkan melakukan pengaturan ini langsung melalui perangkat anda. Terima Kasih.</string>
     <string name="txt_inventory_info">Inventory Info</string>
+    <string name="status_ternak">STATUS TERNAK</string>
+    <string name="status">Update Status</string>
+    <string name="status_saat_ini">Status saat ini</string>
 </resources>
