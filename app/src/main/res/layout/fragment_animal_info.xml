@@ -475,6 +475,34 @@
                         android:hint="kg"
                         android:text=""
                         style="@style/txtSFProDisplaymedium14"/>
+
+                </LinearLayout>
+
+                <LinearLayout android:gravity="start"
+                    android:id="@+id/linearRowBobotPertambahanBbDaily"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_30pxh"
+                    android:layout_marginStart="@dimen/_30pxh"
+                    android:layout_width="wrap_content" android:orientation="horizontal">
+
+                    <TextView android:id="@+id/txtBobotPertambahanBbDaily"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_7pxv"
+                        android:layout_weight="0.73"
+                        android:layout_width="wrap_content"
+                        android:text="Average Daily Gain (kg): "
+                        style="@style/txtSFProDisplaymedium14"/>
+
+                    <TextView android:id="@+id/txtAdgKg"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10pxh"
+                        android:layout_weight="0.27"
+                        android:layout_width="wrap_content"
+                        android:letterSpacing="0.03"
+                        android:hint="kg"
+                        android:text=""
+                        style="@style/txtSFProDisplaymedium14"/>
+
                 </LinearLayout>
 
                 <com.github.mikephil.charting.charts.LineChart
@@ -609,11 +637,13 @@
                         android:layout_marginBottom="@dimen/_7pxv"
                         android:layout_weight="0.73"
                         android:layout_width="wrap_content"
+                        android:layout_marginTop="@dimen/_20pxv"
                         android:text="Perlakuan Khusus: "
                         style="@style/txtSFProDisplaymedium14"/>
                     <TextView android:id="@+id/txtCatatanKejadian"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10pxh"
+                        android:layout_marginTop="@dimen/_20pxv"
                         android:layout_weight="0.27"
                         android:layout_width="wrap_content"
                         android:letterSpacing="0.03"
@@ -676,7 +706,6 @@
                         style="@style/txtSFProDisplaymedium14"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_10pxh"
                         android:layout_weight="0.27"
                         android:hint="Rp. xxx.xxx.xxx"
                         android:textSize="23dp"
@@ -684,8 +713,67 @@
                         android:text="" />
                 </LinearLayout>
 
-                <View android:background="@color/white_A700"
+                <View android:background="@color/bluegray_52"
                     android:id="@+id/viewDividerFour"
+                    android:layout_height="@dimen/_10pxv"
+                    android:layout_marginTop="@dimen/_30pxv" android:layout_width="@dimen/_430pxh"/>
+
+                <LinearLayout android:id="@+id/linearRowStatusHewan"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_30pxh"
+                    android:layout_marginStart="@dimen/_30pxh"
+                    android:layout_marginTop="@dimen/_10pxv"
+                    android:layout_width="match_parent" android:orientation="horizontal">
+
+                    <TextView android:ellipsize="end"
+                        android:id="@+id/txtSTATUSHEWAN"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="STATUS HEWAN"
+                        style="@style/txtSFProDisplaybold24_1"/>
+                    <LinearLayout android:id="@+id/linearRowEditStatusHewan"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_4pxv"
+                        android:layout_marginStart="@dimen/_157pxh"
+                        android:layout_marginTop="@dimen/_5pxv"
+                        android:layout_weight="0.41"
+                        android:layout_width="0dp" android:orientation="horizontal">
+                        <ImageView android:id="@+id/imageEditStatusHewan"
+                            android:layout_height="@dimen/_24pxh"
+                            android:layout_width="@dimen/_24pxh"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/edit_btn"
+                            tools:ignore="ContentDescription"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout android:gravity="start"
+                    android:id="@+id/linearStatusHewan"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_30pxh"
+                    android:layout_marginStart="@dimen/_30pxh"
+                    android:layout_marginTop="@dimen/_10pxv"
+                    android:layout_width="wrap_content" android:orientation="vertical">
+                    <TextView android:id="@+id/txtStatusHewan"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_7pxv"
+                        android:layout_weight="0.73"
+                        android:layout_width="wrap_content"
+                        android:text="Keterangan : "
+                        style="@style/txtSFProDisplaymedium14"/>
+                    <TextView
+                        android:id="@+id/txtSTHWNOW"
+                        style="@style/txtSFProDisplaymedium14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.27"
+                        android:textSize="23dp"
+                        android:letterSpacing="0.03"
+                        android:text="" />
+                </LinearLayout>
+
+                <View android:background="@color/white_A700"
+                    android:id="@+id/viewDividerFive"
                     android:layout_height="@dimen/_50pxv"
                     android:layout_marginTop="@dimen/_30pxv" android:layout_width="@dimen/_430pxh"/>
 

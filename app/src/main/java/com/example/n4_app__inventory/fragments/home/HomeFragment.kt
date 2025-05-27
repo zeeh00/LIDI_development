@@ -65,10 +65,14 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
 
                 for (document in documents) {
                     val anmlType = document.getString("anmlType")
-                    when (anmlType) {
-                        "Domba" -> countDomba++
-                        "Kambing" -> countKambing++
-                        "Sapi" -> countSapi++
+                    val kondisiTernak = document.getString("kondisiTernak")
+
+                    if (kondisiTernak == "Hidup") {
+                        when (anmlType) {
+                            "Domba" -> countDomba++
+                            "Kambing" -> countKambing++
+                            "Sapi" -> countSapi++
+                        }
                     }
                 }
 
@@ -85,6 +89,7 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
                 binding.txtInputInfoTotal.text = "Error"
             }
     }
+
 
 
     // Toggle drawer open/close

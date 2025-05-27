@@ -11,6 +11,7 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.n4_app__inventory.R
+import com.example.n4_app__inventory.StatusHewanFragment
 import com.example.n4_app__inventory.databinding.FragmentAnimalInfoBinding
 import com.example.n4_app__inventory.fragments.animals.catatankhusus.CatatanKhususFragment
 import com.example.n4_app__inventory.fragments.animals.harga.HargaFragment
@@ -125,8 +126,10 @@ class AnimalInfoFragment : Fragment() {
         handleClickEditPenimbangan()
         handleClickEditCatKhusus()
         handleClickEditHargaJual()
+        handleClickEditStatusHewan()
         fetchLatestCatatanKhusus()
         fetchAndDisplayHargaJualData()
+        fetchAndDisplayStatusHewan()
     }
 
     private fun formatPrice(price: String): String {
@@ -175,6 +178,14 @@ class AnimalInfoFragment : Fragment() {
         binding.imageEditHargaJual.setOnClickListener {
             animal?.let {
                 replaceFragment(HargaFragment.newInstance(it))
+            }
+        }
+    }
+
+    private fun handleClickEditStatusHewan() {
+        binding.imageEditStatusHewan.setOnClickListener {
+            animal?.let {
+                replaceFragment(StatusHewanFragment.newInstance(it))
             }
         }
     }
@@ -434,6 +445,26 @@ class AnimalInfoFragment : Fragment() {
             "Rp. 0"
         }
     }
+
+    private fun fetchAndDisplayStatusHewan() {
+        val firestore = FirebaseFirestore.getInstance()
+        val animalId = animal?.id ?: return
+
+        firestore.collection("animals").document(animalId)
+            .get()
+            .addOnSuccessListener { document ->
+                if (document != null && document.exists()) {
+                    val status = document.getString("kondisiTernak") ?: "N/A"
+                    binding.txtSTHWNOW.text = status
+                } else {
+                    binding.txtSTHWNOW.text = "No data"
+                }
+            }
+            .addOnFailureListener { e ->
+                binding.txtSTHWNOW.text = "Error: ${e.message}"
+            }
+    }
+
 
     companion object {
         private const val ARG_ANIMAL = "arg_animal"
